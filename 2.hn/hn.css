@@ -1,0 +1,19 @@
+body{
+    margin-left: 100px;
+    margin-right: 100px;
+    font-family: sans-serif;
+}
+
+li{
+    margin: 10px;
+    padding: 20px;
+    background-color: rgba(200, 247, 197, 0.7);
+    border: 1px solid #C8F7C5;
+    border-radius: 2px;
+}
+
+.libname{
+    font-size: 18px;
+    font-family: monospace;
+    color: #019875;
+}
