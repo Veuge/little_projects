@@ -1,0 +1,19 @@
+div.modal{
+    /*display: none;*/
+    position: fixed;
+    z-index: 1;
+    width: 70%;
+    height: auto;
+    border: 1px solid #102770;
+    overflow: auto;
+    align: center;
+    margin: 10px;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.6);
+}
+div.title, div.footer{
+    background-color: #102770;
+    color: #FFF;
+    padding: 20px;
+    margin: 0px;
+}

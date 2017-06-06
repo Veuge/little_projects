@@ -1,0 +1,58 @@
+@font-face {
+    font-family: "calcFont";
+    src: url("calculator.ttf");
+    font-weight: bolder;
+}
+
+body{
+    font-family: sans-serif;
+    user-select: none;
+}
+
+.calc{
+    vertical-align: middle;
+    background-color: #22313F;
+    padding: 5px;
+    width: 300px;
+    height: 270px;
+}
+.key{
+    width: 60px;
+    height: 40px;
+    line-height: 40px;
+    margin: 5px;
+    padding: 2px;
+    background-color: #446CB3;
+    border-radius: 2px;
+    color: #FFF;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    float: left;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px #888888;
+}
+.clear {
+    background-color: #EF4836;
+    color: #FFF;
+}
+
+.operator, .equals{
+    background-color: #F89406;
+    color: #FFF;
+}
+#display{
+    height: 40px;
+    width: 207px;
+    line-height: 40px;
+    margin: 5px;
+    padding: 3px;
+    border-radius: 2px;
+    background-color: #E4F1FE;
+    color: #22313F;
+    float: left;
+    text-align: right;
+    vertical-align: middle;
+    font-family: "calcFont";
+    font-size: 25px;
+}
