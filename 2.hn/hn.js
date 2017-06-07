@@ -21,23 +21,6 @@ function createXHRObject(){
     }
 }
 
-function infiniteScroll(event){
-    var pageHeight = document.documentElement.scrollHeight,
-    scrollPos = window.pageYOffset;
-    clientHeight = document.documentElement.clientHeight;
-
-    console.log("Page height " + pageHeight);
-    console.log("Scroll position " + scrollPos);
-    console.log("Client Height " + clientHeight);
-    console.log("Difference " + (pageHeight - (clientHeight + scrollPos)));
-
-    if (pageHeight - (clientHeight + scrollPos) < 50) {
-        alert("load!");
-        loadData(position, quantity, JSONObject);
-        position += quantity;
-    }
-}
-
 function loadData(initPos, quantity, JSONObject){
     for (var i = initPos; i < initPos + quantity && initPos + quantity < JSONObject.results.length; i++) {
         var nodeLi = document.createElement("li");
@@ -71,7 +54,22 @@ window.onload = (function(){
         loadData(position, quantity, JSONObject);
         position += quantity;
 
-        window.onscroll = infiniteScroll();
+        window.onscroll = function (event){
+            var pageHeight = document.documentElement.scrollHeight,
+                scrollPos = window.pageYOffset,
+                clientHeight = document.documentElement.clientHeight;
+
+            console.log("Page height " + pageHeight);
+            console.log("Scroll position " + scrollPos);
+            console.log("Client Height " + clientHeight);
+            console.log("Difference " + (pageHeight - (clientHeight + scrollPos)));
+
+            if (pageHeight - (clientHeight + scrollPos) < 50) {
+                alert("load!");
+                loadData(position, quantity, JSONObject);
+                position += quantity;
+            }
+        }
     }
     else {
         alert("Error, couldn't retrieve data");
