@@ -1,43 +1,68 @@
-function countdown(endTime, interval){
+var iWorkTime = document.getElementById("worktime"),
+iRestTime = document.getElementById("resttime"),
+iTrigger = document.getElementById("start");
+
+var workTime,
+restTime;
+
+//  When the start button is pressed!
+iTrigger.onclick = function(){
+    // User input values
+    workTime = iWorkTime.value;
+    restTime = iRestTime.value;
+    // Sets the stage to work
+    var work = true;
+    start(work, workTime, restTime);
+    iTrigger.disabled = true;
+};
+
+function countdown(endTime, interval, work, workTime, restTime){
+    var iMins = document.getElementById("minutes");
+    var iSecs = document.getElementById("seconds");
+
     var now = new Date().getTime();
     var difference = endTime - now;
     var remainingMin = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
     var remainingSec = Math.floor((difference % (1000 * 60)) / 1000) + 1;
     if(remainingMin < 0){
-        console.log("0:" + remainingSec);
+        iMins.innerHTML = "00";
+        iSecs.innerHTML = remainingSec;
     }
     else {
-        console.log(remainingMin + ":" + remainingSec);
+        iMins.innerHTML = remainingMin;
+        iSecs.innerHTML = remainingSec;
+    }
+    if(remainingMin < 10){
+        iMins.innerHTML = "0" + remainingMin;
+    }
+    if(remainingSec < 10){
+        iSecs.innerHTML = "0" + remainingSec;
     }
     if (difference < 0) {
         clearInterval(interval);
-        console.log("EXPIRED");
+        work = !work;
+        if(!work){
+            start(work, workTime, restTime);
+            console.log(work);
+            console.log("EXPIRED");
+        }
     }
 }
 
-window.onload = function(){
-    // DOM references
-    var iWorkTime = document.getElementById("worktime"),
-        iRestTime = document.getElementById("resttime"),
-        iTrigger = document.getElementById("start"),
-        workTime,
-        restTime;
+function start(work, workTime, restTime){
+    var stageLen = work ? workTime : restTime;
 
-    iTrigger.onclick = function(){
-        // User input values
-        workTime = iWorkTime.value;
-        restTime = iRestTime.value;
+    var mins = document.getElementById("minutes");
+    var secs = document.getElementById("seconds");
 
-        // Sets the stage to work
-        var work = true,
-        stageLen = work ? workTime : restTime;
+    mins.innerHTML = stageLen;
+    secs.innerHTML = "00";
 
-        var startTime = new Date().getTime();
-        var endTime = new Date(startTime + stageLen * 60000).getTime();
+    var startTime = new Date().getTime();
+    var endTime = new Date(startTime + stageLen * 60000).getTime();
 
-        console.log(startTime + " " + endTime);
-        var interval = setInterval(function(){
-            countdown(endTime, interval);
-        }, 1000);
-    };
-};
+    console.log(startTime + " " + endTime);
+    var interval = setInterval(function(){
+        countdown(endTime, interval, work, workTime, restTime);
+    }, 1000);
+}
