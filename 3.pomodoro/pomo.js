@@ -1,36 +1,43 @@
-function countdown(minutes){
-    var now = new Date();
-    var later = new Date(Date.parse(now) + (minutes * 60000));
-    var count = 0;
-    console.log("\nNOW: " +now);
-    console.log("LATER: " + later);
-    var remainingMin = Math.ceil((later - now)/60000) - 1;
-
-    var newInterval = setInterval(function(){
-        var now = new Date();
-        count++;
-        var remainingSec = 60 - count;
-        if(remainingSec == 0){
-            count = 0;
-            remainingMin = Math.ceil((later - now)/60000) - 1;
-        }
+function countdown(endTime, interval){
+    var now = new Date().getTime();
+    var difference = endTime - now;
+    var remainingMin = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    var remainingSec = Math.floor((difference % (1000 * 60)) / 1000) + 1;
+    if(remainingMin < 0){
+        console.log("0:" + remainingSec);
+    }
+    else {
         console.log(remainingMin + ":" + remainingSec);
-        if(remainingMin <= 0 && remainingSec == 0){
-            clearInterval(newInterval);
-            console.log("STOP!");
-        }
-    }, 100);
+    }
+    if (difference < 0) {
+        clearInterval(interval);
+        console.log("EXPIRED");
+    }
 }
 
 window.onload = function(){
-    var i = 0,
-        workTime = 2,
-        restTime = 5;
-    var start = document.getElementById("start");
+    // DOM references
+    var iWorkTime = document.getElementById("worktime"),
+        iRestTime = document.getElementById("resttime"),
+        iTrigger = document.getElementById("start"),
+        workTime,
+        restTime;
 
-    start.onclick = function(e){
-        start.disabled = true;
-        console.log("START!");
-        countdown(workTime);
+    iTrigger.onclick = function(){
+        // User input values
+        workTime = iWorkTime.value;
+        restTime = iRestTime.value;
+
+        // Sets the stage to work
+        var work = true,
+        stageLen = work ? workTime : restTime;
+
+        var startTime = new Date().getTime();
+        var endTime = new Date(startTime + stageLen * 60000).getTime();
+
+        console.log(startTime + " " + endTime);
+        var interval = setInterval(function(){
+            countdown(endTime, interval);
+        }, 1000);
     };
 };
