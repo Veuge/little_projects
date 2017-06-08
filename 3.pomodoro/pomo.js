@@ -1,20 +1,22 @@
-var iWorkTime = document.getElementById("worktime"),
-iRestTime = document.getElementById("resttime"),
-iTrigger = document.getElementById("start");
+window.onload = function(){
+    var iWorkTime = document.getElementById("worktime"),
+    iRestTime = document.getElementById("resttime"),
+    iTrigger = document.getElementById("start");
 
-var workTime,
-restTime;
+    var workTime,
+    restTime;
 
-//  When the start button is pressed!
-iTrigger.onclick = function(){
-    // User input values
-    workTime = iWorkTime.value;
-    restTime = iRestTime.value;
-    // Sets the stage to work
-    var work = true;
-    start(work, workTime, restTime);
-    iTrigger.disabled = true;
-};
+    //  When the start button is pressed!
+    iTrigger.onclick = function(){
+        // User input values
+        workTime = iWorkTime.value;
+        restTime = iRestTime.value;
+        // Sets the stage to work
+        var work = true;
+        start(work, workTime, restTime);
+        iTrigger.disabled = true;
+    };
+}
 
 function countdown(endTime, interval, work, workTime, restTime){
     var iMins = document.getElementById("minutes");
