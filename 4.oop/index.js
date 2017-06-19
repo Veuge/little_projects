@@ -1,3 +1,7 @@
+/*
+* From JSON Object to Array of objects
+*/
+
 var studentsJSONArray = students;
 var studentsObject = [];
 
@@ -32,16 +36,22 @@ subjectsJSONArray.forEach(function(subject){
 });
 
 /*
-*
+*   DOM operations
 */
 
 var table = document.getElementById("data");
 var tableHeader = document.getElementById("tableH");
 var tableBody = document.getElementById("tableB");
 
-function restartTable(node){
-    while (node.hasChildNodes) {
-        node.removeChild(node.firstChild);
+function restartTable(){
+    while (tableHeader.hasChildNodes()) {
+        tableHeader.removeChild(tableHeader.firstChild);
+    }
+    console.log(tableBody);
+    console.log(tableBody.hasChildNodes());
+    console.log(tableBody.firstChild);
+    while (tableBody.hasChildNodes()) {
+        tableBody.removeChild(tableBody.firstChild);
     }
 }
 
@@ -84,7 +94,7 @@ function createTableRow(object){
             newRow.appendChild(newCell);
         }
     }
-    table.appendChild(newRow);
+    tableBody.appendChild(newRow);
 }
 
 var regStudents = [];
@@ -104,7 +114,7 @@ for(var x = 0; x < btns.length; x++){
     (function(x1){
         btns[x1].onclick = function(e){
             pressed = x1;
-            console.log(pressed);
+            restartTable();
 
             switch (pressed) {
                 case 0:
@@ -138,18 +148,3 @@ for(var x = 0; x < btns.length; x++){
         }
     })(x);
 }
-
-createTableHeader(studentsObject[0]);
-studentsObject.forEach(function(student){
-    createTableRow(student);
-});
-
-// createTableHeader(subjectsObject[0]);
-// subjectsObject.forEach(function(subject){
-//     createTableRow(subject);
-// });
-
-// createTableHeader(classroomsObject[0]);
-// classroomsObject.forEach(function(classroom){
-//     createTableRow(classroom);
-// });
