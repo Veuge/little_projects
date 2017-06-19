@@ -1,3 +1,28 @@
+function pomodoroConstructor(startTime, endTime, velocity){
+    start: startTime,
+    end: endTime,
+    difference: endTime - startTime,
+    vel: velocity,
+
+    calculate: function(){
+        var int = setInterval(function(){
+            var newDate = new Date().getTime();
+            var difference = endTime - newDate;
+
+            if(difference < 0){
+                clearInterval(int);
+                console.log("end");
+            }
+        }, velocity);
+    },
+    anotherThing: function(velocity){
+        var bool = Number.isSafeInteger();
+        var newInterval = setInterval(function(){
+            
+        }, 1000)
+    }
+}
+
 window.onload = function(){
     var iWorkTime = document.getElementById("worktime"),
     iRestTime = document.getElementById("resttime"),
