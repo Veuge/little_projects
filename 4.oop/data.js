@@ -249,9 +249,8 @@ var classrooms = [
       "Microphone",
       "Sound",
       "Projector"
-  ],
-  "subjects": []
-
+    ],
+    "subjects": []
   },
   {
     "name": "Classroom-1",
@@ -302,7 +301,7 @@ var subjects = [
     "description": "Ea voluptate reprehenderit et deserunt sint tempor irure nostrud. Do deserunt eiusmod aute consectetur quis nulla dolore aliqua aute fugiat exercitation quis. Lorem ex minim mollit cillum est magna voluptate officia culpa in minim dolore. Cupidatat culpa eu dolor dolore nisi et cupidatat nisi eu. Proident et aliqua sit adipisicing esse tempor amet. Duis eiusmod elit ut ipsum dolore nisi.\r\n",
     "credits": 4,
     "students": [],
-    "classroom": []
+    "classrooms": []
   },
   {
     "id": 1,
@@ -310,7 +309,7 @@ var subjects = [
     "description": "Deserunt duis est amet pariatur ad id laborum laboris reprehenderit magna. Eu proident do nostrud minim id nisi. Ea ad magna ullamco eiusmod velit occaecat eu culpa eu et quis dolor eiusmod nostrud. Excepteur non ad sit qui consequat minim exercitation id nisi ipsum reprehenderit ullamco dolore enim. Ullamco nostrud minim labore quis amet elit minim et.\r\n",
     "credits": 1,
     "students": [],
-    "classroom": []
+    "classrooms": []
   },
   {
     "id": 2,
@@ -318,7 +317,7 @@ var subjects = [
     "description": "Id nulla ipsum pariatur aliquip consectetur qui ea incididunt consectetur proident velit. Amet Lorem labore eiusmod anim commodo ut voluptate commodo. Ipsum aliqua adipisicing cillum sunt amet consequat ea fugiat consequat sunt laborum consequat incididunt incididunt.\r\n",
     "credits": 3,
     "students": [],
-    "classroom": []
+    "classrooms": []
   },
   {
     "id": 3,
@@ -326,7 +325,7 @@ var subjects = [
     "description": "Veniam in eu laboris duis deserunt id nostrud dolor ullamco quis aliqua. Eu aliqua Lorem tempor tempor consequat minim. Sunt anim veniam culpa occaecat elit. Laborum anim excepteur non aute ex sunt labore excepteur do minim cillum. Consectetur proident est in exercitation cupidatat velit.\r\n",
     "credits": 1,
     "students": [],
-    "classroom": []
+    "classrooms": []
   },
   {
     "id": 4,
@@ -334,7 +333,7 @@ var subjects = [
     "description": "Magna nulla labore non mollit ullamco ullamco consectetur nulla elit cillum. Dolore id amet deserunt est adipisicing velit esse. Dolore id labore et elit elit proident deserunt duis ullamco. Cupidatat aute elit voluptate excepteur qui irure ex ad est irure non culpa ullamco. Dolore amet minim adipisicing sunt non nulla velit sint elit sint id dolor culpa veniam.\r\n",
     "credits": 4,
     "students": [],
-    "classroom": []
+    "classrooms": []
   },
   {
     "id": 5,
@@ -342,7 +341,7 @@ var subjects = [
     "description": "Ea labore sunt ut nostrud enim exercitation nulla. Esse laboris cillum eiusmod nisi irure amet ex Lorem excepteur et officia do veniam proident. Nisi quis veniam velit esse magna culpa nulla enim sit esse ullamco duis. Enim commodo nisi excepteur minim commodo ad. Est Lorem culpa esse deserunt irure aliquip ut velit. Consequat incididunt officia esse officia nostrud ad consectetur ut adipisicing deserunt anim labore. Aute mollit labore labore consectetur aliquip cupidatat irure.\r\n",
     "credits": 4,
     "students": [],
-    "classroom": []
+    "classrooms": []
   },
   {
     "id": 6,
@@ -350,7 +349,7 @@ var subjects = [
     "description": "Sint ex laboris aliqua occaecat sunt sunt et mollit deserunt quis laboris. Nostrud anim laborum sint occaecat pariatur anim eu elit tempor ex excepteur proident ullamco ex. Ex non ex aliqua duis.\r\n",
     "credits": 1,
     "students": [],
-    "classroom": []
+    "classrooms": []
   },
   {
     "id": 7,
@@ -358,7 +357,7 @@ var subjects = [
     "description": "Sunt labore eu culpa ullamco eu nulla eu mollit incididunt. Est aliquip consequat dolor aliquip fugiat labore tempor ea anim anim id qui occaecat enim. Anim minim nisi do sunt et ipsum deserunt nulla ipsum amet. Non nulla laboris pariatur nisi irure labore eiusmod exercitation.\r\n",
     "credits": 2,
     "students": [],
-    "classroom": []
+    "classrooms": []
   },
   {
     "id": 8,
@@ -366,6 +365,6 @@ var subjects = [
     "description": "Aliqua in cupidatat in magna aute. Qui consequat deserunt ut ad sunt. Adipisicing amet aliqua velit commodo duis. Nisi deserunt commodo laborum eu eiusmod amet qui anim labore ex.\r\n",
     "credits": 3,
     "students": [],
-    "classroom": []
+    "classrooms": []
   }
 ];
