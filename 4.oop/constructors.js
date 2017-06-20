@@ -55,7 +55,7 @@ Classroom.prototype.addSubject = function (subject) {
     this.subjects.push(subject);
 };
 
-function Subject(id, name, description, credits, students, classroom){
+function Subject(id, name, description, credits, students, classrooms){
     this.id = id;
     this.name = name;
     this.description = description;

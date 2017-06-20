@@ -42,8 +42,6 @@ function addRelationsBetweenObjects(arrayOfObjects1, arrayOfObjects2, quantity, 
 }
 
 function addRelationsBetweenObjectsVersion2(arrayOfObjects1, arrayOfObjects2, quantity){
-    console.log(arrayOfObjects2[0].constructor.name);
-
     // var actions = {
     //     add: "add" + action
     // }
@@ -56,6 +54,7 @@ function addRelationsBetweenObjectsVersion2(arrayOfObjects1, arrayOfObjects2, qu
     //     }
     // }
 }
+
 addRelationsBetweenObjects(studentsObject, subjectsObject, 4, studentsObject[0].addSubject, subjectsObject[0].addStudent);
 addRelationsBetweenObjects(subjectsObject, classroomsObject, 1, subjectsObject[0].addClassroom, classroomsObject[0].addSubject);
 
@@ -97,7 +96,6 @@ function createTableRow(object, objectProperty){
         if(object.hasOwnProperty(attr)){
             var newCell = document.createElement("td");
             newCell.className = "pa3";
-            console.log("here!", typeof object[attr][0]);
             if(Array.isArray(object[attr]) && typeof object[attr][0] == "object"){
                 var whatever = object[attr];
                 var str = "";
@@ -135,6 +133,7 @@ for(var x = 0; x < btns.length; x++){
             pressed = x1;
             restartTable(tableHeader);
             restartTable(tableBody);
+            restartTable(form);
 
             switch (pressed) {
                 case 0:
@@ -142,25 +141,28 @@ for(var x = 0; x < btns.length; x++){
                     regStudents.forEach(function(student){
                         createTableRow(student, "name");
                     });
+                    createForm(regStudents[0]);
                     break;
                 case 1:
                     createTableHeader(schStudents[0]);
                     schStudents.forEach(function(student){
                         createTableRow(student, "name");
                     });
+                    createForm(schStudents[0]);
                     break;
                 case 2:
-                    createTableHeader(subjects[0]);
+                    createTableHeader(subjectsObject[0]);
                     subjects.forEach(function(subject){
                         createTableRow(subject, "name");
                     });
+                    createForm(subjectsObject[0]);
                     break;
                 case 3:
-                    createTableHeader(classrooms[0]);
+                    createTableHeader(classroomsObject[0]);
                     classrooms.forEach(function(classroom){
-                        console.log("HERE NOW!", classroom);
                         createTableRow(classroom, "name");
                     });
+                    createForm(classroomsObject[0]);
                     break;
                 default:
                     break;s
