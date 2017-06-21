@@ -67,7 +67,7 @@ var table = document.getElementById("data");
 var tableHeader = document.getElementById("tableH");
 var tableBody = document.getElementById("tableB");
 
-function restartTable(node){
+function restartEmptySettings(node){
     while (node.hasChildNodes()) {
         node.removeChild(node.firstChild);
     }
@@ -115,59 +115,60 @@ function createTableRow(object, objectProperty){
 }
 
 var regStudents = [];
-regStudents = studentsObject.filter(function(student){
-    return (student.subject_allowed != undefined);
+regStudents = studentsObject.filter(function filterRegularStudents(student){
+    return (student.subject_allowed);
 });
 
 var schStudents = [];
-schStudents = studentsObject.filter(function(student){
-    return (student.min_gpa != undefined);
+schStudents = studentsObject.filter(function filterScholarshipStudents(student){
+    return (student.min_gpa);
 });
 
 var btns = document.querySelectorAll("a.btn");
 var pressed;
 
-for(var x = 0; x < btns.length; x++){
-    (function(x1){
-        btns[x1].onclick = function(e){
-            pressed = x1;
-            restartTable(tableHeader);
-            restartTable(tableBody);
-            restartTable(form);
+window.onload = function load(){
+    for(var x = 0; x < btns.length; x++){
+        (function(x1){
+            btns[x1].onclick = function(e){
+                pressed = x1;
+                restartEmptySettings(tableHeader);
+                restartEmptySettings(tableBody);
+                restartEmptySettings(form);
 
-            switch (pressed) {
-                case 0:
+                switch (pressed) {
+                    case 0:
                     createTableHeader(regStudents[0]);
                     regStudents.forEach(function(student){
                         createTableRow(student, "name");
                     });
                     createForm(regStudents[0]);
                     break;
-                case 1:
+                    case 1:
                     createTableHeader(schStudents[0]);
                     schStudents.forEach(function(student){
                         createTableRow(student, "name");
                     });
                     createForm(schStudents[0]);
                     break;
-                case 2:
+                    case 2:
                     createTableHeader(subjectsObject[0]);
                     subjects.forEach(function(subject){
                         createTableRow(subject, "name");
                     });
-                    createForm(subjectsObject[0]);
+                    // createForm(subjectsObject[0]);
                     break;
-                case 3:
+                    case 3:
                     createTableHeader(classroomsObject[0]);
                     classrooms.forEach(function(classroom){
                         createTableRow(classroom, "name");
                     });
-                    createForm(classroomsObject[0]);
+                    // createForm(classroomsObject[0]);
                     break;
-                default:
+                    default:
                     break;s
-
+                }
             }
-        }
-    })(x);
+        })(x);
+    }
 }
