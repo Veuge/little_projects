@@ -9,6 +9,15 @@
 *       - Function to add relations between classes
 */
 
+/* TODO: No anonymous functions!
+ * descriptive variable names
+ * avoid global variables
+ * declare variables always on top of functions to preserve their scope
+ * KISS
+ * Fix the classroom relation with subjects, you're not showing properly subjects classrooms, you big SOB
+ *
+*/
+
 var studentsObject = [];
 var classroomsObject = [];
 var subjectsObject = [];
@@ -23,7 +32,7 @@ students.forEach(function studentArray(student){
 });
 
 classrooms.forEach(function classroomArray(classroom){
-    classroomsObject.push(new Classroom(classroom.id, classroom.capacity, classroom.facilities, classroom.subjects));
+    classroomsObject.push(new Classroom(classroom.name, classroom.capacity, classroom.facilities, classroom.subjects));
 });
 
 subjects.forEach(function subjectArray(subject){
@@ -31,6 +40,7 @@ subjects.forEach(function subjectArray(subject){
 });
 
 function addRelationsBetweenObjects(arrayOfObjects1, arrayOfObjects2, quantity, addFunction1, addFunction2){
+    // TODO: Clean your code
     for(var i = 0; i < arrayOfObjects1.length; i++){
         var actualObject = arrayOfObjects1[i];
         for(var j = 0; j < quantity; j++){
@@ -138,32 +148,32 @@ window.onload = function load(){
 
                 switch (pressed) {
                     case 0:
-                    createTableHeader(regStudents[0]);
-                    regStudents.forEach(function(student){
-                        createTableRow(student, "name");
-                    });
-                    createForm(regStudents[0]);
+                        createTableHeader(regStudents[0]);
+                        regStudents.forEach(function(student){
+                            createTableRow(student, "name");
+                        });
+                        createForm(regStudents[0]);
                     break;
                     case 1:
-                    createTableHeader(schStudents[0]);
-                    schStudents.forEach(function(student){
-                        createTableRow(student, "name");
-                    });
-                    createForm(schStudents[0]);
+                        createTableHeader(schStudents[0]);
+                        schStudents.forEach(function(student){
+                            createTableRow(student, "name");
+                        });
+                        createForm(schStudents[0]);
                     break;
                     case 2:
-                    createTableHeader(subjectsObject[0]);
-                    subjects.forEach(function(subject){
-                        createTableRow(subject, "name");
-                    });
-                    // createForm(subjectsObject[0]);
+                        createTableHeader(subjectsObject[0]);
+                        subjectsObject.forEach(function(subject){
+                            createTableRow(subject, "name");
+                        });
+                        // createForm(subjectsObject[0]);
                     break;
                     case 3:
-                    createTableHeader(classroomsObject[0]);
-                    classrooms.forEach(function(classroom){
-                        createTableRow(classroom, "name");
-                    });
-                    // createForm(classroomsObject[0]);
+                        createTableHeader(classroomsObject[0]);
+                        classroomsObject.forEach(function(classroom){
+                            createTableRow(classroom, "name");
+                        });
+                        // createForm(classroomsObject[0]);
                     break;
                     default:
                     break;s

@@ -58,21 +58,24 @@ function saveData(){
 
     for(var i = 0; i < inputAreas.length; i++){
         if (inputAreas[i].nodeName == "SELECT") {
-            selectedSubjects.push(getMultipleSelect(inputAreas[i]));
-            console.log(selectedSubjects);
-            getObjects(selectedSubjects, subjectsObject);
+            selectedSubjects = getMultipleSelect(inputAreas[i]);
+            attributes.push(getObjects(selectedSubjects, subjectsObject));
         }
         else{
             attributes.push(inputAreas[i].value);
         }
     }
-
-    console.log(attributes);
-    console.log(whoIs.constructor);
-
-    var newStudent = new whoIs.constructor();
-    whoIs.constructor.apply(newStudent, attributes);
-    console.log(newStudent);
+    if(validateInput(attributes)){
+        var newStudent = new whoIs.constructor();
+        whoIs.constructor.apply(newStudent, attributes);
+        console.log(newStudent);
+        studentsObject.push(newStudent);
+        createTableRow(newStudent, "name");
+        writeToFile();
+    }
+    else{
+        console.log("required fields aren't filled in");
+    }
 }
 
 function populateSelect(objectArray, domParent){
@@ -103,17 +106,51 @@ function getMultipleSelect(select){
 }
 
 function getObjects(arrayOfNames, arrayOfObjects){
-    var object = {};
-    var arrayOfSelected = {};
+    var arrayOfSelected = [];
     var i;
-    console.log(arrayOfObjects);
+    var j;
 
     for (i = 0; i < arrayOfNames.length; i++) {
-
+        for(j = 0; j < arrayOfObjects.length; j++){
+            if(arrayOfObjects[j].name == arrayOfNames[i]){
+                arrayOfSelected.push(arrayOfObjects[j]);
+                break;
+            }
+        }
     }
+    return arrayOfSelected;
 }
 
-// createForm(schStudents[0]);
+function validateInput(data){
+    // TODO: please validate in some way the user input! do not be such a jerk!
+    var guides = [number(100, 999), string(), string(), option("male", "female"), date()];
+
+    for(var i = 0; i < guides.length; i++){
+        console.log(guides[i], data[i]);
+    }
+
+    // var response = data.every(function checkIfEmpty(item, index, array){
+    //     console.log(item != "");
+    //     return (item != "");
+    // });
+    // return response;
+}
+
+function number(min, max){
+    return true;
+}
+
+function string(){
+    return true;
+}
+
+function option(option1, option2){
+    return true;
+}
+
+function date(){
+    return true;
+}
 
 // Template!
 // <div class="mt3">

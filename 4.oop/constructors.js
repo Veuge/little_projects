@@ -45,8 +45,8 @@ ScholarshipStudent.prototype = Object.create(Student.prototype);
 ScholarshipStudent.prototype.constructor = ScholarshipStudent;
 
 
-function Classroom(id, capacity, facilities, subjects){
-    this.id = id;
+function Classroom(name, capacity, facilities, subjects){
+    this.name = name;
     this.capacity = capacity;
     this.facilities = facilities;
     this.subjects = subjects
@@ -72,6 +72,6 @@ Subject.prototype.addStudent = function(student){
     this.students.push(student);
 }
 
-Subject.prototype.addClassroom = function(classrooms){
-    this.classrooms.push = classrooms
+Subject.prototype.addClassroom = function(classroom){
+    this.classrooms.push(classroom);
 }
