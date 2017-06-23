@@ -39,36 +39,31 @@ subjects.forEach(function subjectArray(subject){
     subjectsObject.push(new Subject(subject.id, subject.name, subject.description, subject.credits, subject.students, subject.classrooms));
 });
 
-function addRelationsBetweenObjects(arrayOfObjects1, arrayOfObjects2, quantity, addFunction1, addFunction2){
-    // TODO: Clean your code
-    for(var i = 0; i < arrayOfObjects1.length; i++){
-        var actualObject = arrayOfObjects1[i];
-        for(var j = 0; j < quantity; j++){
-            var randomIndex = Math.floor((Math.random() * arrayOfObjects2.length - 1) + 1);
-            addFunction1.call(actualObject, arrayOfObjects2[randomIndex]);
-            addFunction2.call(arrayOfObjects2[randomIndex], actualObject);
+function addObjectsRelation(object1, object2){
+    method1 = object1["add" + object2.constructor.name];
+    method2 = object2["add" + object1.constructor.name];
+
+    method1.call(object1, object2);
+    method2.call(object2, object1);
+}
+
+function randomRelationsGenerator(objectsArray1, objectsArray2, quantity){
+    var i;
+    var j;
+    var randomIndex;
+    var actualObject1;
+    var actualObject2;
+
+    for(i = 0; i < objectsArray1.length; i++){
+        var actualObject1 = objectsArray1[i];
+        for(j = 0; j < quantity; j++){
+            randomIndex = Math.floor((Math.random() * objectsArray2.length - 1) + 1);
+            actualobject2 = objectsArray2[randomIndex];
+            addObjectsRelation(actualObject1, actualobject2);
         }
     }
 }
 
-function addRelationsBetweenObjectsVersion2(arrayOfObjects1, arrayOfObjects2, quantity){
-    // var actions = {
-    //     add: "add" + action
-    // }
-    // for(var i = 0; i < arrayOfObjects1.length; i++){
-    //     var actualObject = arrayOfObjects1[i];
-    //     for(var j = 0; j < quantity; j++){
-    //         var randomIndex = Math.floor((Math.random() * arrayOfObjects2.length - 1) + 1);
-    //         (actualObject[actions[action]], arrayOfObjects2[randomIndex]);
-    //         addFunction2.call(arrayOfObjects2[randomIndex], actualObject);
-    //     }
-    // }
-}
-
-addRelationsBetweenObjects(studentsObject, subjectsObject, 4, studentsObject[0].addSubject, subjectsObject[0].addStudent);
-addRelationsBetweenObjects(subjectsObject, classroomsObject, 1, subjectsObject[0].addClassroom, classroomsObject[0].addSubject);
-
-addRelationsBetweenObjectsVersion2(studentsObject, subjectsObject, 5);
 /*
 *   DOM operations
 */
@@ -130,7 +125,7 @@ regStudents = studentsObject.filter(function filterRegularStudents(student){
 });
 
 var schStudents = [];
-schStudents = studentsObject.filter(function filterScholarshipStudents(student){
+schStudents = studentsObject.filter(function arrayfilterScholarshipStudents(student){
     return (student.min_gpa);
 });
 
@@ -138,6 +133,10 @@ var btns = document.querySelectorAll("a.btn");
 var pressed;
 
 window.onload = function load(){
+    // add relations between objects
+    randomRelationsGenerator(studentsObject, subjectsObject, 4);
+    randomRelationsGenerator(subjectsObject, classroomsObject, 1);
+
     for(var x = 0; x < btns.length; x++){
         (function(x1){
             btns[x1].onclick = function(e){

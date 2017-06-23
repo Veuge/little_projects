@@ -6,8 +6,9 @@ function Student(ci, name, last_name, gender, last_payment, subjects){
     this.last_payment = last_payment;
     this.subjects = subjects;
 }
-Student.prototype.setSubjects = function(subjects){
-    this.subjects = subjects;
+
+Student.prototype.getLastAncestor = function(){
+    return Student.constructor.name;
 }
 
 Student.prototype.addSubject = function(subject){
@@ -35,6 +36,10 @@ function RegularStudent(ci, name, last_name, gender, last_payment, subjects, sub
 RegularStudent.prototype = Object.create(Student.prototype);
 RegularStudent.prototype.constructor = RegularStudent;
 
+// RegularStudent.prototype.getLastAncestor = function(){
+//     return this.getLastAncestor();
+// }
+
 function ScholarshipStudent(ci, name, last_name, gender, last_payment, subjects, discount, min_gpa){
     Student.call(this, ci, name, last_name, gender, last_payment, subjects);
 
@@ -43,7 +48,6 @@ function ScholarshipStudent(ci, name, last_name, gender, last_payment, subjects,
 }
 ScholarshipStudent.prototype = Object.create(Student.prototype);
 ScholarshipStudent.prototype.constructor = ScholarshipStudent;
-
 
 function Classroom(name, capacity, facilities, subjects){
     this.name = name;
@@ -70,6 +74,14 @@ Subject.prototype.setStudents = function(students){
 
 Subject.prototype.addStudent = function(student){
     this.students.push(student);
+}
+
+Subject.prototype.addRegularStudent = function(student){
+    this.addStudent(student);
+}
+
+Subject.prototype.addScholarshipStudent = function(student){
+    this.addStudent(student);
 }
 
 Subject.prototype.addClassroom = function(classroom){
