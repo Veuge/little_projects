@@ -31,6 +31,7 @@ function createForm(object){
                 newInput = document.createElement("input");
                 newInput.className = "user-input b pa2 input-reset ba bg-transparent";
                 newInput.setAttribute("for", attr);
+                newInput.setAttribute("required", true);
                 newInput.setAttribute("type", "text");
             }
             newWrapper.appendChild(newLabel);
@@ -54,15 +55,15 @@ function createForm(object){
 function saveData(){
     var inputAreas = document.querySelectorAll(".user-input");
     var selectedSubjects = [];
-    var attributes = [];
+    var attributes = {};
 
     for(var i = 0; i < inputAreas.length; i++){
         if (inputAreas[i].nodeName == "SELECT") {
             selectedSubjects = getMultipleSelect(inputAreas[i]);
-            attributes.push(getObjects(selectedSubjects, subjectsObject));
+            attributes[inputAreas[i].attributes.for.nodeValue] = getObjects(selectedSubjects, subjectsObject);
         }
         else{
-            attributes.push(inputAreas[i].value);
+            attributes[inputAreas[i].attributes.for.nodeValue] = inputAreas[i].value;
         }
     }
     if(validateInput(attributes)){
@@ -71,7 +72,7 @@ function saveData(){
         console.log(newStudent);
         studentsObject.push(newStudent);
         createTableRow(newStudent, "name");
-        writeToFile();
+        // writeToFile();
     }
     else{
         console.log("required fields aren't filled in");
@@ -122,35 +123,73 @@ function getObjects(arrayOfNames, arrayOfObjects){
 }
 
 function validateInput(data){
-    // TODO: please validate in some way the user input! do not be such a jerk!
-    var guides = [number(100, 999), string(), string(), option("male", "female"), date()];
+    var valid = true;
+    var field;
+    var partialBoolean;
+    for(field in data){
+        console.log(field);
+        switch (field) {
+            case "ci":
+            case "subject_allowed":
+            case "discount":
+            case "min_gpa":
+                // number validation
+                var min;
+                var max;
+                field == "ci" ? min = 100 : min = 1;
+                field == "ci" ? max = 999 : field == "subject_allowed" ? max = 8 : field == "discount" ? max = 30 : field == "min_gpa" ? max = 5 : max = 0;
+                partialBoolean = number(data[field], min, max)
+                valid = valid && partialBoolean;
+                break;
 
-    for(var i = 0; i < guides.length; i++){
-        console.log(guides[i], data[i]);
+            case "name":
+            case "last_name":
+                // string validation
+                partialBoolean = string(data[field]);
+                valid = valid && partialBoolean;
+                break;
+
+            case "last_payment":
+            case "next_payment":
+                // date validation
+                partialBoolean = date(data[field]);
+                valid = valid && partialBoolean;
+                break;
+
+            case "gender":
+                // gender validation
+                gender(data[field]);
+                break;
+        }
+        console.log("partial", partialBoolean, "total", valid);
     }
 
-    // var response = data.every(function checkIfEmpty(item, index, array){
-    //     console.log(item != "");
-    //     return (item != "");
-    // });
-    // return response;
+    return valid;
 }
 
-function number(min, max){
-    return true;
+function number(checkvalue, min, max){
+    if(checkvalue != ""){
+        checkvalue = Number(checkvalue);
+        return (checkvalue <= max && checkvalue >= min);
+    }
+    else{
+        return false;
+    }
 }
 
-function string(){
-    return true;
+function string(checkvalue){
+    return (checkvalue.length >= 4);
 }
 
-function option(option1, option2){
-    return true;
+function date(checkvalue){
+    return (!isNaN(Date.parse(checkvalue)));
 }
 
-function date(){
-    return true;
+function gender(checkvalue){
+    pattern = /[(Fem|M)ale]/g;
+    return (pattern.test(checkvalue));
 }
+
 
 // Template!
 // <div class="mt3">

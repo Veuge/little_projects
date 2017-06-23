@@ -176,7 +176,7 @@ window.onload = function load(){
                         // createForm(classroomsObject[0]);
                     break;
                     default:
-                    break;s
+                    break;
                 }
             }
         })(x);
