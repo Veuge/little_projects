@@ -94,18 +94,26 @@ function createTableHeader(object){
 }
 
 function createTableRow(object, objectProperty){
-    var newRow = document.createElement("tr");
+    var newRow;
+    var newCell;
+    var newBtn;
+    var attr;
+    var text;
+    var actual;
+    var str;
+
+    newRow = document.createElement("tr");
     newRow.className = "stripe-dark";
-    for(var attr in object){
-        var text;
+    for(attr in object){
+        text;
         if(object.hasOwnProperty(attr)){
-            var newCell = document.createElement("td");
+            newCell = document.createElement("td");
             newCell.className = "pa3";
             if(Array.isArray(object[attr]) && typeof object[attr][0] == "object"){
-                var whatever = object[attr];
-                var str = "";
-                for(var i = 0; i < whatever.length; i++){
-                    str += whatever[i][objectProperty] + " ";
+                actual = object[attr];
+                str = "";
+                for(var i = 0; i < actual.length; i++){
+                    str += actual[i][objectProperty] + " ";
                 }
                 text = document.createTextNode(str);
             }
@@ -116,16 +124,28 @@ function createTableRow(object, objectProperty){
             newRow.appendChild(newCell);
         }
     }
+    // <a class="f6 link dim br1 ph3 pv2 mb2 dib white bg-black" href="#0">Button Text</a>
+
+    // newCell = document.createElement("td");
+    // newCell.className = "pa3";
+    //
+    // newBtn = document.createElement("a");
+    // newBtn.className = "f6 link dim br1 ph3 pv2 mb2 dib white bg-dark-red delete-button";
+    // text = document.createTextNode("Delete");
+    // newBtn.appendChild(text);
+    // newCell.appendChild(newBtn);
+    // newRow.appendChild(newCell);
+
     tableBody.appendChild(newRow);
 }
 
-var regStudents = [];
-regStudents = studentsObject.filter(function filterRegularStudents(student){
+var regularStudents = [];
+regularStudents = studentsObject.filter(function filterRegularStudents(student){
     return (student.subject_allowed);
 });
 
-var schStudents = [];
-schStudents = studentsObject.filter(function arrayfilterScholarshipStudents(student){
+var scholarshipStudents = [];
+scholarshipStudents = studentsObject.filter(function filterScholarshipStudents(student){
     return (student.min_gpa);
 });
 
@@ -147,18 +167,18 @@ window.onload = function load(){
 
                 switch (pressed) {
                     case 0:
-                        createTableHeader(regStudents[0]);
-                        regStudents.forEach(function(student){
+                        createTableHeader(regularStudents[0]);
+                        regularStudents.forEach(function(student){
                             createTableRow(student, "name");
                         });
-                        createForm(regStudents[0]);
+                        createForm(regularStudents[0]);
                     break;
                     case 1:
-                        createTableHeader(schStudents[0]);
-                        schStudents.forEach(function(student){
+                        createTableHeader(scholarshipStudents[0]);
+                        scholarshipStudents.forEach(function(student){
                             createTableRow(student, "name");
                         });
-                        createForm(schStudents[0]);
+                        createForm(scholarshipStudents[0]);
                     break;
                     case 2:
                         createTableHeader(subjectsObject[0]);

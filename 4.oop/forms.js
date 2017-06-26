@@ -1,8 +1,8 @@
 var form = document.getElementById("create_object");
-var whoIs;
+var studentType;
 
 function createForm(object){
-    whoIs = object;
+    studentType = object;
     var attr;
     var newWrapper;
     var newLabel;
@@ -53,9 +53,13 @@ function createForm(object){
 }
 
 function saveData(){
+    var errorsContainer = document.getElementById("errorsContainer");
+    restartEmptySettings(errorsContainer);
+
     var inputAreas = document.querySelectorAll(".user-input");
     var selectedSubjects = [];
     var attributes = {};
+    var errorsBag = [];
 
     for(var i = 0; i < inputAreas.length; i++){
         if (inputAreas[i].nodeName == "SELECT") {
@@ -66,16 +70,25 @@ function saveData(){
             attributes[inputAreas[i].attributes.for.nodeValue] = inputAreas[i].value;
         }
     }
-    if(validateInput(attributes)){
-        var newStudent = new whoIs.constructor();
-        whoIs.constructor.apply(newStudent, attributes);
+    if(validateInput(attributes, errorsBag)){
+        var newStudent = new studentType.constructor();
+        var arrayOfAttributes = []
+        for (var value in attributes) {
+            if (attributes.hasOwnProperty(value)) {
+                arrayOfAttributes.push(attributes[value]);
+            }
+        }
+        studentType.constructor.apply(newStudent, arrayOfAttributes);
+        for(var i = 0; i < arrayOfAttributes[5].length; i++){
+            arrayOfAttributes[5][i].addStudent(newStudent);
+        }
         console.log(newStudent);
         studentsObject.push(newStudent);
         createTableRow(newStudent, "name");
-        // writeToFile();
     }
     else{
-        console.log("required fields aren't filled in");
+        formFeedback(errorsBag);
+        console.log(errorsBag);
     }
 }
 
@@ -122,12 +135,9 @@ function getObjects(arrayOfNames, arrayOfObjects){
     return arrayOfSelected;
 }
 
-function validateInput(data){
-    var valid = true;
+function validateInput(data, errorsBag){
     var field;
-    var partialBoolean;
     for(field in data){
-        console.log(field);
         switch (field) {
             case "ci":
             case "subject_allowed":
@@ -138,58 +148,114 @@ function validateInput(data){
                 var max;
                 field == "ci" ? min = 100 : min = 1;
                 field == "ci" ? max = 999 : field == "subject_allowed" ? max = 8 : field == "discount" ? max = 30 : field == "min_gpa" ? max = 5 : max = 0;
-                partialBoolean = number(data[field], min, max)
-                valid = valid && partialBoolean;
+                number(field, data[field], min, max, errorsBag);
                 break;
 
             case "name":
             case "last_name":
                 // string validation
-                partialBoolean = string(data[field]);
-                valid = valid && partialBoolean;
+                string(field, data[field], errorsBag);
                 break;
 
             case "last_payment":
             case "next_payment":
                 // date validation
-                partialBoolean = date(data[field]);
-                valid = valid && partialBoolean;
+                date(field, data[field], errorsBag);
                 break;
 
             case "gender":
                 // gender validation
-                gender(data[field]);
+                gender(field, data[field], errorsBag);
                 break;
         }
-        console.log("partial", partialBoolean, "total", valid);
     }
-
-    return valid;
+    return (errorsBag.length == 0);
 }
 
-function number(checkvalue, min, max){
+function number(field, checkvalue, min, max, errorsBag){
     if(checkvalue != ""){
         checkvalue = Number(checkvalue);
-        return (checkvalue <= max && checkvalue >= min);
+        if(checkvalue <= max && checkvalue >= min){
+            return true;
+        }
+        else {
+            errorsBag.push("The field " + field + " must be in the range " + min + "-" + max);
+            return false;
+        }
     }
     else{
+        errorsBag.push("The field " + field + " can't be empty");
         return false;
     }
 }
 
-function string(checkvalue){
-    return (checkvalue.length >= 4);
+function string(field, checkvalue, errorsBag){
+    if(checkvalue.length != 0){
+        if(checkvalue.length >= 4){
+            return true;
+        }
+        else{
+            errorsBag.push("The field " + field + " must be at least 4 characters length");
+            return false;
+        }
+    }
+    else{
+        errorsBag.push("The field " + field + " cannot be empty");
+        return false;
+    }
 }
 
-function date(checkvalue){
-    return (!isNaN(Date.parse(checkvalue)));
+function date(field, checkvalue, errorsBag){
+    if(!isNaN(Date.parse(checkvalue))){
+        return true;
+    }
+    else {
+        errorsBag.push("The date format in " + field + " is not correct. The correct format is yyyy-mm-dd");
+        return false;
+    }
 }
 
 function gender(checkvalue){
-    pattern = /[(Fem|M)ale]/g;
-    return (pattern.test(checkvalue));
+    var pattern = /[(Fem|M)ale]/g;
+    if (pattern.test(checkvalue)){
+        return true;
+    }
+    else {
+        errorsBag.push("The field gender is filled in incorrectly, the valid options are Male or Female");
+    }
 }
 
+function formFeedback(errors){
+    // <div id="formErrors" class="pa4 bg-light-red black">
+    //     <span class="lh-title ml3"><strong>Errors in form</strong></span>
+    // </div>
+    var errorsContainer = document.getElementById("errorsContainer");
+
+    var errorMessages = document.createElement("div");
+    errorMessages.className = "pa4 bg-light-red black";
+    errorMessages.setAttribute("id", "formErrors");
+
+    var errorTitle = document.createElement("strong");
+    errorTitle.className = "lh-title ml3";
+    var title = document.createTextNode("Errors in form");
+    errorTitle.appendChild(title);
+    errorMessages.appendChild(errorTitle);
+    errorsContainer.appendChild(errorMessages);
+
+    var listErrors = document.createElement("ul");
+    var i;
+    var errorItem;
+    var errorText;
+
+    for(i = 0; i < errors.length; i++){
+        errorItem = document.createElement("li");
+        errorText = document.createTextNode(errors[i]);
+        errorItem.appendChild(errorText);
+        listErrors.appendChild(errorItem);
+    }
+    errorMessages.appendChild(listErrors);
+    console.log(errorMessages);
+}
 
 // Template!
 // <div class="mt3">
