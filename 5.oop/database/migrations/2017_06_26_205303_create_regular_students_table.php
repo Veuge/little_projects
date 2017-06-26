@@ -55,6 +55,20 @@ class CreateRegularStudentsTable extends Migration
             $table->foreign('classroom_id')->references->('id')->on('classrooms');
             $table->primary('id');
         });
+
+        Schema::create('regular_subjects', function(Blueprint $table){
+            $table->integer('regular_id')->unsigned();
+            $table->integer('subject_id')->unsigned();
+
+            $table->primary('regular_id', 'subject_id');
+        });
+
+        Schema::create('scholarship_subjects', function(Blueprint $table){
+            $table->integer('scholarship_id')->unsigned();
+            $table->integer('subject_id')->unsigned();
+
+            $table->primary('scholarship_id', 'subject_id');
+        });
     }
 
     /**
@@ -66,6 +80,7 @@ class CreateRegularStudentsTable extends Migration
     {
         Schema::dropIfExists('subjects');
         Schema::dropIfExists('classrooms');
+        Schema::dropIfExists('scholarship_students');
         Schema::dropIfExists('regular_students');
     }
 }
