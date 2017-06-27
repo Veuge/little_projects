@@ -14,17 +14,7 @@ class ScholarshipStudentController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return ScholarshipStudent::all();
     }
 
     /**
@@ -35,7 +25,16 @@ class ScholarshipStudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newScholarship = new ScholarshipStudent([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'gender' => $request->gender,
+            'last_payment' => $request->last_payment,
+            'discount' => $request->discount,
+            'min_gpa' => $request->min_gpa
+        ]);
+        $newScholarship->save();
+        return $newScholarship;
     }
 
     /**
@@ -44,20 +43,9 @@ class ScholarshipStudentController extends Controller
      * @param  \App\ScholarshipStudent  $scholarshipStudent
      * @return \Illuminate\Http\Response
      */
-    public function show(ScholarshipStudent $scholarshipStudent)
+    public function show(ScholarshipStudent $scholarship)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ScholarshipStudent  $scholarshipStudent
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ScholarshipStudent $scholarshipStudent)
-    {
-        //
+        return $scholarship;
     }
 
     /**
@@ -78,8 +66,8 @@ class ScholarshipStudentController extends Controller
      * @param  \App\ScholarshipStudent  $scholarshipStudent
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ScholarshipStudent $scholarshipStudent)
+    public function destroy(ScholarshipStudent $scholarship)
     {
-        //
+        $scholarship->delete();
     }
 }

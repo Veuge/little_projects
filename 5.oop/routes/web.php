@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['prefix' => 'api'], function(){
+    Route::get('/', function(){
+        return view('welcome');
+    });
+    Route::resource('regulars', 'RegularStudentController', ['except' => ['create', 'edit']]);
+    Route::resource('scholarships', 'ScholarshipStudentController', ['except' => ['create', 'edit']]);
+    Route::resource('subjects', 'SubjectController', ['except' => ['create', 'edit']]);
+    Route::resource('classrooms', 'ClassroomController', ['except' => ['create', 'edit']]);
 });

@@ -14,17 +14,7 @@ class RegularStudentController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return RegularStudent::all();
     }
 
     /**
@@ -35,7 +25,18 @@ class RegularStudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newRegular = new RegularStudent([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'gender' => $request->gender,
+            'last_payment' => $request->last_payment,
+            'next_payment' => $request->next_payment,
+            'subjects_allowed' => $request->subjects_allowed,
+        ]);
+
+        $newRegular->save();
+
+        return $newRegular;
     }
 
     /**
@@ -44,20 +45,9 @@ class RegularStudentController extends Controller
      * @param  \App\RegularStudent  $regularStudent
      * @return \Illuminate\Http\Response
      */
-    public function show(RegularStudent $regularStudent)
+    public function show(RegularStudent $regular)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\RegularStudent  $regularStudent
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(RegularStudent $regularStudent)
-    {
-        //
+        return $regular;
     }
 
     /**
@@ -67,7 +57,7 @@ class RegularStudentController extends Controller
      * @param  \App\RegularStudent  $regularStudent
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RegularStudent $regularStudent)
+    public function update(Request $request, RegularStudent $regular)
     {
         //
     }
@@ -78,8 +68,8 @@ class RegularStudentController extends Controller
      * @param  \App\RegularStudent  $regularStudent
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RegularStudent $regularStudent)
+    public function destroy(RegularStudent $regular)
     {
-        //
+        $regular->delete();
     }
 }

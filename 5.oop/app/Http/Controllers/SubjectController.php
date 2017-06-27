@@ -14,17 +14,7 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Subject::all();
     }
 
     /**
@@ -46,18 +36,7 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Subject $subject)
-    {
-        //
+        return $subject;
     }
 
     /**
