@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Api\RegularStudentFormatter;
+
 
 class RegularStudent extends Model
 {
