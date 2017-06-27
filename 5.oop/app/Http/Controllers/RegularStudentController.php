@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\RegularStudent;
+use Api\RegularStudentFormatter;
 use Illuminate\Http\Request;
 
 class RegularStudentController extends Controller
 {
+    protected $regularTransformer;
+
+    public function __construct(RegularStudentFormatter $regularFormatter){
+        $this->regularFormatter = $regularFormatter;
+    }
+
     /**
      * Display a listing of the resource.
      *
