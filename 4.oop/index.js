@@ -22,6 +22,19 @@ var studentsObject = [];
 var classroomsObject = [];
 var subjectsObject = [];
 
+students.forEach(function studentArray(student){
+    if(student.min_gpa){
+        studentsObject.push(new ScholarshipStudent(student.ci, student.name, student.last_name, student.gender, student.last_payment, student.subjects, student.discount, student.min_gpa));
+    }
+    else{
+        studentsObject.push(new RegularStudent(student.ci, student.name, student.last_name, student.gender, student.last_payment, student.subjects, student.subject_allowed, student.next_payment));
+    }
+});
+
+classrooms.forEach(function classroomArray(classroom){
+    classroomsObject.push(new Classroom(classroom.name, classroom.capacity, classroom.facilities, classroom.subjects));
+});
+
 function addObjectsRelation(object1, object2){
     method1 = object1["add" + object2.constructor.name];
     method2 = object2["add" + object1.constructor.name];
@@ -136,18 +149,6 @@ var btns = document.querySelectorAll("a.btn");
 var pressed;
 
 window.onload = function load(){
-    students.forEach(function studentArray(student){
-        if(student.min_gpa){
-            studentsObject.push(new ScholarshipStudent(student.ci, student.name, student.last_name, student.gender, student.last_payment, student.subjects, student.discount, student.min_gpa));
-        }
-        else{
-            studentsObject.push(new RegularStudent(student.ci, student.name, student.last_name, student.gender, student.last_payment, student.subjects, student.subject_allowed, student.next_payment));
-        }
-    });
-
-    classrooms.forEach(function classroomArray(classroom){
-        classroomsObject.push(new Classroom(classroom.name, classroom.capacity, classroom.facilities, classroom.subjects));
-    });
 
     subjects.forEach(function subjectArray(subject){
         subjectsObject.push(new Subject(subject.id, subject.name, subject.description, subject.credits, subject.students, subject.classrooms));

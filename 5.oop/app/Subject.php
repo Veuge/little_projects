@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Subject extends Model
 {
     public $timestamps = false;
+    protected $guarded = [];
 
     public function classroom(){
         return $this->belongsTo('App\Classroom');

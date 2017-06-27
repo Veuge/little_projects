@@ -25,7 +25,13 @@ class ClassroomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newClassroom = new Classroom([
+            'classroom_name' => $request->classroom_name,
+            'capacity' => $request->capacity
+        ]);
+
+        $newClassroom->save();
+        return $newClassroom;
     }
 
     /**
@@ -59,6 +65,6 @@ class ClassroomController extends Controller
      */
     public function destroy(Classroom $classroom)
     {
-        //
+        $classroom->delete();
     }
 }

@@ -25,7 +25,12 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newSubject = new Subject([
+            'name' => $request->name,
+            'description' => $request->description,
+            'credits' => $request->credits,
+            'classroom_id' => $request->classroom_id
+        ]);
     }
 
     /**
@@ -59,6 +64,6 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        //
+        $subject->delete();
     }
 }
