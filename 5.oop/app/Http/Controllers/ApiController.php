@@ -56,4 +56,8 @@ class ApiController extends Controller
     public function responseDeleted($message = 'Deleted!'){
         return $this->setStatusCode(HttpResponse::HTTP_OK)->responseWithSuccess($message);
     }
+
+    public function responseInternalError($message = 'Internal error.'){
+        return $this->setStatusCode(HttpResponse::HTTP_INTERNAL_SERVER_ERROR)->responseWithError($message);
+    }
 }

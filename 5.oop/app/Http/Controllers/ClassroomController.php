@@ -22,9 +22,14 @@ class ClassroomController extends ApiController
     public function index()
     {
         $classrooms = Classroom::all();
-        return $this->response([
-            'data' => $this->classroomTransformer->transformCollection($classrooms->all())
-        ]);
+        if(! $classrooms){
+            return $this->responseInternalError();
+        }
+        else{
+            return $this->response([
+                'data' => $this->classroomTransformer->transformCollection($classrooms->all())
+            ]);
+        }
     }
 
     /**
@@ -38,6 +43,9 @@ class ClassroomController extends ApiController
         $newClassroom = new Classroom($request->all());
         if($newClassroom->saveOrFail()){
             return $this->responseCreated("Classroom created successfully.");
+        }
+        else{
+            return $this->responseInternalError();
         }
     }
 
@@ -72,6 +80,9 @@ class ClassroomController extends ApiController
         if($classroom->update($request->all())){
             return $this->responseUpdated("Classroom updated successfully.");
         }
+        else{
+            return $this->responseInternalError();
+        }
     }
 
     /**
@@ -84,6 +95,9 @@ class ClassroomController extends ApiController
     {
         if($classroom->delete()){
             return $this->responseDeleted("Classroom deleted successfully.");
+        }
+        else{
+            return $this->responseInternalError();
         }
     }
 }

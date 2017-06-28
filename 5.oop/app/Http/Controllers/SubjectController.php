@@ -23,9 +23,15 @@ class SubjectController extends ApiController
     public function index()
     {
         $subjects = Subject::all();
-        return $this->response([
-            'data' => $this->st->transformCollection($subjects->all())
-        ]);
+
+        if(! $subjects){
+            return $this->responseInternalError();
+        }
+        else {
+            return $this->response([
+                'data' => $this->st->transformCollection($subjects->all())
+            ]);
+        }
     }
 
     /**
@@ -39,6 +45,9 @@ class SubjectController extends ApiController
         $newSubject = new Subject($request->all());
         if($newSubject->saveOrFail()){
             return $this->responseCreated("Subject created successfully.");
+        }
+        else{
+            return $this->responseInternalError();
         }
     }
 
@@ -71,8 +80,12 @@ class SubjectController extends ApiController
      */
     public function update(Request $request, Subject $subject)
     {
-        $subject->update($request->all());
-        return $this->responseUpdated("Subject updated successfully.");
+        if($subject->update($request->all())){
+            return $this->responseUpdated("Subject updated successfully.");
+        }
+        else {
+            return $this->responseInternalError();
+        }
     }
 
     /**
@@ -85,6 +98,9 @@ class SubjectController extends ApiController
     {
         if($subject->delete()){
             return $this->responseDeleted("Subject deleted successfully.");
+        }
+        else{
+            return $this->responseInternalError();
         }
     }
 }

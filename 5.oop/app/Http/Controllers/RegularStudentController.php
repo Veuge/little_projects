@@ -23,10 +23,14 @@ class RegularStudentController extends ApiController
     public function index()
     {
         $regulars = RegularStudent::all();
-
-        return $this->response([
-            'data' => $this->rst->transformCollection($regulars->all())
-        ]);
+        if(! $regulars){
+            return $this->responseInternalError();
+        }
+        else{
+            return $this->response([
+                'data' => $this->rst->transformCollection($regulars->all())
+            ]);
+        }
     }
 
     /**
@@ -38,9 +42,13 @@ class RegularStudentController extends ApiController
     public function store(Request $request)
     {
         $newRegular = new RegularStudent($request->all());
-        $newRegular->saveOrFail();
+        if($newRegular->saveOrFail()){
+            return $this->responseCreated("Regular student created successfully");
+        }
+        else{
+            return $this->responseInternalError();
+        }
 
-        return $this->responseCreated("Regular student created successfully");
     }
 
     /**
@@ -70,9 +78,12 @@ class RegularStudentController extends ApiController
      */
     public function update(Request $request, RegularStudent $regular)
     {
-        $regular->update($request->all());
-
-        return $this->responseUpdated('Regular student updated successfully.');
+        if($regular->update($request->all())){
+            return $this->responseUpdated('Regular student updated successfully.');
+        }
+        else{
+            return $this->responseInternalError();
+        }
     }
 
     /**
@@ -85,6 +96,9 @@ class RegularStudentController extends ApiController
     {
         if($regular->delete()){
             return $this->responseDeleted('Regular student deleted successfully.');
+        }
+        else {
+            return $this->responseInternalError();
         }
     }
 }

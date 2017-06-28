@@ -23,9 +23,14 @@ class ScholarshipStudentController extends ApiController
     public function index()
     {
         $scholarships = ScholarshipStudent::all();
-        return $this->response([
-            'data' => $this->sst->transformCollection($scholarships->all())
-        ]);
+        if(! $scholarships){
+            return $this->responseInternalError();
+        }
+        else{
+            return $this->response([
+                'data' => $this->sst->transformCollection($scholarships->all())
+            ]);
+        }
     }
 
     /**
@@ -37,9 +42,13 @@ class ScholarshipStudentController extends ApiController
     public function store(Request $request)
     {
         $newScholarship = new ScholarshipStudent($request->all());
-        $newScholarship->saveOrFail();
+        if($newScholarship->saveOrFail()){
+            return $this->responseCreated("Scholarship student created successfully.");
+        }
+        else {
+            return $this->responseInternalError();
+        }
 
-        return $this->responseCreated("Scholarship student created successfully.");
     }
 
     /**
@@ -70,9 +79,12 @@ class ScholarshipStudentController extends ApiController
      */
     public function update(Request $request, ScholarshipStudent $scholarship)
     {
-        $scholarship->update($request->all());
-
-        return $this->responseUpdated("Scholarship student updated successfully.");
+        if($scholarship->update($request->all())){
+            return $this->responseUpdated("Scholarship student updated successfully.");
+        }
+        else{
+            return $this->responseInternalError();
+        }
     }
 
     /**
@@ -85,6 +97,9 @@ class ScholarshipStudentController extends ApiController
     {
         if($scholarship->delete()){
             return $this->responseDeleted("Scholarship student deleted successfully.");
+        }
+        else{
+            return $this->responseInternalError();
         }
     }
 }
