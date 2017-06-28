@@ -7,7 +7,7 @@ use App\RegularStudent;
 use Api\Transformers\RegularStudentTransformer;
 use Illuminate\Http\Request;
 
-class RegularStudentController extends Controller
+class RegularStudentController extends ApiController
 {
     protected $rst;
 
@@ -26,9 +26,9 @@ class RegularStudentController extends Controller
         // $a = new RegularStudentTransformer();
         // dd($a);
 
-        return Response::json([
+        return $this->response([
             'data' => $this->rst->transformCollection($regulars->all())
-        ], 200);
+        ]);
     }
 
     /**
@@ -63,17 +63,12 @@ class RegularStudentController extends Controller
     {
         $regular = RegularStudent::find($id);
         if(!$regular){
-            return Response::json([
-                'error' => [
-                    'message' => 'The student doesnt exist'
-                ]
-            ], 404);
+            return $this->responseNotFound("The student doesn't exist");
         }
-        else {
-            return Response::json([
-                'data' => $this->rst->transform($regular)
-            ], 200);
-        }
+
+        return response([
+            'data' => $this->rst->transform($regular)
+        ]);
     }
 
     /**

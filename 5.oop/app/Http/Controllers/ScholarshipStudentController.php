@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\ScholarshipStudent;
+use Api\Transformers\ScholarshipStudentTransformer;
 use Illuminate\Http\Request;
 
 class ScholarshipStudentController extends Controller
 {
+    protected $sst;
+
+    function __construct(ScholarshipStudentTransformer $transformer){
+        $this->sst = $transformer;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,10 @@ class ScholarshipStudentController extends Controller
      */
     public function index()
     {
-        return ScholarshipStudent::all();
+        $scholarships = ScholarshipStudent::all();
+        return Response::json([
+            'data' => $this->sst->transformCollection($scholarships->all())
+        ], 200);
     }
 
     /**
@@ -43,9 +54,21 @@ class ScholarshipStudentController extends Controller
      * @param  \App\ScholarshipStudent  $scholarshipStudent
      * @return \Illuminate\Http\Response
      */
-    public function show(ScholarshipStudent $scholarship)
+    public function show($id)
     {
-        return $scholarship;
+        $scholarship = ScholarshipStudent::find($id);
+        if(! $scholarship){
+            return Response::json([
+                'error' => [
+                    'message' => 'Scholarship student not found'
+                ]
+            ], 404);
+        }
+        else{
+            return Response::json([
+                'data' => $this->sst->transform($scholarship)
+            ], 200);
+        }
     }
 
     /**
