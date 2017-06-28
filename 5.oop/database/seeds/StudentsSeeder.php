@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\RegularStudent;
 use App\ScholarshipStudent;
+use App\Subject;
 
 
 class StudentsSeeder extends Seeder
@@ -45,11 +46,13 @@ class StudentsSeeder extends Seeder
         }
 
         $regStudents = RegularStudent::all();
+        $subjectsIds = Subject::pluck('id')->toArray();
+
         foreach ($regStudents as $regStudent) {
             for($i = 0; $i < 4; $i++){
                 DB::table("regular_subjects")->insert([
                     'regular_id' => $regStudent->id,
-                    'subject_id' => $faker->numberBetween(1,9)
+                    'subject_id' => $faker->randomElement($subjectsIds)
                 ]);
             }
         }
@@ -59,7 +62,7 @@ class StudentsSeeder extends Seeder
             for($i = 0; $i < 4; $i++){
                 DB::table("scholarship_subjects")->insert([
                     'scholarship_id' => $schStudent->id,
-                    'subject_id' => $faker->numberBetween(1,9)
+                    'subject_id' => $faker->randomElement($subjectsIds)
                 ]);
             }
         }
