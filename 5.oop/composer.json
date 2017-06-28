@@ -16,15 +16,21 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database",
+            "app/Api"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Api\\": "app/Api"
         }
     },
     "autoload-dev": {
+        "classmap": [
+            "app/Api"
+        ],
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "Api\\": "app/Api"
         }
     },
     "scripts": {

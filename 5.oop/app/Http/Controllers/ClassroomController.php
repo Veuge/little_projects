@@ -3,17 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Classroom;
-use Api\ClassroomFormatter;
 use Illuminate\Http\Request;
 
 class ClassroomController extends Controller
 {
-    protected $classroomFormatter;
-
-    public function __construct(ClassroomFormatter $classFormatter){
-        $this->classroomFormatter = $classFormatter;
-    }
-
     /**
      * Display a listing of the resource.
      *

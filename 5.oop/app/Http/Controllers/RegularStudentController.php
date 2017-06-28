@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\RegularStudent;
-use Api\RegularStudentFormatter;
+use Api\Transformers\RegularStudentTransformer;
 use Illuminate\Http\Request;
 
 class RegularStudentController extends Controller
 {
-    protected $regularTransformer;
+    protected $rst;
 
-    public function __construct(RegularStudentFormatter $regularFormatter){
-        $this->regularFormatter = $regularFormatter;
+    function __construct(RegularStudentTransformer $transformer){
+        $this->rst = $transformer;
     }
 
     /**
@@ -21,7 +22,13 @@ class RegularStudentController extends Controller
      */
     public function index()
     {
-        return RegularStudent::all();
+        $regulars = RegularStudent::all();
+        // $a = new RegularStudentTransformer();
+        // dd($a);
+
+        return Response::json([
+            'data' => $this->rst->transformCollection($regulars->all())
+        ], 200);
     }
 
     /**
@@ -52,9 +59,21 @@ class RegularStudentController extends Controller
      * @param  \App\RegularStudent  $regularStudent
      * @return \Illuminate\Http\Response
      */
-    public function show(RegularStudent $regular)
+    public function show($id)
     {
-        return $regular;
+        $regular = RegularStudent::find($id);
+        if(!$regular){
+            return Response::json([
+                'error' => [
+                    'message' => 'The student doesnt exist'
+                ]
+            ], 404);
+        }
+        else {
+            return Response::json([
+                'data' => $this->rst->transform($regular)
+            ], 200);
+        }
     }
 
     /**

@@ -3,17 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Subject;
-use Api\SubjectFormatter;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
-
-    protected $subjectFormatter;
-
-    public function __construct(SubjectFormatter $subFormatter){
-        $this->subjectFormatter = $subFormatter;
-    }
 
     /**
      * Display a listing of the resource.

@@ -3,17 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\ScholarshipStudent;
-use Api\ScholarshipStudentFormatter;
 use Illuminate\Http\Request;
 
 class ScholarshipStudentController extends Controller
 {
-    protected $scholarshipFormatter;
-
-    public function __construct(ScholarshipStudentFormatter $schFormatter){
-        $this->scholarshipStudent = $schFormatter;
-    }
-
     /**
      * Display a listing of the resource.
      *
