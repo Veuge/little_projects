@@ -23,8 +23,6 @@ class RegularStudentController extends ApiController
     public function index()
     {
         $regulars = RegularStudent::all();
-        // $a = new RegularStudentTransformer();
-        // dd($a);
 
         return $this->response([
             'data' => $this->rst->transformCollection($regulars->all())
@@ -39,18 +37,10 @@ class RegularStudentController extends ApiController
      */
     public function store(Request $request)
     {
-        $newRegular = new RegularStudent([
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'gender' => $request->gender,
-            'last_payment' => $request->last_payment,
-            'next_payment' => $request->next_payment,
-            'subjects_allowed' => $request->subjects_allowed,
-        ]);
+        $newRegular = new RegularStudent($request->all());
+        $newRegular->saveOrFail();
 
-        $newRegular->save();
-
-        return $newRegular;
+        return $this->responseCreated("Regular student created successfully");
     }
 
     /**
@@ -63,7 +53,7 @@ class RegularStudentController extends ApiController
     {
         $regular = RegularStudent::find($id);
         if(!$regular){
-            return $this->responseNotFound("The student doesn't exist");
+            return $this->responseNotFound("The student doesn't exist.");
         }
 
         return response([
@@ -80,7 +70,9 @@ class RegularStudentController extends ApiController
      */
     public function update(Request $request, RegularStudent $regular)
     {
-        //
+        $regular->update($request->all());
+
+        return $this->responseUpdated('Regular student updated successfully.');
     }
 
     /**
@@ -91,6 +83,8 @@ class RegularStudentController extends ApiController
      */
     public function destroy(RegularStudent $regular)
     {
-        $regular->delete();
+        if($regular->delete()){
+            return $this->responseDeleted('Regular student deleted successfully.');
+        }
     }
 }

@@ -7,7 +7,7 @@ use App\ScholarshipStudent;
 use Api\Transformers\ScholarshipStudentTransformer;
 use Illuminate\Http\Request;
 
-class ScholarshipStudentController extends Controller
+class ScholarshipStudentController extends ApiController
 {
     protected $sst;
 
@@ -23,9 +23,9 @@ class ScholarshipStudentController extends Controller
     public function index()
     {
         $scholarships = ScholarshipStudent::all();
-        return Response::json([
+        return $this->response([
             'data' => $this->sst->transformCollection($scholarships->all())
-        ], 200);
+        ]);
     }
 
     /**
@@ -36,16 +36,10 @@ class ScholarshipStudentController extends Controller
      */
     public function store(Request $request)
     {
-        $newScholarship = new ScholarshipStudent([
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'gender' => $request->gender,
-            'last_payment' => $request->last_payment,
-            'discount' => $request->discount,
-            'min_gpa' => $request->min_gpa
-        ]);
-        $newScholarship->save();
-        return $newScholarship;
+        $newScholarship = new ScholarshipStudent($request->all());
+        $newScholarship->saveOrFail();
+
+        return $this->responseCreated("Scholarship student created successfully.");
     }
 
     /**
@@ -58,16 +52,12 @@ class ScholarshipStudentController extends Controller
     {
         $scholarship = ScholarshipStudent::find($id);
         if(! $scholarship){
-            return Response::json([
-                'error' => [
-                    'message' => 'Scholarship student not found'
-                ]
-            ], 404);
+            return $this->responseNotFound("Scholarship student not found.");
         }
         else{
-            return Response::json([
+            return response([
                 'data' => $this->sst->transform($scholarship)
-            ], 200);
+            ]);
         }
     }
 
@@ -78,9 +68,11 @@ class ScholarshipStudentController extends Controller
      * @param  \App\ScholarshipStudent  $scholarshipStudent
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ScholarshipStudent $scholarshipStudent)
+    public function update(Request $request, ScholarshipStudent $scholarship)
     {
-        //
+        $scholarship->update($request->all());
+
+        return $this->responseUpdated("Scholarship student updated successfully.");
     }
 
     /**
@@ -91,6 +83,8 @@ class ScholarshipStudentController extends Controller
      */
     public function destroy(ScholarshipStudent $scholarship)
     {
-        $scholarship->delete();
+        if($scholarship->delete()){
+            return $this->responseDeleted("Scholarship student deleted successfully.");
+        }
     }
 }

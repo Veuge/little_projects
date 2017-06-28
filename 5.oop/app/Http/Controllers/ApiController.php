@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Response;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 class ApiController extends Controller
 {
-    protected $statusCode = 200;
+    protected $statusCode = HttpResponse::HTTP_OK;
 
     public function getStatusCode(){
         return $this->statusCode;
@@ -31,7 +32,28 @@ class ApiController extends Controller
         ]);
     }
 
-    public function responseNotFound($message = 'Not found'){
-        return $this->setStatusCode(404)->responseWithError($message);
+    public function responseWithSuccess($message){
+        return $this->response([
+            'success' => [
+                'message' => $message,
+                'status_code' => $this->getStatusCode()
+            ]
+        ]);
+    }
+
+    public function responseNotFound($message = 'Not found!'){
+        return $this->setStatusCode(HttpResponse::HTTP_NOT_FOUND)->responseWithError($message);
+    }
+
+    public function responseCreated($message = 'Created!'){
+        return $this->setStatusCode(HttpResponse::HTTP_CREATED)->responseWithSuccess($message);
+    }
+
+    public function responseUpdated($message = 'Edited!'){
+        return $this->setStatusCode(HttpResponse::HTTP_OK)->responseWithSuccess($message);
+    }
+
+    public function responseDeleted($message = 'Deleted!'){
+        return $this->setStatusCode(HttpResponse::HTTP_OK)->responseWithSuccess($message);
     }
 }
