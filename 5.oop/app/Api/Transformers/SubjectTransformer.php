@@ -2,18 +2,16 @@
 
 namespace Api\Transformers;
 
-class RegularStudentTransformer extends Transformer
+class SubjectTransformer extends Transformer
 {
 
-    public function transform($regular){
+    public function transform($subject){
         return [
-            'id' => (int) $regular['id'],
-            'name' => $regular['name'],
-            'last_name' => $regular['last_name'],
-            'sex' => $regular['gender'],
-            'last_payment' => $regular['last_payment'],
-            'next_payment' => $regular['next_payment'],
-            'subjects_allowed' => (int) $regular['subjects_allowed']
+            'id' => (int) $subject['id'],
+            'name' => $subject['name'],
+            'description' => $subject['description'],
+            'credits' => (int)$subject['credits'],
+            'classroom_id' => $subject['classroom_id'],
         ];
     }
 

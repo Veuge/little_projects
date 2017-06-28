@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\Subject;
+use Api\Transformers\SubjectTransformer;
 use Illuminate\Http\Request;
 
-class SubjectController extends Controller
+class SubjectController extends ApiController
 {
+    protected $st;
+
+    function __construct(SubjectTransformer $transformer){
+        $this->st = $transformer;
+    }
 
     /**
      * Display a listing of the resource.
@@ -15,7 +22,10 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        return Subject::all();
+        $subjects = Subject::all();
+        return $this->response([
+            'data' => $this->st->transformCollection($subjects->all())
+        ]);
     }
 
     /**
@@ -26,12 +36,10 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        $newSubject = new Subject([
-            'name' => $request->name,
-            'description' => $request->description,
-            'credits' => $request->credits,
-            'classroom_id' => $request->classroom_id
-        ]);
+        $newSubject = new Subject($request->all());
+        if($newSubject->saveOrFail()){
+            return $this->responseCreated("Subject created successfully.");
+        }
     }
 
     /**
@@ -40,9 +48,18 @@ class SubjectController extends Controller
      * @param  \App\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function show(Subject $subject)
+    public function show($id)
     {
-        return $subject;
+        $subject = Subject::find($id);
+
+        if(! $subject){
+            return $this->responseNotFound("Subject not found.");
+        }
+        else {
+            return $this->response([
+                'data' => $this->st->transform($subject)
+            ]);
+        }
     }
 
     /**
@@ -54,7 +71,8 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-        //
+        $subject->update($request->all());
+        return $this->responseUpdated("Subject updated successfully.");
     }
 
     /**
@@ -65,6 +83,8 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        $subject->delete();
+        if($subject->delete()){
+            return $this->responseDeleted("Subject deleted successfully.");
+        }
     }
 }
