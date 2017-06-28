@@ -2,18 +2,14 @@
 
 namespace Api\Transformers;
 
-class RegularStudentTransformer extends Transformer
+class ClassroomTransformer extends Transformer
 {
 
-    public function transform($regular){
+    public function transform($classroom){
         return [
-            'id' => (int) $regular['id'],
-            'name' => $regular['name'],
-            'last_name' => $regular['last_name'],
-            'sex' => $regular['gender'],
-            'last_payment' => $regular['last_payment'],
-            'next_payment' => $regular['next_payment'],
-            'subjects_allowed' => (int) $regular['subjects_allowed']
+            'id' => (int) $classroom['id'],
+            'name' => $classroom['classroom_name'],
+            'capacity' => $classroom['capacity'],
         ];
     }
 

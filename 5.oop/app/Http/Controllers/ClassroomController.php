@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Classroom;
+use Api\Transformers\ClassroomTransformer;
 use Illuminate\Http\Request;
 
-class ClassroomController extends Controller
+class ClassroomController extends ApiController
 {
+    protected $classroomTransformer;
+
+    function __construct(ClassroomTransformer $transformer){
+        $this->classroomTransformer = $transformer;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +21,10 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        return Classroom::all();
+        $classrooms = Classroom::all();
+        return $this->response([
+            'data' => $this->classroomTransformer->transformCollection($classrooms->all())
+        ]);
     }
 
     /**
@@ -25,13 +35,10 @@ class ClassroomController extends Controller
      */
     public function store(Request $request)
     {
-        $newClassroom = new Classroom([
-            'classroom_name' => $request->classroom_name,
-            'capacity' => $request->capacity
-        ]);
-
-        $newClassroom->save();
-        return $newClassroom;
+        $newClassroom = new Classroom($request->all());
+        if($newClassroom->saveOrFail()){
+            return $this->responseCreated("Classroom created successfully.");
+        }
     }
 
     /**
@@ -40,9 +47,17 @@ class ClassroomController extends Controller
      * @param  \App\Classroom  $classroom
      * @return \Illuminate\Http\Response
      */
-    public function show(Classroom $classroom)
+    public function show($id)
     {
-        return $classroom;
+        $classroom = Classroom::find($id);
+        if(! $classroom){
+            return $this->responseNotFound("Classroom not found.");
+        }
+        else{
+            return $this->response([
+                'data' => $this->classroomTransformer->transform($classroom)
+            ]);
+        }
     }
 
     /**
@@ -54,7 +69,9 @@ class ClassroomController extends Controller
      */
     public function update(Request $request, Classroom $classroom)
     {
-        //
+        if($classroom->update($request->all())){
+            return $this->responseUpdated("Classroom updated successfully.");
+        }
     }
 
     /**
@@ -65,6 +82,8 @@ class ClassroomController extends Controller
      */
     public function destroy(Classroom $classroom)
     {
-        $classroom->delete();
+        if($classroom->delete()){
+            return $this->responseDeleted("Classroom deleted successfully.");
+        }
     }
 }
