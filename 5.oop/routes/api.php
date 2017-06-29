@@ -24,4 +24,8 @@ Route::resource('scholarships', 'ScholarshipStudentController', ['except' => ['c
 Route::get('scholarships/{scholarship}/subjects', 'ScholarshipStudentController@subjects');
 
 Route::resource('subjects', 'SubjectController', ['except' => ['create', 'edit']]);
+Route::get('subjects/{subject}/students', 'SubjectController@students');
+Route::get('subjects/{subject}/classrooms', 'SubjectController@classrooms');
+
 Route::resource('classrooms', 'ClassroomController', ['except' => ['create', 'edit']]);
+Route::get('classrooms/{classroom}/subjects', 'ClassroomController@subjects');
