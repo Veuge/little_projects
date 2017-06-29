@@ -101,4 +101,12 @@ class RegularStudentController extends ApiController
             return $this->responseInternalError();
         }
     }
+
+    public function subjects(RegularStudent $regular){
+        $subjects = $regular->subjects()->get();
+
+        return $this->response([
+            'data' => $this->rst->transformCollection($subjects->all())
+        ]);
+    }
 }

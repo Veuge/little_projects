@@ -102,4 +102,12 @@ class ScholarshipStudentController extends ApiController
             return $this->responseInternalError();
         }
     }
+
+    public function subjects(ScholarshipStudent $scholarship){
+        $subjects = $scholarship->subjects()->get();
+
+        return $this->response([
+            'data' => $this->sst->transformCollection($subjects->all())
+        ]);
+    }
 }
