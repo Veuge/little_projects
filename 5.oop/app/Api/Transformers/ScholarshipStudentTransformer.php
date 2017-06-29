@@ -10,7 +10,7 @@ class ScholarshipStudentTransformer extends Transformer
             'id' => (int) $regular['id'],
             'name' => $regular['name'],
             'last_name' => $regular['last_name'],
-            'sex' => $regular['gender'],
+            'gender' => $regular['gender'],
             'last_payment' => $regular['last_payment'],
             'discount' => $regular['discount'],
             'min_gpa' => (int) $regular['min_gpa']

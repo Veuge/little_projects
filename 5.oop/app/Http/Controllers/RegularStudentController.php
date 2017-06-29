@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use Response;
 use App\RegularStudent;
 use Api\Transformers\RegularStudentTransformer;
+use Api\Transformers\SubjectTransformer;
 use Illuminate\Http\Request;
 
 class RegularStudentController extends ApiController
 {
-    protected $rst;
+    protected $regularTransformer;
+    protected $subjectTransformer;
 
-    function __construct(RegularStudentTransformer $transformer){
-        $this->rst = $transformer;
+    function __construct(RegularStudentTransformer $regTransformer, SubjectTransformer $subTransformer){
+        $this->regularTransformer = $regTransformer;
+        $this->subjectTransformer = $subTransformer;
     }
 
     /**
@@ -28,7 +31,7 @@ class RegularStudentController extends ApiController
         }
         else{
             return $this->response([
-                'data' => $this->rst->transformCollection($regulars->all())
+                'data' => $this->regularTransformer->transformCollection($regulars->all())
             ]);
         }
     }
@@ -65,7 +68,7 @@ class RegularStudentController extends ApiController
         }
 
         return response([
-            'data' => $this->rst->transform($regular)
+            'data' => $this->regularTransformer->transform($regular)
         ]);
     }
 
@@ -106,7 +109,7 @@ class RegularStudentController extends ApiController
         $subjects = $regular->subjects()->get();
 
         return $this->response([
-            'data' => $this->rst->transformCollection($subjects->all())
+            'data' => $this->subjectTransformer->transformCollection($subjects->all())
         ]);
     }
 }

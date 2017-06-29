@@ -5,14 +5,20 @@ namespace App\Http\Controllers;
 use Response;
 use App\Subject;
 use Api\Transformers\SubjectTransformer;
+use Api\Transformers\RegularStudentTransformer;
+use Api\Transformers\ScholarshipStudentTransformer;
 use Illuminate\Http\Request;
 
 class SubjectController extends ApiController
 {
-    protected $st;
+    protected $subjectTransformer;
+    protected $regularTransformer;
+    protected $scholarshipTransformer;
 
-    function __construct(SubjectTransformer $transformer){
-        $this->st = $transformer;
+    function __construct(SubjectTransformer $subTransformer, RegularStudentTransformer $regTransformer, ScholarshipStudentTransformer $schTransformer){
+        $this->subjectTransformer = $subTransformer;
+        $this->regularTransformer = $regTransformer;
+        $this->scholarshipTransformer = $schTransformer;
     }
 
     /**
@@ -29,7 +35,7 @@ class SubjectController extends ApiController
         }
         else {
             return $this->response([
-                'data' => $this->st->transformCollection($subjects->all())
+                'data' => $this->subjectTransformer->transformCollection($subjects->all())
             ]);
         }
     }
@@ -66,7 +72,7 @@ class SubjectController extends ApiController
         }
         else {
             return $this->response([
-                'data' => $this->st->transform($subject)
+                'data' => $this->subjectTransformer->transform($subject)
             ]);
         }
     }
@@ -108,11 +114,13 @@ class SubjectController extends ApiController
         $regulars = $subject->regulars()->get();
         $scholarships = $subject->scholarships()->get();
 
+        $all = $regulars->merge($scholarships);
+        // return $all;
+
         // TODO: join the two collections in one!
 
         return $this->response([
-            'data' => $this->st->transformCollection($regulars->all()),
-                      $this->st->transformCollection($scholarships->all())
+            'data' => $all
         ]);
     }
 
@@ -120,7 +128,7 @@ class SubjectController extends ApiController
         $classrooms = $subject->classrooms()->get();
 
         return $this->response([
-            'data' => $this->st->transformCollection($classrooms->all())
+            'data' => $this->subjectTransformer->transformCollection($classrooms->all())
         ]);
     }
 }

@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use Response;
 use App\ScholarshipStudent;
 use Api\Transformers\ScholarshipStudentTransformer;
+use Api\Transformers\SubjectTransformer;
 use Illuminate\Http\Request;
 
 class ScholarshipStudentController extends ApiController
 {
-    protected $sst;
+    protected $scholarshipTransformer;
+    protected $subjectTransformer;
 
-    function __construct(ScholarshipStudentTransformer $transformer){
-        $this->sst = $transformer;
+    function __construct(ScholarshipStudentTransformer $transformer, SubjectTransformer $subTransformer){
+        $this->scholarshipTransformer = $transformer;
+        $this->subjectTransformer = $transformer;
     }
 
     /**
@@ -28,7 +31,7 @@ class ScholarshipStudentController extends ApiController
         }
         else{
             return $this->response([
-                'data' => $this->sst->transformCollection($scholarships->all())
+                'data' => $this->scholarshipTransformer->transformCollection($scholarships->all())
             ]);
         }
     }
@@ -65,7 +68,7 @@ class ScholarshipStudentController extends ApiController
         }
         else{
             return response([
-                'data' => $this->sst->transform($scholarship)
+                'data' => $this->scholarshipTransformer->transform($scholarship)
             ]);
         }
     }
@@ -107,7 +110,7 @@ class ScholarshipStudentController extends ApiController
         $subjects = $scholarship->subjects()->get();
 
         return $this->response([
-            'data' => $this->sst->transformCollection($subjects->all())
+            'data' => $this->subjectTransformer->transformCollection($subjects->all())
         ]);
     }
 }
