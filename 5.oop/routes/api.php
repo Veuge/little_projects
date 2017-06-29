@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::middleware(['cors'])->group(function(){
+Route::middleware(['cors', 'preflight'])->group(function(){
     Route::resource('regulars', 'RegularStudentController', ['except' => ['create', 'edit']]);
     Route::get('regulars/{regular}/subjects', 'RegularStudentController@subjects');
 
