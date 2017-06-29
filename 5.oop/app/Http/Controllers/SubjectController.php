@@ -103,4 +103,24 @@ class SubjectController extends ApiController
             return $this->responseInternalError();
         }
     }
+
+    public function students(Subject $subject){
+        $regulars = $subject->regulars()->get();
+        $scholarships = $subject->scholarships()->get();
+
+        // TODO: join the two collections in one!
+
+        return $this->response([
+            'data' => $this->st->transformCollection($regulars->all()),
+                      $this->st->transformCollection($scholarships->all())
+        ]);
+    }
+
+    public function classrooms(Subject $subject){
+        $classrooms = $subject->classrooms()->get();
+
+        return $this->response([
+            'data' => $this->st->transformCollection($classrooms->all())
+        ]);
+    }
 }
