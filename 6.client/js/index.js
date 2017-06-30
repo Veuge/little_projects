@@ -23,7 +23,7 @@ function makeGetRequest(baseURL, path){
 // console.log(postRequest.sendRequest(null));
 
 // var method3 = "DELETE";
-// var deleteURL = "http://localhost:8000/api/regulars/10";
+// var deleteURL = "http://10.100.1.85:8000/api/regulars/10";
 // var deleteRequest = new ClientRequest(method3, deleteURL);
 // console.log(deleteRequest.sendRequest(null));
 
@@ -35,7 +35,7 @@ function makeGetRequest(baseURL, path){
 // console.log(putRequest.sendRequest(null));
 
 window.onload = function doEverything(){
-    var baseURL = "http://localhost:8000/api/";
+    var baseURL = "http://10.100.1.85:8000/api/";
 
     var regularStudents = makeGetRequest(baseURL, "regulars");
     var scholarshipStudents = makeGetRequest(baseURL, "scholarships");
@@ -46,4 +46,16 @@ window.onload = function doEverything(){
     console.log(scholarshipStudents);
     console.log(subjects);
     console.log(classrooms);
+
+    var specificStudent = makeGetRequest(baseURL, "regulars/1");
+    var aRegStudent = new RegularStudent();
+    aRegStudent.jsonToRegularStudent(aRegStudent, specificStudent.data);
+    console.log(aRegStudent);
+    console.log(aRegStudent.jsonArrayToRegularArray(regularStudents));
+
+    var scholarStudent = makeGetRequest(baseURL, "scholarships/1");
+    var aSchStudent = new ScholarshipStudent();
+    aSchStudent.jsonToScholarshipStudent(aSchStudent, scholarStudent.data);
+    console.log(aSchStudent);
+    console.log(aSchStudent.jsonArrayToScholarshipArray(scholarshipStudents));
 }

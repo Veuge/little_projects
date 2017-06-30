@@ -1,8 +1,27 @@
-function RegularStudent(id, name, last_name, gender, last_payment, subject_allowed, next_payment){
+function RegularStudent(id, name, last_name, gender, last_payment, next_payment, subjects_allowed){
     Student.call(this, id, name, last_name, gender, last_payment);
 
-    this.subject_allowed = subject_allowed;
+    this.subjects_allowed = subjects_allowed;
     this.next_payment = next_payment;
 }
 RegularStudent.prototype = Object.create(Student.prototype);
 RegularStudent.prototype.constructor = RegularStudent;
+
+RegularStudent.prototype.jsonToRegularStudent = function (regStudent, jsonData){
+    regStudent.jsonToStudent(regStudent, jsonData);
+    regStudent.next_payment = jsonData.next_payment;
+    regStudent.subjects_allowed = jsonData.subjects_allowed;
+}
+
+RegularStudent.prototype.jsonArrayToRegularArray = function (jsonArray){
+    var arrayJson = jsonArray.data;
+    var regularStudent = new RegularStudent();
+    var regularsArray = [];
+    var i;
+
+    for (i = 0; i < arrayJson.length; i++) {
+        regularStudent.jsonToRegularStudent(regularStudent, arrayJson[i]);
+        regularsArray.push(regularStudent);
+    }
+    return regularsArray;
+}

@@ -6,3 +6,22 @@ function ScholarshipStudent(ci, name, last_name, gender, last_payment, discount,
 }
 ScholarshipStudent.prototype = Object.create(Student.prototype);
 ScholarshipStudent.prototype.constructor = ScholarshipStudent;
+
+ScholarshipStudent.prototype.jsonToScholarshipStudent = function (schStudent, jsonData){
+    schStudent.jsonToStudent(schStudent, jsonData);
+    schStudent.discount = jsonData.discount;
+    schStudent.min_gpa = jsonData.min_gpa;
+}
+
+ScholarshipStudent.prototype.jsonArrayToScholarshipArray = function (jsonArray){
+    var arrayJson = jsonArray.data;
+    var scholarshipStudent = new ScholarshipStudent();
+    var scholarshipsArray = [];
+    var i;
+
+    for (i = 0; i < arrayJson.length; i++) {
+        scholarshipStudent.jsonToScholarshipStudent(scholarshipStudent, arrayJson[i]);
+        scholarshipsArray.push(scholarshipStudent);
+    }
+    return scholarshipsArray;
+}
