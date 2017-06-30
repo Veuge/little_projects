@@ -123,7 +123,7 @@ function showDetails(baseURL, pressed){
     var content = document.getElementById("content");
     var path = determinePressed(classes);
     var object = makeGetRequest(baseURL, path);
-    
+
     restartEmptySettings(content);
     createDetails(content, object);
 }
@@ -190,16 +190,19 @@ window.onload = function doEverything(){
     var showScholarships = document.getElementById("sch_students");
     showScholarships.onclick = function() {
         requestScholarships(baseURL)
+        addLinkToDetails(baseURL);
     };
 
     var showSubjects = document.getElementById("subjects");
     showSubjects.onclick = function() {
         requestSubjects(baseURL)
+        addLinkToDetails(baseURL);
     };
 
     var showClassrooms = document.getElementById("classrooms");
     showClassrooms.onclick = function() {
         requestClassrooms(baseURL)
+        addLinkToDetails(baseURL);
     };
 
 

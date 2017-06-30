@@ -1,11 +1,12 @@
 function createDataTable(objectArray){
     var content = document.getElementById("content");
+    restartEmptySettings(content);
+
     var newTable = document.createElement("table");
     newTable.setAttribute("id", "data-table");
     content.appendChild(newTable);
 
     var table = document.getElementById("data-table");
-    restartEmptySettings(table);
     createTableHeader(table, objectArray[0]);
     objectArray.forEach(function createRows(object){
         createTableRow(table, object);
