@@ -1,7 +1,14 @@
 console.log("here we are");
 
+function makeGetRequest(baseURL, path){
+    var url = baseURL + path;
+    var getRequestObject = new ClientRequest("GET", url);
+
+    return JSON.parse(getRequestObject.sendRequest(null));
+}
+
 // var method = "GET";
-// var url = "http://10.100.1.85:8000/api/regulars/1";
+// var url = "http://localhost:8000/api/regulars";
 // var asyncbool = true;
 // var getRequest = new ClientRequest(method, url);
 //
@@ -15,7 +22,28 @@ console.log("here we are");
 // var postRequest = new ClientRequest(method2, postURL);
 // console.log(postRequest.sendRequest(null));
 
-var method3 = "DELETE";
-var deleteURL = "http://10.100.1.85:8000/api/regulars/1";
-var deleteRequest = new ClientRequest(method3, deleteURL);
-console.log(deleteRequest.sendRequest(null));
+// var method3 = "DELETE";
+// var deleteURL = "http://localhost:8000/api/regulars/10";
+// var deleteRequest = new ClientRequest(method3, deleteURL);
+// console.log(deleteRequest.sendRequest(null));
+
+// var method4 = "PUT";
+// var url = "http://localhost:8000/api/regulars/10";
+// var params = "?name=Valentinaaaaa";
+// var putURL = url + params;
+// var putRequest = new ClientRequest(method4, putURL);
+// console.log(putRequest.sendRequest(null));
+
+window.onload = function doEverything(){
+    var baseURL = "http://localhost:8000/api/";
+
+    var regularStudents = makeGetRequest(baseURL, "regulars");
+    var scholarshipStudents = makeGetRequest(baseURL, "scholarships");
+    var subjects = makeGetRequest(baseURL, "subjects");
+    var classrooms = makeGetRequest(baseURL, "classrooms");
+
+    console.log(regularStudents);
+    console.log(scholarshipStudents);
+    console.log(subjects);
+    console.log(classrooms);
+}

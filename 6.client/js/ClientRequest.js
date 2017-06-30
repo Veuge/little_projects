@@ -29,11 +29,11 @@ ClientRequest.prototype.createXHRObject = function(){
 
 ClientRequest.prototype.sendRequest = function(message){
     var xhr = this.createXHRObject();
-    console.log(xhr);
+    // console.log(xhr);
     xhr.open(this.method, this.url, this.asyncbool);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    console.log("request method", xhr.getAllResponseHeaders());
-    
+    // console.log("request method", xhr.getAllResponseHeaders());
+
     xhr.send(message);
     return xhr.response;
 }
