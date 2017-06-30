@@ -1,5 +1,9 @@
 console.log("here we are");
 
+/*
+* These following functions are unnecessary I think!
+*/
+
 function makeGetRequest(baseURL, path){
     var url = baseURL + path;
     var getRequestObject = new ClientRequest("GET", url);
@@ -7,17 +11,44 @@ function makeGetRequest(baseURL, path){
     return JSON.parse(getRequestObject.sendRequest(null));
 }
 
+function makePostRequest(baseURL, path, params){
+    var url = baseURL + path + params;
+    var postRequestObject = new ClientRequest("POST", url);
+
+    return JSON.parse(postRequestObject.sendRequest(null));
+}
+
+function makePutRequest(baseURL, path, params){
+    var url = baseURL + path + params;
+    var postRequestObject = new ClientRequest("PUT", url);
+
+    return JSON.parse(postRequestObject.sendRequest(null));
+}
+
+function makeDeleteRequest(baseURL, path){
+    var url = baseURL + path + params;
+    var postRequestObject = new ClientRequest("DELETE", url);
+
+    return JSON.parse(postRequestObject.sendRequest(null));
+}
+
+/*
+* Functions triggered on click
+*/
+
 function requestRegulars(baseURL){
     var title = document.getElementById("section-title");
     title.innerHTML = "Regular students";
 
     var regularStudents = makeGetRequest(baseURL, "regulars");
-    console.log(regularStudents);
-    var regularStudent = makeGetRequest(baseURL, "regulars/1");
     var aRegStudent = new RegularStudent();
-    aRegStudent.jsonToRegularStudent(aRegStudent, regularStudent.data);
-    console.log(aRegStudent);
-    console.log(aRegStudent.jsonArrayToRegularArray(regularStudents));
+    var regularStudentsArray = aRegStudent.jsonArrayToRegularArray(regularStudents);
+
+    createDataTable(regularStudentsArray);
+    // console.log(regularStudents);
+    // var regularStudent = makeGetRequest(baseURL, "regulars/1");
+    // aRegStudent.jsonToRegularStudent(aRegStudent, regularStudent.data);
+    // console.log(aRegStudent);
 }
 
 function requestScholarships(baseURL){
@@ -25,12 +56,15 @@ function requestScholarships(baseURL){
     title.innerHTML = "Scholarship students";
 
     var scholarshipStudents = makeGetRequest(baseURL, "scholarships");
-    console.log(scholarshipStudents);
-    var scholarStudent = makeGetRequest(baseURL, "scholarships/1");
     var aSchStudent = new ScholarshipStudent();
-    aSchStudent.jsonToScholarshipStudent(aSchStudent, scholarStudent.data);
-    console.log(aSchStudent);
-    console.log(aSchStudent.jsonArrayToScholarshipArray(scholarshipStudents));
+    var scholarshipStudentsArray = aSchStudent.jsonArrayToScholarshipArray(scholarshipStudents);
+
+    createDataTable(scholarshipStudentsArray);
+
+    // console.log(scholarshipStudents);
+    // var scholarStudent = makeGetRequest(baseURL, "scholarships/1");
+    // aSchStudent.jsonToScholarshipStudent(aSchStudent, scholarStudent.data);
+    // console.log(aSchStudent);
 }
 
 function requestSubjects(baseURL){
@@ -38,12 +72,15 @@ function requestSubjects(baseURL){
     title.innerHTML = "Subjects";
 
     var subjects = makeGetRequest(baseURL, "subjects");
-    console.log(subjects);
-    var subject = makeGetRequest(baseURL, "subjects/1");
     var aSubject = new Subject();
-    aSubject.jsonToSubject(aSubject, subject.data);
-    console.log(aSubject);
-    console.log(aSubject.jsonArrayToSubjectArray(subjects));
+    var subjectsArray= aSubject.jsonArrayToSubjectArray(subjects);
+
+    createDataTable(subjectsArray);
+
+    // console.log(subjects);
+    // var subject = makeGetRequest(baseURL, "subjects/1");
+    // aSubject.jsonToSubject(aSubject, subject.data);
+    // console.log(aSubject);
 }
 
 function requestClassrooms(baseURL){
@@ -51,12 +88,15 @@ function requestClassrooms(baseURL){
     title.innerHTML = "Classrooms";
 
     var classrooms = makeGetRequest(baseURL, "classrooms");
-    console.log(classrooms);
-    var classroom = makeGetRequest(baseURL, "classrooms/1");
     var aClassroom = new Classroom();
-    aClassroom.jsonToClassroom(aClassroom, classroom.data);
-    console.log(aClassroom);
-    console.log(aClassroom.jsonArrayToClassroomArray(classrooms));
+    var classroomsArray= aClassroom.jsonArrayToClassroomArray(classrooms);
+
+    createDataTable(classroomsArray);
+
+    // console.log(classrooms);
+    // var classroom = makeGetRequest(baseURL, "classrooms/1");
+    // aClassroom.jsonToClassroom(aClassroom, classroom.data);
+    // console.log(aClassroom);
 }
 
 // var method = "GET";
@@ -89,7 +129,7 @@ function requestClassrooms(baseURL){
 window.onload = function doEverything(){
     var baseURL = "http://10.100.1.85:8000/api/";
 
-    // DOM References;
+    // DOM References and events
     var showRegulars = document.getElementById("reg_students");
     showRegulars.onclick = function() {
         requestRegulars(baseURL)
@@ -109,4 +149,6 @@ window.onload = function doEverything(){
     showClassrooms.onclick = function() {
         requestClassrooms(baseURL)
     };
+
+
 }
