@@ -58,4 +58,16 @@ window.onload = function doEverything(){
     aSchStudent.jsonToScholarshipStudent(aSchStudent, scholarStudent.data);
     console.log(aSchStudent);
     console.log(aSchStudent.jsonArrayToScholarshipArray(scholarshipStudents));
+
+    var classroom = makeGetRequest(baseURL, "classrooms/1");
+    var aClassroom = new Classroom();
+    aClassroom.jsonToClassroom(aClassroom, classroom.data);
+    console.log(aClassroom);
+    console.log(aClassroom.jsonArrayToClassroomArray(classrooms));
+
+    var subject = makeGetRequest(baseURL, "subjects/1");
+    var aSubject = new Subject();
+    aSubject.jsonToSubject(aSubject, subject.data);
+    console.log(aSubject);
+    console.log(aSubject.jsonArrayToSubjectArray(subjects));
 }

@@ -15,11 +15,12 @@ RegularStudent.prototype.jsonToRegularStudent = function (regStudent, jsonData){
 
 RegularStudent.prototype.jsonArrayToRegularArray = function (jsonArray){
     var arrayJson = jsonArray.data;
-    var regularStudent = new RegularStudent();
     var regularsArray = [];
     var i;
+    var regularStudent;
 
     for (i = 0; i < arrayJson.length; i++) {
+        regularStudent = new RegularStudent();
         regularStudent.jsonToRegularStudent(regularStudent, arrayJson[i]);
         regularsArray.push(regularStudent);
     }

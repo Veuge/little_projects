@@ -15,11 +15,12 @@ ScholarshipStudent.prototype.jsonToScholarshipStudent = function (schStudent, js
 
 ScholarshipStudent.prototype.jsonArrayToScholarshipArray = function (jsonArray){
     var arrayJson = jsonArray.data;
-    var scholarshipStudent = new ScholarshipStudent();
     var scholarshipsArray = [];
     var i;
+    var scholarshipStudent;
 
     for (i = 0; i < arrayJson.length; i++) {
+        scholarshipStudent = new ScholarshipStudent();
         scholarshipStudent.jsonToScholarshipStudent(scholarshipStudent, arrayJson[i]);
         scholarshipsArray.push(scholarshipStudent);
     }
