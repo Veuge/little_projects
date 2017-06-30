@@ -7,6 +7,58 @@ function makeGetRequest(baseURL, path){
     return JSON.parse(getRequestObject.sendRequest(null));
 }
 
+function requestRegulars(baseURL){
+    var title = document.getElementById("section-title");
+    title.innerHTML = "Regular students";
+
+    var regularStudents = makeGetRequest(baseURL, "regulars");
+    console.log(regularStudents);
+    var regularStudent = makeGetRequest(baseURL, "regulars/1");
+    var aRegStudent = new RegularStudent();
+    aRegStudent.jsonToRegularStudent(aRegStudent, regularStudent.data);
+    console.log(aRegStudent);
+    console.log(aRegStudent.jsonArrayToRegularArray(regularStudents));
+}
+
+function requestScholarships(baseURL){
+    var title = document.getElementById("section-title");
+    title.innerHTML = "Scholarship students";
+
+    var scholarshipStudents = makeGetRequest(baseURL, "scholarships");
+    console.log(scholarshipStudents);
+    var scholarStudent = makeGetRequest(baseURL, "scholarships/1");
+    var aSchStudent = new ScholarshipStudent();
+    aSchStudent.jsonToScholarshipStudent(aSchStudent, scholarStudent.data);
+    console.log(aSchStudent);
+    console.log(aSchStudent.jsonArrayToScholarshipArray(scholarshipStudents));
+}
+
+function requestSubjects(baseURL){
+    var title = document.getElementById("section-title");
+    title.innerHTML = "Subjects";
+
+    var subjects = makeGetRequest(baseURL, "subjects");
+    console.log(subjects);
+    var subject = makeGetRequest(baseURL, "subjects/1");
+    var aSubject = new Subject();
+    aSubject.jsonToSubject(aSubject, subject.data);
+    console.log(aSubject);
+    console.log(aSubject.jsonArrayToSubjectArray(subjects));
+}
+
+function requestClassrooms(baseURL){
+    var title = document.getElementById("section-title");
+    title.innerHTML = "Classrooms";
+
+    var classrooms = makeGetRequest(baseURL, "classrooms");
+    console.log(classrooms);
+    var classroom = makeGetRequest(baseURL, "classrooms/1");
+    var aClassroom = new Classroom();
+    aClassroom.jsonToClassroom(aClassroom, classroom.data);
+    console.log(aClassroom);
+    console.log(aClassroom.jsonArrayToClassroomArray(classrooms));
+}
+
 // var method = "GET";
 // var url = "http://localhost:8000/api/regulars";
 // var asyncbool = true;
@@ -37,37 +89,24 @@ function makeGetRequest(baseURL, path){
 window.onload = function doEverything(){
     var baseURL = "http://10.100.1.85:8000/api/";
 
-    var regularStudents = makeGetRequest(baseURL, "regulars");
-    var scholarshipStudents = makeGetRequest(baseURL, "scholarships");
-    var subjects = makeGetRequest(baseURL, "subjects");
-    var classrooms = makeGetRequest(baseURL, "classrooms");
+    // DOM References;
+    var showRegulars = document.getElementById("reg_students");
+    showRegulars.onclick = function() {
+        requestRegulars(baseURL)
+    };
 
-    console.log(regularStudents);
-    console.log(scholarshipStudents);
-    console.log(subjects);
-    console.log(classrooms);
+    var showScholarships = document.getElementById("sch_students");
+    showScholarships.onclick = function() {
+        requestScholarships(baseURL)
+    };
 
-    var specificStudent = makeGetRequest(baseURL, "regulars/1");
-    var aRegStudent = new RegularStudent();
-    aRegStudent.jsonToRegularStudent(aRegStudent, specificStudent.data);
-    console.log(aRegStudent);
-    console.log(aRegStudent.jsonArrayToRegularArray(regularStudents));
+    var showSubjects = document.getElementById("subjects");
+    showSubjects.onclick = function() {
+        requestSubjects(baseURL)
+    };
 
-    var scholarStudent = makeGetRequest(baseURL, "scholarships/1");
-    var aSchStudent = new ScholarshipStudent();
-    aSchStudent.jsonToScholarshipStudent(aSchStudent, scholarStudent.data);
-    console.log(aSchStudent);
-    console.log(aSchStudent.jsonArrayToScholarshipArray(scholarshipStudents));
-
-    var classroom = makeGetRequest(baseURL, "classrooms/1");
-    var aClassroom = new Classroom();
-    aClassroom.jsonToClassroom(aClassroom, classroom.data);
-    console.log(aClassroom);
-    console.log(aClassroom.jsonArrayToClassroomArray(classrooms));
-
-    var subject = makeGetRequest(baseURL, "subjects/1");
-    var aSubject = new Subject();
-    aSubject.jsonToSubject(aSubject, subject.data);
-    console.log(aSubject);
-    console.log(aSubject.jsonArrayToSubjectArray(subjects));
+    var showClassrooms = document.getElementById("classrooms");
+    showClassrooms.onclick = function() {
+        requestClassrooms(baseURL)
+    };
 }
