@@ -12,7 +12,6 @@ Classroom.prototype.jsonToClassroom = function(classroom, jsonData){
 
 Classroom.prototype.jsonArrayToClassroomArray = function(jsonArray){
     var arrayJson = jsonArray.data;
-    console.log(arrayJson);
     var classroomsArray = [];
     var i;
     var classroom;

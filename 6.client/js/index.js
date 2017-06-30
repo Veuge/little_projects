@@ -45,6 +45,7 @@ function requestRegulars(baseURL){
     var regularStudentsArray = aRegStudent.jsonArrayToRegularArray(regularStudents);
 
     createDataTable(regularStudentsArray);
+
     // console.log(regularStudents);
     // var regularStudent = makeGetRequest(baseURL, "regulars/1");
     // aRegStudent.jsonToRegularStudent(aRegStudent, regularStudent.data);
@@ -60,6 +61,7 @@ function requestScholarships(baseURL){
     var scholarshipStudentsArray = aSchStudent.jsonArrayToScholarshipArray(scholarshipStudents);
 
     createDataTable(scholarshipStudentsArray);
+    addLinkToDetails();
 
     // console.log(scholarshipStudents);
     // var scholarStudent = makeGetRequest(baseURL, "scholarships/1");
@@ -76,6 +78,7 @@ function requestSubjects(baseURL){
     var subjectsArray= aSubject.jsonArrayToSubjectArray(subjects);
 
     createDataTable(subjectsArray);
+    addLinkToDetails();
 
     // console.log(subjects);
     // var subject = makeGetRequest(baseURL, "subjects/1");
@@ -92,11 +95,59 @@ function requestClassrooms(baseURL){
     var classroomsArray= aClassroom.jsonArrayToClassroomArray(classrooms);
 
     createDataTable(classroomsArray);
+    addLinkToDetails();
 
     // console.log(classrooms);
     // var classroom = makeGetRequest(baseURL, "classrooms/1");
     // aClassroom.jsonToClassroom(aClassroom, classroom.data);
     // console.log(aClassroom);
+}
+
+function addLinkToDetails(baseURL){
+    var rows = document.getElementsByClassName("item");
+    var x;
+    var pressed;
+
+    for(x = 0; x < rows.length; x++){
+        (function(x1){
+            rows[x1].onclick = function(e){
+                pressed = rows[x1];
+                showDetails(baseURL, pressed);
+            }
+        })(x);
+    }
+}
+
+function showDetails(baseURL, pressed){
+    var classes = (pressed.className).split(" ");
+    var content = document.getElementById("content");
+    var path = determinePressed(classes);
+    var object = makeGetRequest(baseURL, path);
+    
+    restartEmptySettings(content);
+    createDetails(content, object);
+}
+
+function determinePressed(classes){
+    var type;
+    var id = classes[2];
+
+    switch (classes[1]) {
+        case "regularstudent":
+            type = "regulars";
+            break;
+        case "scholarsipstudent":
+            type = "scholarships";
+            break;
+        case "subject":
+            type = "subjects";
+            break;
+        case "classroom":
+            type = "clasrooms";
+            break;
+    }
+
+    return type + "/" + id;
 }
 
 // var method = "GET";
@@ -132,7 +183,8 @@ window.onload = function doEverything(){
     // DOM References and events
     var showRegulars = document.getElementById("reg_students");
     showRegulars.onclick = function() {
-        requestRegulars(baseURL)
+        requestRegulars(baseURL);
+        addLinkToDetails(baseURL);
     };
 
     var showScholarships = document.getElementById("sch_students");

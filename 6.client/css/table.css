@@ -19,5 +19,4 @@ tr.item {
 tr.item:hover {
     background-color: #16a085;
     color: white;
-    font-weight: bold;
 }
