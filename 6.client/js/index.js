@@ -1,35 +1,10 @@
 console.log("here we are");
 
-/*
-* These following functions are unnecessary I think!
-*/
-
-function makeGetRequest(baseURL, path){
+function makeRequest(method, baseURL, path){
     var url = baseURL + path;
-    var getRequestObject = new ClientRequest("GET", url);
+    var requestObject = new ClientRequest(method, url);
 
-    return JSON.parse(getRequestObject.sendRequest(null));
-}
-
-function makePostRequest(baseURL, path, params){
-    var url = baseURL + path + params;
-    var postRequestObject = new ClientRequest("POST", url);
-
-    return JSON.parse(postRequestObject.sendRequest(null));
-}
-
-function makePutRequest(baseURL, path, params){
-    var url = baseURL + path + params;
-    var postRequestObject = new ClientRequest("PUT", url);
-
-    return JSON.parse(postRequestObject.sendRequest(null));
-}
-
-function makeDeleteRequest(baseURL, path){
-    var url = baseURL + path + params;
-    var postRequestObject = new ClientRequest("DELETE", url);
-
-    return JSON.parse(postRequestObject.sendRequest(null));
+    return JSON.parse(requestObject.sendRequest(null));
 }
 
 /*
@@ -40,12 +15,11 @@ function requestRegulars(baseURL){
     var title = document.getElementById("section-title");
     title.innerHTML = "Regular students";
 
-    var regularStudents = makeGetRequest(baseURL, "regulars");
+    var regularStudents = makeRequest("GET", baseURL, "regulars");
     var aRegStudent = new RegularStudent();
     var regularStudentsArray = aRegStudent.jsonArrayToRegularArray(regularStudents);
 
     createDataTable(regularStudentsArray);
-
     // console.log(regularStudents);
     // var regularStudent = makeGetRequest(baseURL, "regulars/1");
     // aRegStudent.jsonToRegularStudent(aRegStudent, regularStudent.data);
@@ -56,13 +30,11 @@ function requestScholarships(baseURL){
     var title = document.getElementById("section-title");
     title.innerHTML = "Scholarship students";
 
-    var scholarshipStudents = makeGetRequest(baseURL, "scholarships");
+    var scholarshipStudents = makeRequest("GET", baseURL, "scholarships");
     var aSchStudent = new ScholarshipStudent();
     var scholarshipStudentsArray = aSchStudent.jsonArrayToScholarshipArray(scholarshipStudents);
 
     createDataTable(scholarshipStudentsArray);
-    addLinkToDetails();
-
     // console.log(scholarshipStudents);
     // var scholarStudent = makeGetRequest(baseURL, "scholarships/1");
     // aSchStudent.jsonToScholarshipStudent(aSchStudent, scholarStudent.data);
@@ -73,13 +45,11 @@ function requestSubjects(baseURL){
     var title = document.getElementById("section-title");
     title.innerHTML = "Subjects";
 
-    var subjects = makeGetRequest(baseURL, "subjects");
+    var subjects = makeRequest("GET", baseURL, "subjects");
     var aSubject = new Subject();
     var subjectsArray= aSubject.jsonArrayToSubjectArray(subjects);
 
     createDataTable(subjectsArray);
-    addLinkToDetails();
-
     // console.log(subjects);
     // var subject = makeGetRequest(baseURL, "subjects/1");
     // aSubject.jsonToSubject(aSubject, subject.data);
@@ -90,64 +60,45 @@ function requestClassrooms(baseURL){
     var title = document.getElementById("section-title");
     title.innerHTML = "Classrooms";
 
-    var classrooms = makeGetRequest(baseURL, "classrooms");
+    var classrooms = makeRequest("GET", baseURL, "classrooms");
     var aClassroom = new Classroom();
     var classroomsArray= aClassroom.jsonArrayToClassroomArray(classrooms);
 
     createDataTable(classroomsArray);
-    addLinkToDetails();
-
     // console.log(classrooms);
     // var classroom = makeGetRequest(baseURL, "classrooms/1");
     // aClassroom.jsonToClassroom(aClassroom, classroom.data);
     // console.log(aClassroom);
 }
 
-function addLinkToDetails(baseURL){
-    var rows = document.getElementsByClassName("item");
-    var x;
-    var pressed;
-
-    for(x = 0; x < rows.length; x++){
-        (function(x1){
-            rows[x1].onclick = function(e){
-                pressed = rows[x1];
-                showDetails(baseURL, pressed);
-            }
-        })(x);
-    }
-}
-
-function showDetails(baseURL, pressed){
-    var classes = (pressed.className).split(" ");
-    var content = document.getElementById("content");
-    var path = determinePressed(classes);
-    var object = makeGetRequest(baseURL, path);
-
-    restartEmptySettings(content);
-    createDetails(content, object);
-}
-
-function determinePressed(classes){
+function determinePath(classes){
     var type;
-    var id = classes[2];
+    var id = classes[1];
 
-    switch (classes[1]) {
-        case "regularstudent":
+    switch (classes[0]) {
+        case "RegularStudent":
             type = "regulars";
             break;
-        case "scholarsipstudent":
+        case "ScholarshipStudent":
             type = "scholarships";
             break;
-        case "subject":
+        case "Subject":
             type = "subjects";
             break;
-        case "classroom":
-            type = "clasrooms";
+        case "Classroom":
+            type = "classrooms";
             break;
     }
 
     return type + "/" + id;
+}
+
+function requestElement(classname){
+    // console.log(classes[0]);
+    var classes = classname.split(" ");
+    var path = determinePath(classes);
+    var object = makeRequest("GET", baseURL, path);
+    console.log(object);
 }
 
 // var method = "GET";
@@ -177,33 +128,27 @@ function determinePressed(classes){
 // var putRequest = new ClientRequest(method4, putURL);
 // console.log(putRequest.sendRequest(null));
 
+var baseURL = "http://127.0.0.1:8585/api/";
 window.onload = function doEverything(){
-    var baseURL = "http://10.100.1.85:8000/api/";
 
     // DOM References and events
     var showRegulars = document.getElementById("reg_students");
     showRegulars.onclick = function() {
         requestRegulars(baseURL);
-        addLinkToDetails(baseURL);
     };
 
     var showScholarships = document.getElementById("sch_students");
     showScholarships.onclick = function() {
         requestScholarships(baseURL)
-        addLinkToDetails(baseURL);
     };
 
     var showSubjects = document.getElementById("subjects");
     showSubjects.onclick = function() {
         requestSubjects(baseURL)
-        addLinkToDetails(baseURL);
     };
 
     var showClassrooms = document.getElementById("classrooms");
     showClassrooms.onclick = function() {
         requestClassrooms(baseURL)
-        addLinkToDetails(baseURL);
     };
-
-
 }

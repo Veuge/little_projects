@@ -40,10 +40,14 @@ function createTableRow(table, object){
     var actual;
     var str;
     var i;
-    var classname = object.constructor.name.toLowerCase() + " " + object.id;
+    var classname = object.constructor.name + " " + object.id;
 
     newRow = document.createElement("tr");
     newRow.className = "item " + classname;
+    newRow.onclick = function(){
+        requestElement(classname);
+    }
+
     for(attr in object){
         if(object.hasOwnProperty(attr)){
             newCell = document.createElement("td");
