@@ -44,6 +44,8 @@ function createTableRow(table, object){
 
     newRow = document.createElement("tr");
     newRow.className = "item " + classname;
+
+    // TODO: INSTEAD OF CLASSNAME I COULD PASS THE OBJECT PER SAY.
     newRow.onclick = function(){
         requestElement(classname);
     }
@@ -65,12 +67,16 @@ function restartEmptySettings(node){
     }
 }
 
-function createDetails(container, object){
+function createDetails(object, array, value){
+    var container = document.getElementById("content");
+    restartEmptySettings(content);
+
     var newDescriptionList = document.createElement("dl");
     var newDataTerm;
     var newDataDesc;
     var text;
     var attr;
+    var newButton;
 
     for(attr in object){
         if (object.hasOwnProperty(attr)) {
@@ -85,5 +91,36 @@ function createDetails(container, object){
             newDescriptionList.appendChild(newDataDesc);
         }
     }
+
+    if(array){
+        newDataTerm = document.createElement("dt");
+        text = document.createTextNode(array[0].constructor.name);
+        newDataTerm.appendChild(text);
+        newDescriptionList.appendChild(newDataTerm)
+
+            array.forEach(function(item){
+                newDataDesc = document.createElement("dd");
+                text = document.createTextNode(item[value]);
+                newDataDesc.appendChild(text);
+                newDescriptionList.appendChild(newDataDesc);
+            });
+    }
     container.appendChild(newDescriptionList);
+
+    newButton = document.createElement("button");
+    text = document.createTextNode("Delete");
+    newButton.appendChild(text);
+    newButton.onclick = function(){
+        deleteElement(object);
+    }
+    container.appendChild(newButton);
+
+    newButton = document.createElement("button");
+    text = document.createTextNode("Edit");
+    newButton.appendChild(text);
+    newButton.onclick = function(){
+        editElement(object);
+    }
+
+    container.appendChild(newButton);
 }

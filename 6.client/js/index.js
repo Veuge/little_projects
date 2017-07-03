@@ -11,7 +11,7 @@ function makeRequest(method, baseURL, path){
 * Functions triggered on click
 */
 
-function requestRegulars(baseURL){
+function requestRegulars(){
     var title = document.getElementById("section-title");
     title.innerHTML = "Regular students";
 
@@ -24,6 +24,19 @@ function requestRegulars(baseURL){
     // var regularStudent = makeGetRequest(baseURL, "regulars/1");
     // aRegStudent.jsonToRegularStudent(aRegStudent, regularStudent.data);
     // console.log(aRegStudent);
+}
+
+function requestRegular(id){
+    var path = "regulars/" + id;
+    var regularStudent = makeRequest("GET", baseURL, path);
+    var aRegStudent = new RegularStudent();
+    aRegStudent.jsonToRegularStudent(aRegStudent, regularStudent.data);
+
+    var subjects = makeRequest("GET", baseURL, path + "/subjects");
+    var aSubject = new Subject();
+    var subjectsArray = aSubject.jsonArrayToSubjectArray(subjects);
+
+    createDetails(aRegStudent, subjectsArray, "name");
 }
 
 function requestScholarships(baseURL){
@@ -41,6 +54,19 @@ function requestScholarships(baseURL){
     // console.log(aSchStudent);
 }
 
+function requestScholarship(id){
+    var path = "scholarships/" + id;
+    var scholarStudent = makeRequest("GET", baseURL, path);
+    var aSchStudent = new ScholarshipStudent();
+    aSchStudent.jsonToScholarshipStudent(aSchStudent, scholarStudent.data);
+
+    var subjects = makeRequest("GET", baseURL, path + "/subjects");
+    var aSubject = new Subject();
+    var subjectsArray = aSubject.jsonArrayToSubjectArray(subjects);
+
+    createDetails(aSchStudent, subjectsArray, "name");
+}
+
 function requestSubjects(baseURL){
     var title = document.getElementById("section-title");
     title.innerHTML = "Subjects";
@@ -54,6 +80,19 @@ function requestSubjects(baseURL){
     // var subject = makeGetRequest(baseURL, "subjects/1");
     // aSubject.jsonToSubject(aSubject, subject.data);
     // console.log(aSubject);
+}
+
+function requestSubject(id){
+    var path = "subjects/" + id;
+    var subject = makeRequest("GET", baseURL, path);
+    var aSubject = new Subject();
+    aSubject.jsonToSubject(aSubject, subject.data);
+
+    var students = makeRequest("GET", baseURL, path + "/students");
+    var aStudent = new RegularStudent();
+    var studentsArray = aStudent.jsonArrayToRegularArray(students);
+
+    createDetails(aSubject, studentsArray, "last_name");
 }
 
 function requestClassrooms(baseURL){
@@ -71,10 +110,45 @@ function requestClassrooms(baseURL){
     // console.log(aClassroom);
 }
 
-function determinePath(classes){
-    var path = "";
+function requestClassroom(id){
+    var path = "classrooms/" + id;
+    var classroom = makeRequest("GET", baseURL, path);
+    var aClassrooms = new Classroom();
+    aClassrooms.jsonToClassroom(aClassrooms, classroom.data);
+
+    createDetails(aClassrooms);
+}
+
+function determineRequest(classes){
+    var id = "" + classes[1];
 
     switch (classes[0]) {
+        case "RegularStudent":
+            requestRegular(id);
+            break;
+        case "ScholarshipStudent":
+            requestScholarship(id);
+            break;
+        case "Subject":
+            requestSubject(id);
+            break;
+        case "Classroom":
+            requestClassroom(id);
+            break;
+    }
+}
+
+function requestElement(classname){
+    var classes = classname.split(" ");
+    var template = {};
+    determineRequest(classes);
+}
+
+function deleteElement(object){
+    var path = object.constructor.name;
+    var id;
+
+    switch (path) {
         case "RegularStudent":
             path = "regulars";
             break;
@@ -88,15 +162,12 @@ function determinePath(classes){
             path = "classrooms";
             break;
     }
-    return path + "/" + classes[1];
-}
+    path += "/" + object.id;
 
-function requestElement(classname){
-    // console.log(classes[0]);
-    var classes = classname.split(" ");
-    var path = determinePath(classes);
-    var object = makeRequest("GET", baseURL, path);
-    console.log(object);
+    if(confirm("Are you sure you want to delete the element?")){
+        makeRequest("DELETE", baseURL, path);
+        requestRegulars();
+    }
 }
 
 // var method = "GET";
