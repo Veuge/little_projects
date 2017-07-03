@@ -165,12 +165,17 @@ function deleteElement(object){
     }
 }
 
+function editElement(object){
+    console.log("Something", object);
+}
+
 // var method = "GET";
-// var url = "http://localhost:8000/api/regulars";
+// var url = "http://10.100.1.85:8585/api/regulars";
 // var asyncbool = true;
 // var getRequest = new ClientRequest(method, url);
 //
 // console.log(getRequest.sendRequest(null));
+
 
 // var method2 = "POST";
 // var params = "?name=Augusto&last_name=Medinaceli&gender=male&last_payment=2017-05-05&next_payment=2018-05-05&subjects_allowed=6";
@@ -179,9 +184,9 @@ function deleteElement(object){
 //
 // var postRequest = new ClientRequest(method2, postURL);
 // console.log(postRequest.sendRequest(null));
-
+//
 // var method3 = "DELETE";
-// var deleteURL = "http://10.100.1.85:8000/api/regulars/10";
+// var deleteURL = "http://10.100.1.85:8585/api/regulars/18";
 // var deleteRequest = new ClientRequest(method3, deleteURL);
 // console.log(deleteRequest.sendRequest(null));
 
@@ -192,27 +197,27 @@ function deleteElement(object){
 // var putRequest = new ClientRequest(method4, putURL);
 // console.log(putRequest.sendRequest(null));
 
-var baseURL = "http://127.0.0.1:8585/api/";
+var baseURL = "http://10.100.1.85:8585/api/";
 window.onload = function doEverything(){
 
     // DOM References and events
     var showRegulars = document.getElementById("reg_students");
     showRegulars.onclick = function() {
-        requestRegulars(baseURL);
+        requestRegulars();
     };
 
     var showScholarships = document.getElementById("sch_students");
     showScholarships.onclick = function() {
-        requestScholarships(baseURL)
+        requestScholarships()
     };
 
     var showSubjects = document.getElementById("subjects");
     showSubjects.onclick = function() {
-        requestSubjects(baseURL)
+        requestSubjects()
     };
 
     var showClassrooms = document.getElementById("classrooms");
     showClassrooms.onclick = function() {
-        requestClassrooms(baseURL)
+        requestClassrooms()
     };
 }

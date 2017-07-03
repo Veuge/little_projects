@@ -107,21 +107,17 @@ function createDetails(object, array, value){
     }
     container.appendChild(newDescriptionList);
 
-    // TODO: Function to append buttons
-    newButton = document.createElement("button");
-    text = document.createTextNode("Delete");
-    newButton.appendChild(text);
-    newButton.onclick = function(){
-        deleteElement(object);
-    }
-    container.appendChild(newButton);
+    createButton(container, "Delete", "danger", object, deleteElement);
+    createButton(container, "Edit", "warning", object, editElement);
+}
 
-    newButton = document.createElement("button");
-    text = document.createTextNode("Edit");
+function createButton(container, text, classname, object, functionCallback){
+    var newButton = document.createElement("button");
+    var text = document.createTextNode(text);
     newButton.appendChild(text);
+    newButton.className = classname;
     newButton.onclick = function(){
-        editElement(object);
+        functionCallback(object);
     }
-
     container.appendChild(newButton);
 }
