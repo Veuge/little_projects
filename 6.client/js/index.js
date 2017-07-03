@@ -72,25 +72,23 @@ function requestClassrooms(baseURL){
 }
 
 function determinePath(classes){
-    var type;
-    var id = classes[1];
+    var path = "";
 
     switch (classes[0]) {
         case "RegularStudent":
-            type = "regulars";
+            path = "regulars";
             break;
         case "ScholarshipStudent":
-            type = "scholarships";
+            path = "scholarships";
             break;
         case "Subject":
-            type = "subjects";
+            path = "subjects";
             break;
         case "Classroom":
-            type = "classrooms";
+            path = "classrooms";
             break;
     }
-
-    return type + "/" + id;
+    return path + "/" + classes[1];
 }
 
 function requestElement(classname){
