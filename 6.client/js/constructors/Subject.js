@@ -27,3 +27,25 @@ Subject.prototype.jsonArrayToSubjectArray = function(jsonArray){
     }
     return subjectsArray;
 }
+
+Subject.prototype.validateInput = function(){
+    var errorsBag = [];
+
+    if(this.name.length <= 4){
+        errorsBag.push("Field name must contain at least 4 characters");
+    }
+
+    if(this.description.length < 10){
+        errorsBag.push("The description field must contain at least 10 characters");
+    }
+
+    if(Number(this.credits) < 5 || Number(this.credits) > 10){
+        errorsBag.push("The discount field must be between 5 and 10");
+    }
+
+    if(Number(this.classroom_id) >= 5 || Number(this.classroom_id) <= 1){
+        errorsBag.push("The discount field must be between 1 and 5");
+    }
+
+    return errorsBag;
+}

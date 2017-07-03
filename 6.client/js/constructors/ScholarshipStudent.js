@@ -26,3 +26,18 @@ ScholarshipStudent.prototype.jsonArrayToScholarshipArray = function (jsonArray){
     }
     return scholarshipsArray;
 }
+
+ScholarshipStudent.prototype.validateInput = function(){
+    var errorsBag = [];
+    errorsBag = this.validate(errorsBag);
+
+    if(Number(this.discount) < 10 || Number(this.discount) > 30){
+        errorsBag.push("The discount field must be between 10 and 30");
+    }
+
+    if(Number(this.min_gpa) < 0 || Number(this.min_gpa) >= 5){
+        errorsBag.push("The min_gpa field must contain a number between 0,0 and 5,0.");
+    }
+
+    return errorsBag;
+}

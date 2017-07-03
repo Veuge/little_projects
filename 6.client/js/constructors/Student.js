@@ -13,3 +13,21 @@ Student.prototype.jsonToStudent = function (student, jsonData){
     student.gender = jsonData.gender;
     student.last_payment = jsonData.last_payment;
 }
+
+Student.prototype.validate = function(errorsBag){
+    var checkvalue = this.last_payment;
+    var genders = ["female", "male", "Female", "Male"];
+
+    if(this.name.length <= 4 || this.last_name.length <= 4){
+        errorsBag.push("Fields name and last name must contain at least 4 characters");
+    }
+
+    if(genders.indexOf(this.gender) < 0){
+        errorsBag.push("Field gender is incorrect. Valid options are 'female' or 'male'");
+    }
+    checkvalue = this.last_payment;
+    if(isNaN(Date.parse(checkvalue))){
+        errorsBag.push("The date format in last_payment is not correct. The correct format is yyyy-mm-dd");
+    }
+    return errorsBag;
+}

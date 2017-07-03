@@ -45,6 +45,7 @@ function requestScholarships(){
     var aSchStudent = new ScholarshipStudent();
     var scholarshipStudentsArray = aSchStudent.jsonArrayToScholarshipArray(scholarshipStudents);
 
+    createButton(title, "+", "btn info", aSchStudent, createElement);
     createDataTable(scholarshipStudentsArray);
     // console.log(scholarshipStudents);
     // var scholarStudent = makeGetRequest(baseURL, "scholarships/1");
@@ -73,6 +74,7 @@ function requestSubjects(){
     var aSubject = new Subject();
     var subjectsArray= aSubject.jsonArrayToSubjectArray(subjects);
 
+    createButton(title, "+", "btn info", aSubject, createElement);
     createDataTable(subjectsArray);
     // console.log(subjects);
     // var subject = makeGetRequest(baseURL, "subjects/1");
@@ -101,6 +103,7 @@ function requestClassrooms(){
     var aClassroom = new Classroom();
     var classroomsArray= aClassroom.jsonArrayToClassroomArray(classrooms);
 
+    createButton(title, "+", "btn info", aClassroom, createElement);
     createDataTable(classroomsArray);
     // console.log(classrooms);
     // var classroom = makeGetRequest(baseURL, "classrooms/1");
@@ -164,13 +167,39 @@ function deleteElement(object){
 }
 
 function editElement(object){
-    console.log("Something", object);
-
     createForm(object);
 }
 
-function createElement(){
-    console.log("CREATE!");
+function createElement(object){
+    createForm(object);
+}
+
+function getUserInput(object){
+    console.log("First", object);
+    var input = document.querySelectorAll(".user-input");
+    var i = 0;
+    var attr;
+    console.log(input);
+    while(i < input.length){
+        for (attr in object) {
+            if (object.hasOwnProperty(attr) && attr !== "id") {
+                object[attr] = input[i].value;
+            }
+            i++;
+        }
+    }
+
+    var errorsBag = object.validateInput();
+    if(errorsBag.length === 0){
+        console.log("valid");
+    }
+    else{
+        console.log(errorsBag);
+    }
+    // path += input[i].attributes.name.value + "=";
+    // path += input[i].value;
+    // i !== input.length - 1 ? path += "&" : path += "";
+    // console.log(path);
 }
 
 // var method = "GET";

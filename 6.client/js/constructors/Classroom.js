@@ -23,3 +23,17 @@ Classroom.prototype.jsonArrayToClassroomArray = function(jsonArray){
     }
     return classroomsArray;
 }
+
+Classroom.prototype.validateInput = function(){
+    var errorsBag = [];
+
+    if(this.classroom_name.length <= 4){
+        errorsBag.push("Field name must contain at least 4 characters");
+    }
+
+    if(Number(this.capacity) < 30 || Number(this.capacity) > 70){
+        errorsBag.push("The discount field must be between 10 and 70");
+    }
+
+    return errorsBag;
+}

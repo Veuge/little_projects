@@ -26,3 +26,18 @@ RegularStudent.prototype.jsonArrayToRegularArray = function (jsonArray){
     }
     return regularsArray;
 }
+
+RegularStudent.prototype.validateInput = function(){
+    var errorsBag = [];
+    errorsBag = this.validate(errorsBag);
+    var checkvalue = this.next_payment;
+
+    if(isNaN(Date.parse(checkvalue))){
+        errorsBag.push("The date format in next_payment is not correct. The correct format is yyyy-mm-dd");
+    }
+
+    if(Number(this.subjects_allowed) < 0 || this.subjects_allowed > 8){
+        errorsBag.push("The subjects_allowed value must be between 0 and 8");
+    }
+    return errorsBag;
+}

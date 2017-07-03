@@ -127,11 +127,11 @@ function createForm(object){
     restartEmptySettings(container);
 
     var newForm = document.createElement("form");
+    newForm.setAttribute("id", "form-user");
     var attr;
     var newLabel;
     var newInput;
     var text;
-    var btn;
 
     for (attr in object) {
         if (object.hasOwnProperty(attr)) {
@@ -142,15 +142,18 @@ function createForm(object){
 
             newInput = document.createElement("input");
             newInput.setAttribute("name", attr);
-            newInput.value = object[attr];
+            newInput.className = "user-input";
+            object[attr] === undefined ? newInput.value = "" : newInput.value = object[attr];
             newForm.appendChild(newInput);
         }
     }
-    btn = document.createElement("button");
-    btn.className = "btn info";
-    text = document.createTextNode("Submit");
-    btn.appendChild(text);
-    newForm.appendChild(btn);
-
     container.appendChild(newForm)
+    createButton(container, "Submit", "btn info", object, getUserInput, object);
+    //
+    // btn = document.createElement("button");
+    // btn.className = "btn info";
+    // text = document.createTextNode("Submit");
+    // btn.appendChild(text);
+    // newForm.appendChild(btn);
+
 }
