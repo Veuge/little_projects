@@ -216,7 +216,7 @@ function getUserInput(object){
     while(i < input.length){
         for (attr in object) {
             if (object.hasOwnProperty(attr) && attr !== "id") {
-                object[attr] = input[i].value;
+                object[attr] = input[i - 1].value;
             }
             i++;
         }
