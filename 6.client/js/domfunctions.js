@@ -121,3 +121,36 @@ function createButton(container, text, classname, object, functionCallback){
     }
     container.appendChild(newButton);
 }
+
+function createForm(object){
+    var container = document.getElementById("content");
+    restartEmptySettings(container);
+
+    var newForm = document.createElement("form");
+    var attr;
+    var newLabel;
+    var newInput;
+    var text;
+    var btn;
+
+    for (attr in object) {
+        if (object.hasOwnProperty(attr)) {
+            newLabel = document.createElement("label");
+            text = document.createTextNode(attr);
+            newLabel.appendChild(text);
+            newForm.appendChild(newLabel);
+
+            newInput = document.createElement("input");
+            newInput.setAttribute("name", attr);
+            newInput.value = object[attr];
+            newForm.appendChild(newInput);
+        }
+    }
+    btn = document.createElement("button");
+    btn.className = "btn info";
+    text = document.createTextNode("Submit");
+    btn.appendChild(text);
+    newForm.appendChild(btn);
+
+    container.appendChild(newForm)
+}

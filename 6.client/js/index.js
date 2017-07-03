@@ -12,18 +12,16 @@ function makeRequest(method, baseURL, path){
 */
 
 function requestRegulars(){
+    var main = document.getElementById("main-content");
     var title = document.getElementById("section-title");
+    var aRegStudent = new RegularStudent();
     title.innerHTML = "Regular students";
 
     var regularStudents = makeRequest("GET", baseURL, "regulars");
-    var aRegStudent = new RegularStudent();
     var regularStudentsArray = aRegStudent.jsonArrayToRegularArray(regularStudents);
 
+    createButton(title, "+", "btn info", aRegStudent, createElement);
     createDataTable(regularStudentsArray);
-    // console.log(regularStudents);
-    // var regularStudent = makeGetRequest(baseURL, "regulars/1");
-    // aRegStudent.jsonToRegularStudent(aRegStudent, regularStudent.data);
-    // console.log(aRegStudent);
 }
 
 function requestRegular(id){
@@ -39,7 +37,7 @@ function requestRegular(id){
     createDetails(aRegStudent, subjectsArray, "name");
 }
 
-function requestScholarships(baseURL){
+function requestScholarships(){
     var title = document.getElementById("section-title");
     title.innerHTML = "Scholarship students";
 
@@ -67,7 +65,7 @@ function requestScholarship(id){
     createDetails(aSchStudent, subjectsArray, "name");
 }
 
-function requestSubjects(baseURL){
+function requestSubjects(){
     var title = document.getElementById("section-title");
     title.innerHTML = "Subjects";
 
@@ -95,7 +93,7 @@ function requestSubject(id){
     createDetails(aSubject, studentsArray, "last_name");
 }
 
-function requestClassrooms(baseURL){
+function requestClassrooms(){
     var title = document.getElementById("section-title");
     title.innerHTML = "Classrooms";
 
@@ -167,6 +165,12 @@ function deleteElement(object){
 
 function editElement(object){
     console.log("Something", object);
+
+    createForm(object);
+}
+
+function createElement(){
+    console.log("CREATE!");
 }
 
 // var method = "GET";
