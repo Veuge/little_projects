@@ -174,12 +174,45 @@ function createElement(object){
     createForm(object);
 }
 
+function postNewElement(object){
+    var path = object.constructor.name;
+    // var id = object.id;
+
+    switch (path) {
+        case "RegularStudent":
+            path = "regulars";
+            break;
+        case "ScholarshipStudent":
+            path = "scholarships";
+            break;
+        case "Subject":
+            path = "subjects";
+            break;
+        case "Classroom":
+            path = "classrooms";
+            break;
+    }
+
+    path += "?";
+    for (attr in object) {
+        if (object.hasOwnProperty(attr) && attr != "id") {
+            path += attr + "=";
+            path += object[attr] + "&";
+        }
+    }
+    path = path.substring(0, path.length - 1);
+
+    console.log(path);
+    var response = makeRequest("POST", baseURL, path);
+    console.log(response);
+}
+
 function getUserInput(object){
-    console.log("First", object);
     var input = document.querySelectorAll(".user-input");
     var i = 0;
     var attr;
-    console.log(input);
+    var path = "?";
+
     while(i < input.length){
         for (attr in object) {
             if (object.hasOwnProperty(attr) && attr !== "id") {
@@ -191,15 +224,12 @@ function getUserInput(object){
 
     var errorsBag = object.validateInput();
     if(errorsBag.length === 0){
-        console.log("valid");
+        postNewElement(object);
     }
     else{
+        // showFormErrors(errorsBag);
         console.log(errorsBag);
     }
-    // path += input[i].attributes.name.value + "=";
-    // path += input[i].value;
-    // i !== input.length - 1 ? path += "&" : path += "";
-    // console.log(path);
 }
 
 // var method = "GET";

@@ -134,7 +134,7 @@ function createForm(object){
     var text;
 
     for (attr in object) {
-        if (object.hasOwnProperty(attr)) {
+        if (object.hasOwnProperty(attr) && attr != "id") {
             newLabel = document.createElement("label");
             text = document.createTextNode(attr);
             newLabel.appendChild(text);
@@ -156,4 +156,32 @@ function createForm(object){
     // btn.appendChild(text);
     // newForm.appendChild(btn);
 
+}
+
+function showFormErrors(errors){
+    var errorsContainer = document.getElementById("errorsContainer");
+
+    var errorMessages = document.createElement("div");
+    errorMessages.className = "errors";
+    errorMessages.setAttribute("id", "formErrors");
+
+    var errorTitle = document.createElement("strong");
+    var title = document.createTextNode("Errors in form");
+    errorTitle.appendChild(title);
+    errorMessages.appendChild(errorTitle);
+    errorsContainer.appendChild(errorMessages);
+
+    var listErrors = document.createElement("ul");
+    var i;
+    var errorItem;
+    var errorText;
+
+    for(i = 0; i < errors.length; i++){
+        errorItem = document.createElement("li");
+        errorText = document.createTextNode(errors[i]);
+        errorItem.appendChild(errorText);
+        listErrors.appendChild(errorItem);
+    }
+    errorMessages.appendChild(listErrors);
+    console.log(errorMessages);
 }
