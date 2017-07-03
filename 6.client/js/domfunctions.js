@@ -115,7 +115,7 @@ function createButton(container, text, classname, object, functionCallback){
     var newButton = document.createElement("button");
     var text = document.createTextNode(text);
     newButton.appendChild(text);
-    newButton.className = classname;
+    newButton.className = classname + " btn";
     newButton.onclick = function(){
         functionCallback(object);
     }
