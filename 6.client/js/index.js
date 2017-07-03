@@ -119,10 +119,11 @@ function requestClassroom(id){
     createDetails(aClassrooms);
 }
 
-function determineRequest(classes){
-    var id = "" + classes[1];
+function requestElement(object){
+    var path = object.constructor.name;
+    var id = object.id;
 
-    switch (classes[0]) {
+    switch (path) {
         case "RegularStudent":
             requestRegular(id);
             break;
@@ -138,15 +139,9 @@ function determineRequest(classes){
     }
 }
 
-function requestElement(classname){
-    var classes = classname.split(" ");
-    var template = {};
-    determineRequest(classes);
-}
-
 function deleteElement(object){
     var path = object.constructor.name;
-    var id;
+    var id = object.id;
 
     switch (path) {
         case "RegularStudent":
@@ -162,7 +157,7 @@ function deleteElement(object){
             path = "classrooms";
             break;
     }
-    path += "/" + object.id;
+    path += "/" + id;
 
     if(confirm("Are you sure you want to delete the element?")){
         makeRequest("DELETE", baseURL, path);

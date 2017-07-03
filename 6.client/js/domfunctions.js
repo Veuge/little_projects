@@ -47,7 +47,7 @@ function createTableRow(table, object){
 
     // TODO: INSTEAD OF CLASSNAME I COULD PASS THE OBJECT PER SAY.
     newRow.onclick = function(){
-        requestElement(classname);
+        requestElement(object);
     }
 
     for(attr in object){
@@ -107,6 +107,7 @@ function createDetails(object, array, value){
     }
     container.appendChild(newDescriptionList);
 
+    // TODO: Function to append buttons
     newButton = document.createElement("button");
     text = document.createTextNode("Delete");
     newButton.appendChild(text);
