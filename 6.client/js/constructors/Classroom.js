@@ -4,10 +4,10 @@ function Classroom(id, classroom_name, capacity){
     this.capacity = capacity;
 }
 
-Classroom.prototype.jsonToClassroom = function(classroom, jsonData){
-    classroom.id = jsonData.id;
-    classroom.classroom_name = jsonData.classroom_name;
-    classroom.capacity = jsonData.capacity;
+Classroom.prototype.jsonToClassroom = function(jsonData){
+    this.id = jsonData.id;
+    this.classroom_name = jsonData.classroom_name;
+    this.capacity = jsonData.capacity;
 }
 
 Classroom.prototype.jsonArrayToClassroomArray = function(jsonArray){
@@ -18,7 +18,7 @@ Classroom.prototype.jsonArrayToClassroomArray = function(jsonArray){
 
     for(i = 0; i < arrayJson.length; i++){
         classroom = new Classroom();
-        classroom.jsonToClassroom(classroom, arrayJson[i]);
+        classroom.jsonToClassroom(arrayJson[i]);
         classroomsArray.push(classroom);
     }
     return classroomsArray;

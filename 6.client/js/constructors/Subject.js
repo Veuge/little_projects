@@ -6,12 +6,12 @@ function Subject(id, name, description, credits, classroom_id){
     this.classroom_id = classroom_id;
 }
 
-Subject.prototype.jsonToSubject = function(subject, jsonData){
-    subject.id = jsonData.id;
-    subject.name = jsonData.name;
-    subject.description = jsonData.description;
-    subject.credits = jsonData.credits;
-    subject.classroom_id = jsonData.classroom_id;
+Subject.prototype.jsonToSubject = function(jsonData){
+    this.id = jsonData.id;
+    this.name = jsonData.name;
+    this.description = jsonData.description;
+    this.credits = jsonData.credits;
+    this.classroom_id = jsonData.classroom_id;
 }
 
 Subject.prototype.jsonArrayToSubjectArray = function(jsonArray){
@@ -22,7 +22,7 @@ Subject.prototype.jsonArrayToSubjectArray = function(jsonArray){
 
     for(i = 0; i < arrayJson.length; i++){
         subject = new Subject();
-        subject.jsonToSubject(subject, arrayJson[i]);
+        subject.jsonToSubject(arrayJson[i]);
         subjectsArray.push(subject);
     }
     return subjectsArray;

@@ -28,7 +28,7 @@ function requestRegular(id){
     var path = "regulars/" + id;
     var regularStudent = makeRequest("GET", baseURL, path);
     var aRegStudent = new RegularStudent();
-    aRegStudent.jsonToRegularStudent(aRegStudent, regularStudent.data);
+    aRegStudent.jsonToRegularStudent(regularStudent.data);
 
     var subjects = makeRequest("GET", baseURL, path + "/subjects");
     var aSubject = new Subject();
@@ -57,7 +57,7 @@ function requestScholarship(id){
     var path = "scholarships/" + id;
     var scholarStudent = makeRequest("GET", baseURL, path);
     var aSchStudent = new ScholarshipStudent();
-    aSchStudent.jsonToScholarshipStudent(aSchStudent, scholarStudent.data);
+    aSchStudent.jsonToScholarshipStudent(scholarStudent.data);
 
     var subjects = makeRequest("GET", baseURL, path + "/subjects");
     var aSubject = new Subject();
@@ -86,7 +86,7 @@ function requestSubject(id){
     var path = "subjects/" + id;
     var subject = makeRequest("GET", baseURL, path);
     var aSubject = new Subject();
-    aSubject.jsonToSubject(aSubject, subject.data);
+    aSubject.jsonToSubject(subject.data);
 
     var students = makeRequest("GET", baseURL, path + "/students");
     var aStudent = new RegularStudent();
@@ -115,7 +115,7 @@ function requestClassroom(id){
     var path = "classrooms/" + id;
     var classroom = makeRequest("GET", baseURL, path);
     var aClassrooms = new Classroom();
-    aClassrooms.jsonToClassroom(aClassrooms, classroom.data);
+    aClassrooms.jsonToClassroom(classroom.data);
 
     createDetails(aClassrooms);
 }

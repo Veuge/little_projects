@@ -6,12 +6,12 @@ function Student(id, name, last_name, gender, last_payment){
     this.last_payment = last_payment;
 }
 
-Student.prototype.jsonToStudent = function (student, jsonData){
-    student.id = jsonData.id;
-    student.name = jsonData.name;
-    student.last_name = jsonData.last_name;
-    student.gender = jsonData.gender;
-    student.last_payment = jsonData.last_payment;
+Student.prototype.jsonToStudent = function (jsonData){
+    this.id = jsonData.id;
+    this.name = jsonData.name;
+    this.last_name = jsonData.last_name;
+    this.gender = jsonData.gender;
+    this.last_payment = jsonData.last_payment;
 }
 
 Student.prototype.validate = function(errorsBag){
