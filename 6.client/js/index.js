@@ -11,17 +11,16 @@ function makeRequest(method, baseURL, path){
 * Functions triggered on click
 */
 
-function requestRegulars(){
+function getCollection(collectionName, path, template, conversionFunction){
     var main = document.getElementById("main-content");
     var title = document.getElementById("section-title");
-    var aRegStudent = new RegularStudent();
-    title.innerHTML = "Regular students";
+    title.innerHTML = collectionName;
 
-    var regularStudents = makeRequest("GET", baseURL, "regulars");
-    var regularStudentsArray = aRegStudent.jsonArrayToRegularArray(regularStudents);
+    var jsonArray = makeRequest("GET", baseURL, path);
+    var objectsArray = conversionFunction(jsonArray);
 
-    createButton(title, "+", "btn info", aRegStudent, createElement);
-    createDataTable(regularStudentsArray);
+    createButton(title, "+", "btn info", template, createElement);
+    createDataTable(objectsArray);
 }
 
 function requestRegular(id){
@@ -37,22 +36,6 @@ function requestRegular(id){
     createDetails(aRegStudent, subjectsArray, "name");
 }
 
-function requestScholarships(){
-    var title = document.getElementById("section-title");
-    title.innerHTML = "Scholarship students";
-
-    var scholarshipStudents = makeRequest("GET", baseURL, "scholarships");
-    var aSchStudent = new ScholarshipStudent();
-    var scholarshipStudentsArray = aSchStudent.jsonArrayToScholarshipArray(scholarshipStudents);
-
-    createButton(title, "+", "btn info", aSchStudent, createElement);
-    createDataTable(scholarshipStudentsArray);
-    // console.log(scholarshipStudents);
-    // var scholarStudent = makeGetRequest(baseURL, "scholarships/1");
-    // aSchStudent.jsonToScholarshipStudent(aSchStudent, scholarStudent.data);
-    // console.log(aSchStudent);
-}
-
 function requestScholarship(id){
     var path = "scholarships/" + id;
     var scholarStudent = makeRequest("GET", baseURL, path);
@@ -66,22 +49,6 @@ function requestScholarship(id){
     createDetails(aSchStudent, subjectsArray, "name");
 }
 
-function requestSubjects(){
-    var title = document.getElementById("section-title");
-    title.innerHTML = "Subjects";
-
-    var subjects = makeRequest("GET", baseURL, "subjects");
-    var aSubject = new Subject();
-    var subjectsArray= aSubject.jsonArrayToSubjectArray(subjects);
-
-    createButton(title, "+", "btn info", aSubject, createElement);
-    createDataTable(subjectsArray);
-    // console.log(subjects);
-    // var subject = makeGetRequest(baseURL, "subjects/1");
-    // aSubject.jsonToSubject(aSubject, subject.data);
-    // console.log(aSubject);
-}
-
 function requestSubject(id){
     var path = "subjects/" + id;
     var subject = makeRequest("GET", baseURL, path);
@@ -93,22 +60,6 @@ function requestSubject(id){
     var studentsArray = aStudent.jsonArrayToRegularArray(students);
 
     createDetails(aSubject, studentsArray, "last_name");
-}
-
-function requestClassrooms(){
-    var title = document.getElementById("section-title");
-    title.innerHTML = "Classrooms";
-
-    var classrooms = makeRequest("GET", baseURL, "classrooms");
-    var aClassroom = new Classroom();
-    var classroomsArray= aClassroom.jsonArrayToClassroomArray(classrooms);
-
-    createButton(title, "+", "btn info", aClassroom, createElement);
-    createDataTable(classroomsArray);
-    // console.log(classrooms);
-    // var classroom = makeGetRequest(baseURL, "classrooms/1");
-    // aClassroom.jsonToClassroom(aClassroom, classroom.data);
-    // console.log(aClassroom);
 }
 
 function requestClassroom(id){
@@ -266,21 +217,25 @@ window.onload = function doEverything(){
     // DOM References and events
     var showRegulars = document.getElementById("reg_students");
     showRegulars.onclick = function() {
-        requestRegulars();
+        var regStudent = new RegularStudent();
+        getCollection("Regular students", "regulars", regStudent, regStudent.jsonArrayToRegularArray);
     };
 
     var showScholarships = document.getElementById("sch_students");
     showScholarships.onclick = function() {
-        requestScholarships()
+        var scholarStudent = new ScholarshipStudent();
+        getCollection("Scholarship students", "scholarships", scholarStudent, scholarStudent.jsonArrayToScholarshipArray);
     };
 
     var showSubjects = document.getElementById("subjects");
     showSubjects.onclick = function() {
-        requestSubjects()
+        var subject = new Subject();
+        getCollection("Subjects", "subjects", subject, subject.jsonArrayToSubjectArray);
     };
 
     var showClassrooms = document.getElementById("classrooms");
     showClassrooms.onclick = function() {
-        requestClassrooms()
+        var classroom = new Classroom();
+        getCollection("Classrooms", "classrooms", classroom, classroom.jsonArrayToClassroomArray);
     };
 }
