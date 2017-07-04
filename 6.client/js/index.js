@@ -11,6 +11,8 @@ function makeRequest(method, baseURL, path){
 * Functions triggered on click
 */
 
+// TODO: apply single responsability!
+
 function getCollection(collectionName, path, template, conversionFunction){
     var main = document.getElementById("main-content");
     var title = document.getElementById("section-title");
@@ -21,11 +23,33 @@ function getCollection(collectionName, path, template, conversionFunction){
 
     createButton(title, "+", "btn info", template, createElement);
     createDataTable(objectsArray);
+
+    // TODO: Apply a logic to show in another column if the template class has a n to m relationship with another
+    // class!
+}
+
+function getSingleItem(path, template, conversionFunction){
+    var jsonObject = makeRequest("GET", baseURL, path);
+    // TODO: Revise the concepts of passing by reference instead of by value to understand this!
+    conversionFunction(jsonObject.data);
+
+    // TODO: How do I verify if I have to make a get request to an object that has n to m relationship in database?
+    if(template.hasManyToManyRelationship){
+        getCollection()
+    }
 }
 
 function requestRegular(id){
     var path = "regulars/" + id;
     var regularStudent = makeRequest("GET", baseURL, path);
+
+    // IDEA: This is a better approach to be able to process get requests of collections and single items
+    // at a time, but it requires that the JSON response from the server returns an array of one item when
+    // the get request is of the type /something/{id}
+
+    // var aRegStudent = new RegularStudent();
+    // console.log(aRegStudent.jsonArrayToRegularArray(regularStudent));
+
     var aRegStudent = new RegularStudent();
     aRegStudent.jsonToRegularStudent(regularStudent.data);
 
