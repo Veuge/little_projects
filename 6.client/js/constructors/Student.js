@@ -28,6 +28,11 @@ Student.prototype.jsonArrayToStudentArray = function (jsonArray){
     return studentsArray;
 }
 
+Student.prototype.studentToJson = function(){
+    var jsonObject = JSON.parse(JSON.stringify(this));
+    return jsonObject;
+}
+
 Student.prototype.validate = function(errorsBag){
     var checkvalue = this.last_payment;
     var genders = ["female", "male", "Female", "Male"];

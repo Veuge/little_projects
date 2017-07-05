@@ -19,16 +19,16 @@ function getCollection(path, conversionFunction){
 function fromClassnameToPath(classname){
     switch (classname) {
         case "RegularStudent":
-            return "regulars/";
+            return "regulars";
             break;
         case "ScholarshipStudent":
-            return "scholarships/";
+            return "scholarships";
             break;
         case "Subject":
-            return "subjects/";
+            return "subjects";
             break;
         case "Classroom":
-            return "classrooms/";
+            return "classrooms";
             break;
     }
 }
@@ -88,7 +88,7 @@ function requestElement(object){
 
 function deleteElement(object){
     var path = fromClassnameToPath(object.constructor.name);
-    path += object.id;
+    path += "/" + object.id;
     var response;
 
     // gets all the object's methods.
@@ -113,34 +113,19 @@ function createElement(object){
 }
 
 function postNewElement(object){
-    var path = object.constructor.name;
-    // var id = object.id;
+    var path = fromClassnameToPath(object.constructor.name);
+    console.log(object);
 
-    switch (path) {
-        case "RegularStudent":
-            path = "regulars";
-            break;
-        case "ScholarshipStudent":
-            path = "scholarships";
-            break;
-        case "Subject":
-            path = "subjects";
-            break;
-        case "Classroom":
-            path = "classrooms";
-            break;
-    }
-
-    path += "?";
-    for (attr in object) {
-        if (object.hasOwnProperty(attr) && attr != "id") {
-            path += attr + "=";
-            path += object[attr] + "&";
-        }
-    }
-    path = path.substring(0, path.length - 1);
-
-    console.log(path);
+    // path += "?";
+    // for (attr in object) {
+    //     if (object.hasOwnProperty(attr) && attr != "id") {
+    //         path += attr + "=";
+    //         path += object[attr] + "&";
+    //     }
+    // }
+    // path = path.substring(0, path.length - 1);
+    //
+    // console.log(path);
     var response = makeRequest("POST", baseURL, path);
     console.log(response);
 }
@@ -218,4 +203,13 @@ window.onload = function doEverything(){
         createTitle(title, template, createElement);
         createDataTable(arrayOfObjects);
     };
+
+    // console.log(baseURL + "classrooms");
+    var x = new Classroom(100, "oh-na-na", 50);
+    delete(x.id);
+    var cr = new ClientRequest("POST", baseURL + "classrooms", undefined);
+    var json = JSON.stringify(x);
+    console.log(json);
+    // console.log(json);
+    console.log(cr.sendRequest(json));
 }
