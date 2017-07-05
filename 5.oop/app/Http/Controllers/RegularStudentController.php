@@ -68,12 +68,16 @@ class RegularStudentController extends ApiController
         }
 
         return response([
+
             'data' => $this->regularTransformer->transform($regular)
 
             // IDEA: This works to return an array of one item
             // 'data' => [
             //     $this->regularTransformer->transform($regular)
             // ]
+            'data' => [
+                $this->regularTransformer->transform($regular)
+            ]
         ]);
     }
 

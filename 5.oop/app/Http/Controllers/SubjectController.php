@@ -72,7 +72,9 @@ class SubjectController extends ApiController
         }
         else {
             return $this->response([
-                'data' => $this->subjectTransformer->transform($subject)
+                'data' => [
+                    $this->subjectTransformer->transform($subject)
+                ]
             ]);
         }
     }
