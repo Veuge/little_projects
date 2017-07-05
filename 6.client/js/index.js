@@ -1,5 +1,3 @@
-console.log("here we are");
-
 function makeRequest(method, baseURL, path){
     var url = baseURL + path;
     var requestObject = new ClientRequest(method, url);
@@ -35,7 +33,7 @@ function getSingleItem(path, template, conversionFunction){
 
     // TODO: How do I verify if I have to make a get request to an object that has n to m relationship in database?
     if(template.hasManyToManyRelationship){
-        getCollection()
+        getCollection();
     }
 }
 
@@ -47,15 +45,15 @@ function requestRegular(id){
     // at a time, but it requires that the JSON response from the server returns an array of one item when
     // the get request is of the type /something/{id}
 
-    // var aRegStudent = new RegularStudent();
-    // console.log(aRegStudent.jsonArrayToRegularArray(regularStudent));
-
     var aRegStudent = new RegularStudent();
-    aRegStudent.jsonToRegularStudent(regularStudent.data);
+    console.log(aRegStudent.jsonArrayToRegularArray(regularStudent));
 
-    var subjects = makeRequest("GET", baseURL, path + "/subjects");
-    var aSubject = new Subject();
-    var subjectsArray = aSubject.jsonArrayToSubjectArray(subjects);
+    // var aRegStudent = new RegularStudent();
+    // aRegStudent.jsonToRegularStudent(regularStudent.data);
+
+    // var subjects = makeRequest("GET", baseURL, path + "/subjects");
+    // var aSubject = new Subject();
+    // var subjectsArray = aSubject.jsonArrayToSubjectArray(subjects);
 
     createDetails(aRegStudent, subjectsArray, "name");
 }
