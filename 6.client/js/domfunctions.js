@@ -1,3 +1,10 @@
+function createTitle(collectionName, template, createFunction){
+    var title_section = document.getElementById("section-title");
+    title_section.innerHTML = collectionName;
+
+    createButton(title_section, "+", "btn info", template, createFunction);
+}
+
 function createDataTable(objectArray){
     var content = document.getElementById("content");
     restartEmptySettings(content);

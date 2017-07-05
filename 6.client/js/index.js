@@ -1,3 +1,5 @@
+console.log("here we are");
+
 function makeRequest(method, baseURL, path){
     var url = baseURL + path;
     var requestObject = new ClientRequest(method, url);
@@ -11,19 +13,11 @@ function makeRequest(method, baseURL, path){
 
 // TODO: apply single responsability!
 
-function getCollection(collectionName, path, template, conversionFunction){
-    var main = document.getElementById("main-content");
-    var title = document.getElementById("section-title");
-    title.innerHTML = collectionName;
-
+function getCollection(path, conversionFunction){
     var jsonArray = makeRequest("GET", baseURL, path);
     var objectsArray = conversionFunction(jsonArray);
 
-    createButton(title, "+", "btn info", template, createElement);
-    createDataTable(objectsArray);
-
-    // TODO: Apply a logic to show in another column if the template class has a n to m relationship with another
-    // class!
+    return objectsArray;
 }
 
 function getSingleItem(path, template, conversionFunction){
@@ -33,7 +27,7 @@ function getSingleItem(path, template, conversionFunction){
 
     // TODO: How do I verify if I have to make a get request to an object that has n to m relationship in database?
     if(template.hasManyToManyRelationship){
-        getCollection();
+        getCollection()
     }
 }
 
@@ -45,15 +39,15 @@ function requestRegular(id){
     // at a time, but it requires that the JSON response from the server returns an array of one item when
     // the get request is of the type /something/{id}
 
-    var aRegStudent = new RegularStudent();
-    console.log(aRegStudent.jsonArrayToRegularArray(regularStudent));
-
     // var aRegStudent = new RegularStudent();
-    // aRegStudent.jsonToRegularStudent(regularStudent.data);
+    // console.log(aRegStudent.jsonArrayToRegularArray(regularStudent));
 
-    // var subjects = makeRequest("GET", baseURL, path + "/subjects");
-    // var aSubject = new Subject();
-    // var subjectsArray = aSubject.jsonArrayToSubjectArray(subjects);
+    var aRegStudent = new RegularStudent();
+    aRegStudent.jsonToRegularStudent(regularStudent.data);
+
+    var subjects = makeRequest("GET", baseURL, path + "/subjects");
+    var aSubject = new Subject();
+    var subjectsArray = aSubject.jsonArrayToSubjectArray(subjects);
 
     createDetails(aRegStudent, subjectsArray, "name");
 }
@@ -235,29 +229,47 @@ function getUserInput(object){
 
 var baseURL = "http://10.100.1.85:8585/api/";
 window.onload = function doEverything(){
+    var showRegulars = document.getElementById("reg_students");
+    var showScholarships = document.getElementById("sch_students");
+    var showSubjects = document.getElementById("subjects");
+    var showClassrooms = document.getElementById("classrooms");
+
+    var regStudent = new RegularStudent();
+    var schStudent = new ScholarshipStudent();
+    var subject = new Subject();
+    var classroom = new Classroom();
+
+    var arrayRegulars;
+    var arrayScholarships;
+    var arraySubjects;
+    var arrayClassrooms;
 
     // DOM References and events
-    var showRegulars = document.getElementById("reg_students");
     showRegulars.onclick = function() {
-        var regStudent = new RegularStudent();
-        getCollection("Regular students", "regulars", regStudent, regStudent.jsonArrayToRegularArray);
+        arrayRegulars = getCollection("regulars", regStudent.jsonArrayToRegularArray);
+
+        createTitle("Regular Students", regStudent, createElement);
+        createDataTable(arrayRegulars);
     };
 
-    var showScholarships = document.getElementById("sch_students");
     showScholarships.onclick = function() {
-        var scholarStudent = new ScholarshipStudent();
-        getCollection("Scholarship students", "scholarships", scholarStudent, scholarStudent.jsonArrayToScholarshipArray);
+        arrayScholarships = getCollection("scholarships", schStudent.jsonArrayToScholarshipArray);
+
+        createTitle("Scholarship Students", schStudent, createElement);
+        createDataTable(arrayScholarships);
     };
 
-    var showSubjects = document.getElementById("subjects");
     showSubjects.onclick = function() {
-        var subject = new Subject();
-        getCollection("Subjects", "subjects", subject, subject.jsonArrayToSubjectArray);
+        arraySubjects = getCollection("subjects", subject.jsonArrayToSubjectArray);
+
+        createTitle("Subjects", subject, createElement);
+        createDataTable(arraySubjects);
     };
 
-    var showClassrooms = document.getElementById("classrooms");
     showClassrooms.onclick = function() {
-        var classroom = new Classroom();
-        getCollection("Classrooms", "classrooms", classroom, classroom.jsonArrayToClassroomArray);
+        arrayClassrooms = getCollection("classrooms", classroom.jsonArrayToClassroomArray);
+
+        createTitle("Classrooms", classroom, createElement);
+        createDataTable(arrayClassrooms);
     };
 }
