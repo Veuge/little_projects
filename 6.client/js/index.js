@@ -178,45 +178,44 @@ window.onload = function doEverything(){
     var showSubjects = document.getElementById("subjects");
     var showClassrooms = document.getElementById("classrooms");
 
-    /*
-    *   Empty instances of classes
-    */
-    var regStudent = new RegularStudent();
-    var schStudent = new ScholarshipStudent();
-    var subject = new Subject();
-    var classroom = new Classroom();
-
-    var arrayRegulars;
-    var arrayScholarships;
-    var arraySubjects;
-    var arrayClassrooms;
+    var arrayOfObjects;
+    var title;
+    var template;
 
     // DOM References and events
     showRegulars.onclick = function() {
-        arrayRegulars = getCollection("regulars", regStudent.jsonArrayToRegularArray);
+        template = new RegularStudent();
+        arrayOfObjects = getCollection("regulars", template.jsonArrayToRegularArray);
+        title = "Regular Students";
 
-        createTitle("Regular Students", regStudent, createElement);
-        createDataTable(arrayRegulars);
+        createTitle(title, template, createElement);
+        createDataTable(arrayOfObjects);
     };
 
     showScholarships.onclick = function() {
-        arrayScholarships = getCollection("scholarships", schStudent.jsonArrayToScholarshipArray);
+        template = new ScholarshipStudent();
+        arrayOfObjects = getCollection("scholarships", template.jsonArrayToScholarshipArray);
+        title = "Scholarship Students";
 
-        createTitle("Scholarship Students", schStudent, createElement);
-        createDataTable(arrayScholarships);
+        createTitle(title, template, createElement);
+        createDataTable(arrayOfObjects);
     };
 
     showSubjects.onclick = function() {
-        arraySubjects = getCollection("subjects", subject.jsonArrayToSubjectArray);
+        template = new Subject();
+        arrayOfObjects = getCollection("subjects", template.jsonArrayToSubjectArray);
+        title = "Subjects";
 
-        createTitle("Subjects", subject, createElement);
-        createDataTable(arraySubjects);
+        createTitle(title, template, createElement);
+        createDataTable(arrayOfObjects);
     };
 
     showClassrooms.onclick = function() {
-        arrayClassrooms = getCollection("classrooms", classroom.jsonArrayToClassroomArray);
+        template = new Classroom();
+        arrayOfObjects = getCollection("classrooms", template.jsonArrayToClassroomArray);
+        title = "Classrooms"
 
-        createTitle("Classrooms", classroom, createElement);
-        createDataTable(arrayClassrooms);
+        createTitle(title, template, createElement);
+        createDataTable(arrayOfObjects);
     };
 }

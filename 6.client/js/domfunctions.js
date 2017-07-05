@@ -52,7 +52,6 @@ function createTableRow(table, object){
     newRow = document.createElement("tr");
     newRow.className = "item " + classname;
 
-    // TODO: INSTEAD OF CLASSNAME I COULD PASS THE OBJECT PER SAY.
     newRow.onclick = function(){
         requestElement(object);
     }
