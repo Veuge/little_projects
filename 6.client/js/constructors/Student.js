@@ -14,6 +14,20 @@ Student.prototype.jsonToStudent = function (jsonData){
     this.last_payment = jsonData.last_payment;
 }
 
+Student.prototype.jsonArrayToStudentArray = function (jsonArray){
+    var arrayJson = jsonArray.data;
+    var studentsArray = [];
+    var i;
+    var student;
+
+    for (i = 0; i < arrayJson.length; i++) {
+        student = new Student();
+        student.jsonToStudent(arrayJson[i]);
+        studentsArray.push(student);
+    }
+    return studentsArray;
+}
+
 Student.prototype.validate = function(errorsBag){
     var checkvalue = this.last_payment;
     var genders = ["female", "male", "Female", "Male"];

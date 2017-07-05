@@ -85,15 +85,15 @@ function createDetails(object, array, value){
     var attr;
     var newButton;
 
-    for(attr in object){
-        if (object.hasOwnProperty(attr)) {
+    for(attr in object[0]){
+        if (object[0].hasOwnProperty(attr)) {
             newDataTerm = document.createElement("dt");
             text = document.createTextNode(attr);
             newDataTerm.appendChild(text);
             newDescriptionList.appendChild(newDataTerm)
 
             newDataDesc = document.createElement("dd");
-            text = document.createTextNode(object[attr]);
+            text = document.createTextNode(object[0][attr]);
             newDataDesc.appendChild(text);
             newDescriptionList.appendChild(newDataDesc);
         }
