@@ -63,7 +63,9 @@ class ClassroomController extends ApiController
         }
         else{
             return $this->response([
-                'data' => $this->classroomTransformer->transform($classroom)
+                'data' => [
+                    $this->classroomTransformer->transform($classroom)
+                ]
             ]);
         }
     }

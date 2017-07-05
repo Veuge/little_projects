@@ -68,7 +68,9 @@ class ScholarshipStudentController extends ApiController
         }
         else{
             return response([
-                'data' => $this->scholarshipTransformer->transform($scholarship)
+                'data' => [
+                    $this->scholarshipTransformer->transform($scholarship)
+                ]
             ]);
         }
     }

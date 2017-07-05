@@ -68,7 +68,9 @@ class RegularStudentController extends ApiController
         }
 
         return response([
-            'data' => $this->regularTransformer->transform($regular)
+            'data' => [
+                $this->regularTransformer->transform($regular)
+            ]
         ]);
     }
 
