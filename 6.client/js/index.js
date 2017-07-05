@@ -91,15 +91,16 @@ function deleteElement(object){
     path += object.id;
     var response;
 
-    // get all the object's methods.
-    
-    console.log(Object.getOwnPropertyNames(object.constructor.prototype));
+    // gets all the object's methods.
+    var conversionFunction = Object.getOwnPropertyNames(object.constructor.prototype)[2];
 
     if(confirm("Are you sure you want to delete the element?")){
         response = makeRequest("DELETE", baseURL, path);
         console.log(response);
 
-        // getCollection(path, object[]);
+        // redirect on delete
+        createTitle(object.constructor.name, object, createElement);
+        createDataTable(getCollection(fromClassnameToPath(object.constructor.name), object[conversionFunction]));
     }
 }
 

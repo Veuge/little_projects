@@ -31,7 +31,7 @@ ClientRequest.prototype.sendRequest = function(message){
     var xhr = this.createXHRObject();
     // console.log(xhr);
     xhr.open(this.method, this.url, this.asyncbool);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.setRequestHeader("Content-Type", "application/json");
     // console.log("request method", xhr.getAllResponseHeaders());
 
     xhr.send(message);
