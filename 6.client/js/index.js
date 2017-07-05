@@ -1,5 +1,3 @@
-console.log("here we are");
-
 function makeRequest(method, baseURL, path){
     var url = baseURL + path;
     var requestObject = new ClientRequest(method, url);
@@ -16,6 +14,40 @@ function getCollection(path, conversionFunction){
     var objectsArray = conversionFunction(jsonArray);
 
     return objectsArray;
+}
+
+function fromClassnameToPath(classname){
+    switch (classname) {
+        case "RegularStudent":
+            return "regulars/";
+            break;
+        case "ScholarshipStudent":
+            return "scholarships/";
+            break;
+        case "Subject":
+            return "subjects/";
+            break;
+        case "Classroom":
+            return "classrooms/";
+            break;
+    }
+}
+
+function fromPathToClassname(path){
+    switch (path) {
+        case "regulars/":
+            return "RegularStudent";
+            break;
+        case "scholarships/":
+            return "ScholarshipStudent";
+            break;
+        case "subjects/":
+            return "Subject";
+            break;
+        case "classrooms/":
+            return "Classroom";
+            break;
+    }
 }
 
 function requestElement(object){
@@ -55,28 +87,19 @@ function requestElement(object){
 }
 
 function deleteElement(object){
-    var path = object.constructor.name;
-    var id = object.id;
+    var path = fromClassnameToPath(object.constructor.name);
+    path += object.id;
+    var response;
 
-    switch (path) {
-        case "RegularStudent":
-            path = "regulars";
-            break;
-        case "ScholarshipStudent":
-            path = "scholarships";
-            break;
-        case "Subject":
-            path = "subjects";
-            break;
-        case "Classroom":
-            path = "classrooms";
-            break;
-    }
-    path += "/" + id;
+    // get all the object's methods.
+    
+    console.log(Object.getOwnPropertyNames(object.constructor.prototype));
 
     if(confirm("Are you sure you want to delete the element?")){
-        makeRequest("DELETE", baseURL, path);
-        requestRegulars();
+        response = makeRequest("DELETE", baseURL, path);
+        console.log(response);
+
+        // getCollection(path, object[]);
     }
 }
 

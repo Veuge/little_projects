@@ -99,23 +99,23 @@ function createDetails(object, array, value){
         }
     }
 
-    if(array){
+    if(array && array.length != 0){
         newDataTerm = document.createElement("dt");
         text = document.createTextNode(array[0].constructor.name);
         newDataTerm.appendChild(text);
-        newDescriptionList.appendChild(newDataTerm)
+        newDescriptionList.appendChild(newDataTerm);
 
-            array.forEach(function(item){
-                newDataDesc = document.createElement("dd");
-                text = document.createTextNode(item[value]);
-                newDataDesc.appendChild(text);
-                newDescriptionList.appendChild(newDataDesc);
-            });
+        array.forEach(function(item){
+            newDataDesc = document.createElement("dd");
+            text = document.createTextNode(item[value]);
+            newDataDesc.appendChild(text);
+            newDescriptionList.appendChild(newDataDesc);
+        });
     }
     container.appendChild(newDescriptionList);
 
-    createButton(container, "Delete", "danger", object, deleteElement);
-    createButton(container, "Edit", "warning", object, editElement);
+    createButton(container, "Delete", "danger", object[0], deleteElement);
+    createButton(container, "Edit", "warning", object[0], editElement);
 }
 
 function createButton(container, text, classname, object, functionCallback){
@@ -156,13 +156,6 @@ function createForm(object){
     }
     container.appendChild(newForm)
     createButton(container, "Submit", "btn info", object, getUserInput, object);
-    //
-    // btn = document.createElement("button");
-    // btn.className = "btn info";
-    // text = document.createTextNode("Submit");
-    // btn.appendChild(text);
-    // newForm.appendChild(btn);
-
 }
 
 function showFormErrors(errors){
