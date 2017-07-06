@@ -1,19 +1,103 @@
-function makeRequest(method, baseURL, path){
+function makeRequest(method, path, message){
     var url = baseURL + path;
     var requestObject = new ClientRequest(method, url);
 
-    return JSON.parse(requestObject.sendRequest(null));
+    return JSON.parse(requestObject.sendRequest(message));
 }
 
-/*
-* Functions triggered on click
-*/
-
 function getCollection(path, conversionFunction){
-    var jsonArray = makeRequest("GET", baseURL, path);
+    var jsonArray = makeRequest("GET", path, null);
     var objectsArray = conversionFunction(jsonArray);
 
     return objectsArray;
+}
+
+function getItem(object){
+    var path = object.constructor.name;
+    var id = object.id;
+
+    var item = [];
+    var relationship = [];
+    var child;
+
+    switch (path) {
+        case "RegularStudent":
+            item = getCollection("regulars/" + id, object.jsonArrayToRegularArray);
+            child = new Subject();
+            relationship = getCollection("regulars/" + id + "/subjects", child.jsonArrayToSubjectArray);
+            createDetails(item, relationship, "name");
+            break;
+        case "ScholarshipStudent":
+            item = getCollection("scholarships/" + id, object.jsonArrayToScholarshipArray);
+
+            child = new Subject();
+            relationship = getCollection("scholarships/" + id + "/subjects", child.jsonArrayToSubjectArray);
+            createDetails(item, relationship, "name");
+            break;
+        case "Subject":
+            item = getCollection("subjects/" + id, object.jsonArrayToSubjectArray);
+
+            child = new Student();
+            relationship = getCollection("subjects/" + id + "/students", child.jsonArrayToStudentArray);
+            createDetails(item, relationship, "last_name");
+            break;
+        case "Classroom":
+            item = getCollection("classrooms/" + id, object.jsonArrayToClassroomArray);
+            createDetails(item, null, "last_name");
+            break;
+    }
+}
+
+function deleteItem(object){
+    var path = fromClassnameToPath(object.constructor.name);
+    path += "/" + object.id;
+    var response;
+
+    // gets all the object's methods.
+    var conversionFunction = Object.getOwnPropertyNames(object.constructor.prototype)[2];
+
+    if(confirm("Are you sure you want to delete the element?")){
+        response = makeRequest("DELETE", path, null);
+        alert(response);
+
+        redirect(object, conversionFunction);
+    }
+}
+
+function postItem(object){
+    getUserInput(object);
+    var errorsBag = object.validateInput();
+    var path = fromClassnameToPath(object.constructor.name);
+    var response;
+    var conversionFunction = Object.getOwnPropertyNames(object.constructor.prototype)[2];
+
+    if(errorsBag.length === 0){
+        response = makeRequest("POST", path, JSON.stringify(object));
+        alert(response);
+
+        redirect(object, conversionFunction);
+    }
+    else{
+        console.log(errorsBag);
+    }
+}
+
+function editItem(object){
+    getUserInput(object);
+    var errorsBag = object.validateInput();
+    var path = fromClassnameToPath(object.constructor.name) + "/" + object.id;
+    var response;
+    var conversionFunction = Object.getOwnPropertyNames(object.constructor.prototype)[2];
+
+    if(errorsBag.length === 0){
+        response = makeRequest("PUT", path, JSON.stringify(object));
+        alert(response);
+
+        redirect(object, conversionFunction);
+    }
+    else {
+        console.log(errorsBag);
+    }
 }
 
 function fromClassnameToPath(classname){
@@ -50,84 +134,12 @@ function fromPathToClassname(path){
     }
 }
 
-function requestElement(object){
-    var path = object.constructor.name;
-    var id = object.id;
-
-    var item = [];
-    var relationship = [];
-    var child;
-
-    switch (path) {
-        case "RegularStudent":
-            item = getCollection("regulars/" + id, object.jsonArrayToRegularArray);
-            child = new Subject();
-            relationship = getCollection("regulars/" + id + "/subjects", child.jsonArrayToSubjectArray);
-            createDetails(item, relationship, "name");
-            break;
-        case "ScholarshipStudent":
-            item = getCollection("scholarships/" + id, object.jsonArrayToScholarshipArray);
-
-            child = new Subject();
-            relationship = getCollection("scholarships/" + id + "/subjects", child.jsonArrayToSubjectArray);
-            createDetails(item, relationship, "name");
-            break;
-        case "Subject":
-            item = getCollection("subjects/" + id, object.jsonArrayToSubjectArray);
-
-            child = new Student();
-            relationship = getCollection("subjects/" + id + "/students", child.jsonArrayToStudentArray);
-            createDetails(item, relationship, "last_name");
-            break;
-        case "Classroom":
-            item = getCollection("classrooms/" + id, object.jsonArrayToClassroomArray);
-            createDetails(item, null, "last_name");
-            break;
-    }
-}
-
-function deleteElement(object){
-    var path = fromClassnameToPath(object.constructor.name);
-    path += "/" + object.id;
-    var response;
-
-    // gets all the object's methods.
-    var conversionFunction = Object.getOwnPropertyNames(object.constructor.prototype)[2];
-
-    if(confirm("Are you sure you want to delete the element?")){
-        response = makeRequest("DELETE", baseURL, path);
-        console.log(response);
-
-        // redirect on delete
-        createTitle(object.constructor.name, object, createElement);
-        createDataTable(getCollection(fromClassnameToPath(object.constructor.name), object[conversionFunction]));
-    }
-}
-
 function editElement(object){
-    createForm(object);
+    createForm(object, "edit");
 }
 
 function createElement(object){
-    createForm(object);
-}
-
-function postNewElement(object){
-    var path = fromClassnameToPath(object.constructor.name);
-    console.log(object);
-
-    // path += "?";
-    // for (attr in object) {
-    //     if (object.hasOwnProperty(attr) && attr != "id") {
-    //         path += attr + "=";
-    //         path += object[attr] + "&";
-    //     }
-    // }
-    // path = path.substring(0, path.length - 1);
-    //
-    // console.log(path);
-    var response = makeRequest("POST", baseURL, path);
-    console.log(response);
+    createForm(object, "post");
 }
 
 function getUserInput(object){
@@ -145,14 +157,12 @@ function getUserInput(object){
         }
     }
 
-    var errorsBag = object.validateInput();
-    if(errorsBag.length === 0){
-        postNewElement(object);
-    }
-    else{
-        // showFormErrors(errorsBag);
-        console.log(errorsBag);
-    }
+    return object;
+}
+
+function redirect(object, conversionFunction){
+    createTitle(object.constructor.name, object, createElement);
+    createDataTable(getCollection(fromClassnameToPath(object.constructor.name), object[conversionFunction]));
 }
 
 var baseURL = "http://10.100.1.85:8585/api/";
@@ -204,12 +214,15 @@ window.onload = function doEverything(){
         createDataTable(arrayOfObjects);
     };
 
-    // console.log(baseURL + "classrooms");
-    var x = new Classroom(100, "oh-na-na", 50);
+    console.log(baseURL + "classrooms/6");
+    var x = new Classroom(100, "TES TES TES", 70);
     delete(x.id);
-    var cr = new ClientRequest("POST", baseURL + "classrooms", undefined);
+    var path = baseURL + "classrooms/6";
+    console.log("path", path);
+    // var cr = new ClientRequest("PUT", path, undefined);
     var json = JSON.stringify(x);
     console.log(json);
     // console.log(json);
-    console.log(cr.sendRequest(json));
+    console.log(makeRequest("PUT", "classrooms/6", json));
+    // console.log(cr.sendRequest(json));
 }

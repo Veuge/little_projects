@@ -53,7 +53,7 @@ function createTableRow(table, object){
     newRow.className = "item " + classname;
 
     newRow.onclick = function(){
-        requestElement(object);
+        getItem(object);
     }
 
     for(attr in object){
@@ -113,7 +113,7 @@ function createDetails(object, array, value){
     }
     container.appendChild(newDescriptionList);
 
-    createButton(container, "Delete", "danger", object[0], deleteElement);
+    createButton(container, "Delete", "danger", object[0], deleteItem);
     createButton(container, "Edit", "warning", object[0], editElement);
 }
 
@@ -128,7 +128,7 @@ function createButton(container, text, classname, object, functionCallback){
     container.appendChild(newButton);
 }
 
-function createForm(object){
+function createForm(object, action){
     var container = document.getElementById("content");
     restartEmptySettings(container);
 
@@ -153,8 +153,15 @@ function createForm(object){
             newForm.appendChild(newInput);
         }
     }
-    container.appendChild(newForm)
-    createButton(container, "Submit", "btn info", object, getUserInput, object);
+    container.appendChild(newForm);
+    // TODO: ask if it's an edit or a create form, if it's edit the following button should call the function editItem
+    // instead of postItem
+    if(action === "edit"){
+        createButton(container, "Submit", "btn info", object, editItem, object);
+    }
+    else if(action === "post"){
+        createButton(container, "Submit", "btn info", object, postItem, object);
+    }
 }
 
 function showFormErrors(errors){

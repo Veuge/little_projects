@@ -37,7 +37,7 @@ Student.prototype.validate = function(errorsBag){
     var checkvalue = this.last_payment;
     var genders = ["female", "male", "Female", "Male"];
 
-    if(this.name.length <= 4 || this.last_name.length <= 4){
+    if(this.name.length < 4 || this.last_name.length < 4){
         errorsBag.push("Fields name and last name must contain at least 4 characters");
     }
 

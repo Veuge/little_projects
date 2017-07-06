@@ -40,11 +40,11 @@ Subject.prototype.validateInput = function(){
     }
 
     if(Number(this.credits) < 5 || Number(this.credits) > 10){
-        errorsBag.push("The discount field must be between 5 and 10");
+        errorsBag.push("The credit value must be between 5 and 10");
     }
 
     if(Number(this.classroom_id) >= 5 || Number(this.classroom_id) <= 1){
-        errorsBag.push("The discount field must be between 1 and 5");
+        errorsBag.push("The classroom id must be between 1 and 5");
     }
 
     return errorsBag;
