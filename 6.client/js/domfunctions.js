@@ -14,6 +14,8 @@ function createDataTable(objectArray){
     content.appendChild(newTable);
 
     var table = document.getElementById("data-table");
+
+    createFilter(content);
     createTableHeader(table, objectArray[0]);
     objectArray.forEach(function createRows(object){
         createTableRow(table, object);
@@ -164,6 +166,20 @@ function createForm(object, action){
     else if(action === "post"){
         createButton(container, "Submit", "btn info", object, postItem, object);
     }
+}
+
+function createFilter(content){
+    console.log("FILTER");
+    // <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+    var newInput = document.createElement("input");
+    newInput.setAttribute("type", "text");
+    newInput.setAttribute("id", "filter");
+    newInput.setAttribute("placeholder", "Search...");
+    newInput.onkeyup = function(){
+        filterTable();
+    }
+
+    content.appendChild(newInput);
 }
 
 function showFormErrors(errors){

@@ -61,6 +61,34 @@ function sortTable(n) {
     }
 }
 
+function filterTable() {
+    // Declare variables
+    var input = document.getElementById("myInput");
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("data-table");
+    var tr = table.getElementsByTagName("tr");
+    console.log(tr[1].cells.length);
+
+    var td;
+    var i;
+    var j = 0;
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+        // while (j < tr[i].cells.length) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+            // j++;
+        // }
+        // j = 0;
+    }
+}
+
 function isNumber(test){
     if(! isNaN(Number(test)))
         return true;
