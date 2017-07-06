@@ -12,6 +12,8 @@ function getCollection(path, conversionFunction){
     return objectsArray;
 }
 
+// TODO: this function should only return the selected item with it's relationships (if exist), and then call the
+// createDetails function. Apply single responsibility!
 function getItem(object){
     var path = object.constructor.name;
     var id = object.id;
@@ -78,6 +80,7 @@ function postItem(object){
         redirect(object, conversionFunction);
     }
     else{
+        showFormErrors(errorsBag);
         console.log(errorsBag);
     }
 }
@@ -156,13 +159,21 @@ function getUserInput(object){
             i++;
         }
     }
-
     return object;
 }
 
 function redirect(object, conversionFunction){
     createTitle(object.constructor.name, object, createElement);
     createDataTable(getCollection(fromClassnameToPath(object.constructor.name), object[conversionFunction]));
+}
+
+function processServerResponse(response){
+    if(response.error){
+
+    }
+    else if (response.success) {
+
+    }
 }
 
 var baseURL = "http://10.100.1.85:8585/api/";
@@ -214,15 +225,15 @@ window.onload = function doEverything(){
         createDataTable(arrayOfObjects);
     };
 
-    console.log(baseURL + "classrooms/6");
-    var x = new Classroom(100, "TES TES TES", 70);
-    delete(x.id);
-    var path = baseURL + "classrooms/6";
-    console.log("path", path);
-    // var cr = new ClientRequest("PUT", path, undefined);
-    var json = JSON.stringify(x);
-    console.log(json);
+    // console.log(baseURL + "classrooms/6");
+    // var x = new Classroom(100, "TES TES TES", 70);
+    // delete(x.id);
+    // var path = baseURL + "classrooms/6";
+    // console.log("path", path);
+    // // var cr = new ClientRequest("PUT", path, undefined);
+    // var json = JSON.stringify(x);
     // console.log(json);
-    console.log(makeRequest("PUT", "classrooms/6", json));
-    // console.log(cr.sendRequest(json));
+    // // console.log(json);
+    // console.log(makeRequest("PUT", "classrooms/6", json));
+    // // console.log(cr.sendRequest(json));
 }

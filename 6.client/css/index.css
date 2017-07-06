@@ -78,6 +78,10 @@ table {
     width: 100%;
 }
 
+th{
+    cursor: pointer;
+}
+
 th, td {
     text-align: left;
     padding: 8px;
@@ -151,4 +155,10 @@ input{
     float: left;
     font-size: 15px;
     padding-left: 3px;
+}
+
+.errors{
+    margin: 20px;
+    color: white;
+    background-color: #f44336;
 }

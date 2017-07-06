@@ -33,6 +33,10 @@ function createTableHeader(table, object){
             text = document.createTextNode(attr);
             newCell.appendChild(text);
             newHeader.appendChild(newCell);
+
+            newCell.onclick = function(e){
+                sortTable(e.target.cellIndex);
+            }
         }
     }
     table.appendChild(newHeader);
@@ -154,8 +158,6 @@ function createForm(object, action){
         }
     }
     container.appendChild(newForm);
-    // TODO: ask if it's an edit or a create form, if it's edit the following button should call the function editItem
-    // instead of postItem
     if(action === "edit"){
         createButton(container, "Submit", "btn info", object, editItem, object);
     }
@@ -165,7 +167,7 @@ function createForm(object, action){
 }
 
 function showFormErrors(errors){
-    var errorsContainer = document.getElementById("errorsContainer");
+    var container = document.getElementById("content");
 
     var errorMessages = document.createElement("div");
     errorMessages.className = "errors";
@@ -175,7 +177,7 @@ function showFormErrors(errors){
     var title = document.createTextNode("Errors in form");
     errorTitle.appendChild(title);
     errorMessages.appendChild(errorTitle);
-    errorsContainer.appendChild(errorMessages);
+    container.appendChild(errorMessages);
 
     var listErrors = document.createElement("ul");
     var i;
