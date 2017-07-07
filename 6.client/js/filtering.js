@@ -89,40 +89,40 @@ function filterTable() {
     }
 }
 
-function prevPage(paginator){
-    console.log("prev page");
+function prevPage(args){
+    var limit = args[0].limit;
+    var nextPage = Number(args[0].current_page) - 1;
 
-    var limit = paginator.limit;
-    var nextPage = Number(paginator.current_page) -  1;
+    var path = fromClassnameToPath(args[1].constructor.name);
+    var conversionFunction = Object.getOwnPropertyNames(args[1].constructor.prototype)[2];;
 
     if(nextPage > 0){
-        var pathStr = "regulars?" + "limit=" + limit + "&page=" + nextPage;
+        var pathStr = path + "?" + "limit=" + limit + "&page=" + nextPage;
         var path = encodeURI(pathStr);
 
-        var template = new RegularStudent();
-        var arrayOfObjects = getCollection(path, template.jsonArrayToRegularArray);
-        title = "Regular Students";
+        var arrayOfObjects = getCollection(path, args[1][conversionFunction]);
+        title = args[1].constructor.name;
 
-        createTitle(title, template, createElement);
+        createTitle(title, args[1], createElement);
         createDataTable(arrayOfObjects);
     }
 }
 
-function nextPage(paginator){
-    console.log("next page", paginator);
+function nextPage(args){
+    var limit = args[0].limit;
+    var nextPage = Number(args[0].current_page) + 1;
 
-    var limit = paginator.limit;
-    var nextPage = Number(paginator.current_page) + 1;
+    var path = fromClassnameToPath(args[1].constructor.name);
+    var conversionFunction = Object.getOwnPropertyNames(args[1].constructor.prototype)[2];;
 
-    if(nextPage <= paginator.total_pages){
-        var pathStr = "regulars?" + "limit=" + limit + "&page=" + nextPage;
+    if(nextPage <= args[0].total_pages){
+        var pathStr = path + "?" + "limit=" + limit + "&page=" + nextPage;
         var path = encodeURI(pathStr);
 
-        var template = new RegularStudent();
-        var arrayOfObjects = getCollection(path, template.jsonArrayToRegularArray);
-        title = "Regular Students";
+        var arrayOfObjects = getCollection(path, args[1][conversionFunction]);
+        title = args[1].constructor.name;
 
-        createTitle(title, template, createElement);
+        createTitle(title, args[1], createElement);
         createDataTable(arrayOfObjects);
     }
 }

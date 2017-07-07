@@ -27,12 +27,8 @@ function createDataTable(objectArray){
         createTableRow(table, object);
     }
 
-    // objectArray.forEach(function createRows(object){
-    //     createTableRow(table, object);
-    // });
-
-    createButton(content, "<-", "btn", objectArray[0], prevPage, objectArray[objectArray.length - 1]);
-    createButton(content, "->", "btn", objectArray[0], nextPage, objectArray[objectArray.length - 1]);
+    createButton(content, "<", "btn paginator", objectArray[0], prevPage, [objectArray[objectArray.length - 1], objectArray[0]]);
+    createButton(content, ">", "btn paginator", objectArray[0], nextPage, [objectArray[objectArray.length - 1], objectArray[0]]);
 }
 
 function createTableHeader(table, object){
@@ -130,13 +126,6 @@ function createDetails(object, array, value){
             newDataDesc.appendChild(text);
             newDescriptionList.appendChild(newDataDesc);
         }
-
-        // array.forEach(function(item){
-        //     newDataDesc = document.createElement("dd");
-        //     text = document.createTextNode(item[value]);
-        //     newDataDesc.appendChild(text);
-        //     newDescriptionList.appendChild(newDataDesc);
-        // });
     }
     container.appendChild(newDescriptionList);
 
