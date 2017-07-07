@@ -7,6 +7,7 @@ use App\RegularStudent;
 use Api\Transformers\RegularStudentTransformer;
 use Api\Transformers\SubjectTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class RegularStudentController extends ApiController
 {
@@ -25,12 +26,14 @@ class RegularStudentController extends ApiController
      */
     public function index()
     {
-        $regulars = RegularStudent::all();
+        $limit = Input::get("limit") ?: 10 ;
+        $regulars = RegularStudent::paginate($limit);
+
         if(! $regulars){
             return $this->responseInternalError();
         }
         else{
-            return $this->response([
+            return $this->responseWithPagination($regulars, [
                 'data' => $this->regularTransformer->transformCollection($regulars->all())
             ]);
         }

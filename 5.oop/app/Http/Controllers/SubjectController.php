@@ -8,6 +8,7 @@ use Api\Transformers\SubjectTransformer;
 use Api\Transformers\RegularStudentTransformer;
 use Api\Transformers\ScholarshipStudentTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class SubjectController extends ApiController
 {
@@ -28,13 +29,14 @@ class SubjectController extends ApiController
      */
     public function index()
     {
-        $subjects = Subject::all();
+        $limit = Input::get("limit") ?: 10 ;
+        $subjects = Subject::paginate($limit);
 
         if(! $subjects){
             return $this->responseInternalError();
         }
         else {
-            return $this->response([
+            return $this->responseWithPagination($subjects, [
                 'data' => $this->subjectTransformer->transformCollection($subjects->all())
             ]);
         }
