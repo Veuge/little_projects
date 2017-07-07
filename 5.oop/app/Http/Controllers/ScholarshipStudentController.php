@@ -7,6 +7,7 @@ use App\ScholarshipStudent;
 use Api\Transformers\ScholarshipStudentTransformer;
 use Api\Transformers\SubjectTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class ScholarshipStudentController extends ApiController
 {
@@ -25,12 +26,14 @@ class ScholarshipStudentController extends ApiController
      */
     public function index()
     {
-        $scholarships = ScholarshipStudent::all();
+        $limit = Input::get("limit") ?: 10 ;
+        $scholarships = ScholarshipStudent::paginate($limit);
+
         if(! $scholarships){
             return $this->responseInternalError();
         }
         else{
-            return $this->response([
+            return $this->responseWithPagination($scholarships, [
                 'data' => $this->scholarshipTransformer->transformCollection($scholarships->all())
             ]);
         }

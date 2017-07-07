@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classroom;
 use Api\Transformers\ClassroomTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class ClassroomController extends ApiController
 {
@@ -21,12 +22,14 @@ class ClassroomController extends ApiController
      */
     public function index()
     {
-        $classrooms = Classroom::all();
+        $limit = Input::get("limit") ?: 10 ;
+        $classrooms = Classroom::paginate($limit);
+
         if(! $classrooms){
             return $this->responseInternalError();
         }
         else{
-            return $this->response([
+            return $this->responseWithPagination($classrooms, [
                 'data' => $this->classroomTransformer->transformCollection($classrooms->all())
             ]);
         }

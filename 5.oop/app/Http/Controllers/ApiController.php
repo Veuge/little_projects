@@ -23,6 +23,19 @@ class ApiController extends Controller
         return Response::json($data, $this->getStatusCode(), $headers);
     }
 
+    protected function responseWithPagination($collection, $data){
+        $data = array_merge($data, [
+            'paginator' => [
+                'total_count' => $collection->total(),
+                'total_pages' => ceil($collection->total() / $collection->count()),
+                'current_page' => $collection->resolveCurrentPage(),
+                'limit' => $collection->count()
+            ]
+        ]);
+
+        return $this->response($data);
+    }
+
     public function responseWithError($message){
         return $this->response([
             'error' => [
