@@ -15,6 +15,8 @@ RegularStudent.prototype.jsonToRegularStudent = function (jsonData){
 
 RegularStudent.prototype.jsonArrayToRegularArray = function (jsonArray){
     var arrayJson = jsonArray.data;
+    var paginator = jsonArray.paginator;
+
     var regularsArray = [];
     var i;
     var regularStudent;
@@ -24,6 +26,8 @@ RegularStudent.prototype.jsonArrayToRegularArray = function (jsonArray){
         regularStudent.jsonToRegularStudent(arrayJson[i]);
         regularsArray.push(regularStudent);
     }
+    regularsArray.push(paginator);
+
     return regularsArray;
 }
 

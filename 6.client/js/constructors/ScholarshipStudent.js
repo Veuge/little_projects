@@ -15,6 +15,8 @@ ScholarshipStudent.prototype.jsonToScholarshipStudent = function (jsonData){
 
 ScholarshipStudent.prototype.jsonArrayToScholarshipArray = function (jsonArray){
     var arrayJson = jsonArray.data;
+    var paginator = jsonArray.paginator;
+
     var scholarshipsArray = [];
     var i;
     var scholarshipStudent;
@@ -24,6 +26,8 @@ ScholarshipStudent.prototype.jsonArrayToScholarshipArray = function (jsonArray){
         scholarshipStudent.jsonToScholarshipStudent(arrayJson[i]);
         scholarshipsArray.push(scholarshipStudent);
     }
+    scholarshipsArray.push(paginator);
+
     return scholarshipsArray;
 }
 

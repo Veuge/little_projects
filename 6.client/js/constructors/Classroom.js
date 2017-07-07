@@ -12,6 +12,8 @@ Classroom.prototype.jsonToClassroom = function(jsonData){
 
 Classroom.prototype.jsonArrayToClassroomArray = function(jsonArray){
     var arrayJson = jsonArray.data;
+    var paginator = jsonArray.paginator;
+
     var classroomsArray = [];
     var i;
     var classroom;
@@ -21,6 +23,8 @@ Classroom.prototype.jsonArrayToClassroomArray = function(jsonArray){
         classroom.jsonToClassroom(arrayJson[i]);
         classroomsArray.push(classroom);
     }
+    classroomsArray.push(paginator);
+
     return classroomsArray;
 }
 

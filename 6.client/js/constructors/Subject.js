@@ -16,6 +16,8 @@ Subject.prototype.jsonToSubject = function(jsonData){
 
 Subject.prototype.jsonArrayToSubjectArray = function(jsonArray){
     var arrayJson = jsonArray.data;
+    var paginator = jsonArray.paginator;
+
     var subjectsArray = [];
     var i;
     var subject;
@@ -25,6 +27,8 @@ Subject.prototype.jsonArrayToSubjectArray = function(jsonArray){
         subject.jsonToSubject(arrayJson[i]);
         subjectsArray.push(subject);
     }
+    subjectsArray.push(paginator);
+
     return subjectsArray;
 }
 
