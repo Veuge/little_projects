@@ -62,30 +62,68 @@ function sortTable(n) {
 }
 
 function filterTable() {
-    // Declare variables
-    var input = document.getElementById("myInput");
+    var input = document.getElementById("filter");
     var filter = input.value.toUpperCase();
     var table = document.getElementById("data-table");
     var tr = table.getElementsByTagName("tr");
-    console.log(tr[1].cells.length);
-
     var td;
+    // var foundInRow = false;
+
     var i;
-    var j = 0;
-    // Loop through all table rows, and hide those who don't match the search query
-    for (i = 0; i < tr.length; i++) {
-        // while (j < tr[i].cells.length) {
-            td = tr[i].getElementsByTagName("td")[1];
-            if (td) {
-                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
+    var j;
+
+    for (i = 1; i < tr.length; i++) {
+        for (j = 0; j < tr[i].cells.length; j++) {
+            td = tr[i].getElementsByTagName("td")[j];
+
+            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+                break;
+            }
+            else {
+                if(j ===  tr[i].cells.length - 1){
                     tr[i].style.display = "none";
                 }
             }
-            // j++;
-        // }
-        // j = 0;
+        }
+    }
+}
+
+function prevPage(paginator){
+    console.log("prev page");
+
+    var limit = paginator.limit;
+    var nextPage = Number(paginator.current_page) -  1;
+
+    if(nextPage > 0){
+        var pathStr = "regulars?" + "limit=" + limit + "&page=" + nextPage;
+        var path = encodeURI(pathStr);
+
+        var template = new RegularStudent();
+        var arrayOfObjects = getCollection(path, template.jsonArrayToRegularArray);
+        title = "Regular Students";
+
+        createTitle(title, template, createElement);
+        createDataTable(arrayOfObjects);
+    }
+}
+
+function nextPage(paginator){
+    console.log("next page", paginator);
+
+    var limit = paginator.limit;
+    var nextPage = Number(paginator.current_page) + 1;
+
+    if(nextPage <= paginator.total_pages){
+        var pathStr = "regulars?" + "limit=" + limit + "&page=" + nextPage;
+        var path = encodeURI(pathStr);
+
+        var template = new RegularStudent();
+        var arrayOfObjects = getCollection(path, template.jsonArrayToRegularArray);
+        title = "Regular Students";
+
+        createTitle(title, template, createElement);
+        createDataTable(arrayOfObjects);
     }
 }
 

@@ -124,9 +124,17 @@ tr.item:hover {
     background: #da190b;
 }
 
+.info.add {
+    background-color: #2196F3;
+    float: right;
+    display: block;
+    border-radius: 100%;
+    font-size: 25px;
+}
+
 .info {
     background-color: #2196F3;
-    float: none;
+    float: right;
     display: block;
 }
 
@@ -161,4 +169,13 @@ input{
     margin: 20px;
     color: white;
     background-color: #f44336;
+}
+
+.input-filter{
+    width: 150px;
+    float: right;
+    display: inline-block;
+    margin: 15px 15px 25px 15px;
+    font-size: 16px;
+    height: 25px;
 }

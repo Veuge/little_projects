@@ -2,10 +2,14 @@ function createTitle(collectionName, template, createFunction){
     var title_section = document.getElementById("section-title");
     title_section.innerHTML = collectionName;
 
-    createButton(title_section, "+", "btn info", template, createFunction);
+    createButton(title_section, "+", "btn info add", template, createFunction, template);
+    createFilter(title_section);
 }
 
 function createDataTable(objectArray){
+    var object;
+    var i;
+
     var content = document.getElementById("content");
     restartEmptySettings(content);
 
@@ -15,11 +19,20 @@ function createDataTable(objectArray){
 
     var table = document.getElementById("data-table");
 
-    createFilter(content);
+    // createFilter(content);
     createTableHeader(table, objectArray[0]);
-    objectArray.forEach(function createRows(object){
+
+    for(i = 0; i < objectArray.length - 1; i++){
+        object = objectArray[i];
         createTableRow(table, object);
-    });
+    }
+
+    // objectArray.forEach(function createRows(object){
+    //     createTableRow(table, object);
+    // });
+
+    createButton(content, "<-", "btn", objectArray[0], prevPage, objectArray[objectArray.length - 1]);
+    createButton(content, "->", "btn", objectArray[0], nextPage, objectArray[objectArray.length - 1]);
 }
 
 function createTableHeader(table, object){
@@ -110,26 +123,34 @@ function createDetails(object, array, value){
         newDataTerm.appendChild(text);
         newDescriptionList.appendChild(newDataTerm);
 
-        array.forEach(function(item){
+        for(var i = 0; i < array.length - 1; i++){
+            var item = array[i];
             newDataDesc = document.createElement("dd");
             text = document.createTextNode(item[value]);
             newDataDesc.appendChild(text);
             newDescriptionList.appendChild(newDataDesc);
-        });
+        }
+
+        // array.forEach(function(item){
+        //     newDataDesc = document.createElement("dd");
+        //     text = document.createTextNode(item[value]);
+        //     newDataDesc.appendChild(text);
+        //     newDescriptionList.appendChild(newDataDesc);
+        // });
     }
     container.appendChild(newDescriptionList);
 
-    createButton(container, "Delete", "danger", object[0], deleteItem);
-    createButton(container, "Edit", "warning", object[0], editElement);
+    createButton(container, "Delete", "danger", object[0], deleteItem, object[0]);
+    createButton(container, "Edit", "warning", object[0], editElement, object[0]);
 }
 
-function createButton(container, text, classname, object, functionCallback){
+function createButton(container, text, classname, object, functionCallback, functionArguments){
     var newButton = document.createElement("button");
     var text = document.createTextNode(text);
     newButton.appendChild(text);
     newButton.className = classname + " btn";
     newButton.onclick = function(){
-        functionCallback(object);
+        functionCallback(functionArguments);
     }
     container.appendChild(newButton);
 }
@@ -169,9 +190,8 @@ function createForm(object, action){
 }
 
 function createFilter(content){
-    console.log("FILTER");
-    // <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
     var newInput = document.createElement("input");
+    newInput.className = "input-filter";
     newInput.setAttribute("type", "text");
     newInput.setAttribute("id", "filter");
     newInput.setAttribute("placeholder", "Search...");

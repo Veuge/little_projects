@@ -167,6 +167,7 @@ function redirect(object, conversionFunction){
     createDataTable(getCollection(fromClassnameToPath(object.constructor.name), object[conversionFunction]));
 }
 
+// TODO: HANDLE SERVER RESPONSE!!!!!!!
 function processServerResponse(response){
     if(response.error){
 
@@ -191,7 +192,7 @@ window.onload = function doEverything(){
     // DOM References and events
     showRegulars.onclick = function() {
         template = new RegularStudent();
-        arrayOfObjects = getCollection("regulars", template.jsonArrayToRegularArray);
+        arrayOfObjects = getCollection("regulars?limit=5&page=1", template.jsonArrayToRegularArray);
         title = "Regular Students";
 
         createTitle(title, template, createElement);
@@ -224,16 +225,4 @@ window.onload = function doEverything(){
         createTitle(title, template, createElement);
         createDataTable(arrayOfObjects);
     };
-
-    // console.log(baseURL + "classrooms/6");
-    // var x = new Classroom(100, "TES TES TES", 70);
-    // delete(x.id);
-    // var path = baseURL + "classrooms/6";
-    // console.log("path", path);
-    // // var cr = new ClientRequest("PUT", path, undefined);
-    // var json = JSON.stringify(x);
-    // console.log(json);
-    // // console.log(json);
-    // console.log(makeRequest("PUT", "classrooms/6", json));
-    // // console.log(cr.sendRequest(json));
 }
