@@ -97,14 +97,7 @@ function prevPage(args){
     var conversionFunction = Object.getOwnPropertyNames(args[1].constructor.prototype)[2];;
 
     if(nextPage > 0){
-        var pathStr = path + "?" + "limit=" + limit + "&page=" + nextPage;
-        var path = encodeURI(pathStr);
-
-        var arrayOfObjects = getCollection(path, args[1][conversionFunction]);
-        title = args[1].constructor.name;
-
-        createTitle(title, args[1], createElement);
-        createDataTable(arrayOfObjects);
+        requestNextPage(path, limit, nextPage, args[1], conversionFunction);
     }
 }
 
@@ -116,15 +109,19 @@ function nextPage(args){
     var conversionFunction = Object.getOwnPropertyNames(args[1].constructor.prototype)[2];;
 
     if(nextPage <= args[0].total_pages){
-        var pathStr = path + "?" + "limit=" + limit + "&page=" + nextPage;
-        var path = encodeURI(pathStr);
-
-        var arrayOfObjects = getCollection(path, args[1][conversionFunction]);
-        title = args[1].constructor.name;
-
-        createTitle(title, args[1], createElement);
-        createDataTable(arrayOfObjects);
+        requestNextPage(path, limit, nextPage, args[1], conversionFunction);
     }
+}
+
+function requestNextPage(path, limit, nextPage, object, conversionFunction){
+    var pathStr = path + "?" + "limit=" + limit + "&page=" + nextPage;
+    var path = encodeURI(pathStr);
+
+    var arrayOfObjects = getCollection(path, object[conversionFunction]);
+    title = object.constructor.name;
+
+    createTitle(title, object, createElement);
+    createDataTable(arrayOfObjects);
 }
 
 function isNumber(test){
