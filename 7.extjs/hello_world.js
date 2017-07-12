@@ -254,4 +254,113 @@ Ext.onReady(function() {
     });
 
     myPanel.render(Ext.get('appendHere'));
+
+    var panel3 = {
+        html: "Imma panel 3",
+        id: "panel3",
+        frame: true,
+        height: 100
+    }
+
+    var panel4 = {
+        html : '<b>Imma Panel2</b>',
+        id: 'panel2',
+        frame : true
+    };
+
+    var myWin = Ext.create('Ext.window.Window',{
+        id: 'myWin',
+        height : 400,
+        width : 400,
+        items : [
+            panel3,
+            panel4
+        ]
+    });
+    myWin.show();
+
+    var myWin2 = Ext.create('Ext.window.Window', {
+        id: 'myWin2',
+        height: 100,
+        width: 200,
+    });
+    myWin2.show();
+
+    Ext.getCmp('myWin').add({
+        title: "A title",
+        id: "addedPanel",
+        html: "It's cool here"
+    });
+
+    Ext.getCmp('myWin').insert(0, {
+        title: "Another title",
+        id: "addedPanel2",
+        html: "It's not so cool here"
+    });
+
+    Ext.getCmp("myWin").remove(Ext.getCmp("addedPanel"));
+
+    var panel = Ext.getCmp("addedPanel2");
+    Ext.getCmp("myWin").remove(panel, false);
+
+    Ext.getCmp("myWin2").add(panel);
+
+    // var componentQuery = Ext.componentQuery.query("#master_panel")[0];
+    // console.log(componentQuery);
+
+    Ext.create('Ext.container.Viewport', {
+        layout: 'border',
+        items: [
+            {
+                height : 75,
+                region : 'north',
+                title : 'Does Santa live here?'
+            },
+            {
+                width : 150,
+                region : 'west',
+                title : 'The west region rules'
+            },
+            {
+                region : 'center',
+                title : 'No, this region rules!'
+            }
+        ]
+    });
+
+
+    // BUILDING COMPLEX PANELS
+    var myBtnHandler = function(btn) {
+        Ext.MessageBox.alert('You Clicked', btn.text);
+    };
+    var fileBtn = Ext.create('Ext.button.Button', {
+        text: 'File',
+        handler : myBtnHandler
+    });
+    var editBtn = Ext.create('Ext.button.Button', {
+        text: 'Edit',
+        handler : myBtnHandler
+    });
+    var tbFill = new Ext.toolbar.Fill();
+
+    var myTopToolbar = Ext.create('Ext.toolbar.Toolbar', {
+        items : [
+            fileBtn,
+            tbFill,
+            editBtn
+        ]
+    });
+
+    var myBottomToolbar = [{
+            text: 'Save',
+            handler : myBtnHandler
+        },
+        '-',
+        {
+            text: 'Cancel',
+            handler : myBtnHandler
+        },
+        '->',
+        '<b>Items open: 1</b>'
+    ];
 });
