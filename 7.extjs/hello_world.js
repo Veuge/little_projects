@@ -196,4 +196,62 @@ Ext.onReady(function() {
 
     myTemplate4.compile();
     myTemplate4.append(document.body, arrayOfData);
+
+    var panel1 = {
+        xtype: 'panel',
+        title: 'Plain panel 1',
+        html: 'Panel with xtype specified'
+    };
+
+    var panel2 = {
+        title: 'Plain pamel 2',
+        html: 'Panel <b>without</b> xtype specified'
+    };
+
+    // Ext.create('Ext.window.Window', {
+    //     width: 200,
+    //     height: 150,
+    //     title: 'Accordion window',
+    //     border: false,
+    //     layout: {
+    //         type: 'accordion',
+    //         animate: true
+    //     },
+    //     items: [
+    //         panel1,
+    //         panel2
+    //     ]
+    // }).show();
+
+    Ext.create('Ext.window.Window', {
+        width: 200,
+        height: 150,
+        title: 'Accordion window',
+        border: false,
+        layout: {
+            type: 'accordion',
+            animate: true
+        },
+        items: [
+            {
+                xtype: 'panel',
+                title: 'Plain panel1',
+                html: 'Panel with xtype'
+            },
+            {
+                title: 'Plain panel2',
+                html: 'Panel without xtype'
+            }
+        ]
+    }).show();
+
+    var myPanel = Ext.create('Ext.panel.Panel', {
+        // renderTo: document.body,
+        height: 50,
+        width: 150,
+        title: 'Panel rendered immediately',
+        frame: true
+    });
+
+    myPanel.render(Ext.get('appendHere'));
 });
