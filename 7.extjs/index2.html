@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+
+        <link rel="stylesheet" href="bootstrap.css">
+        <!-- <link rel="stylesheet" type="text/css" href="/ExtJS/resources/css/ext-all.css" /> -->
+
+        <script type="text/javascript" src="ext/ext-all-debug.js"></script>
+        <script type="text/javascript" src='hello_world.js'></script>
+
+    </head>
+    <body>
+        <style type="text/css">
+            .myDiv{
+                border: 1px solid #AAAAAA;
+                width: 200px;
+                height: 35px;
+                cursor: pointer;
+                padding: 2px 2px 2px 2px;
+                margin: 2px 2px 2px 2px;
+            }
+        </style>
+
+        <div id="div1" class="myDiv"></div>
+
+        <div id='div2' class="myDiv">
+            <div id='child1'>Child 1</div>
+            <div class='child2'>Child 2</div>
+            <div class='child3'>Child 3</div>
+            <div id='child4' class="sameClass">
+                <div id="nestedChild1" class="sameClass">
+                    Child 4 - 5
+                </div>
+            </div>
+            <div>Child 5</div>
+        </div>
+
+        <div id="appendHere"></div>
+
+        <!-- <div>
+            Hello there! This is an HTML fragment.
+            <script type="text/javascript">
+                Ext.getBody().highlight();
+            </script>
+        </div> -->
+    </body>
+</html>

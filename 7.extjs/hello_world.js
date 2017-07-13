@@ -308,39 +308,42 @@ Ext.onReady(function() {
     // var componentQuery = Ext.componentQuery.query("#master_panel")[0];
     // console.log(componentQuery);
 
-    Ext.create('Ext.container.Viewport', {
-        layout: 'border',
-        items: [
-            {
-                height : 75,
-                region : 'north',
-                title : 'Does Santa live here?'
-            },
-            {
-                width : 150,
-                region : 'west',
-                title : 'The west region rules'
-            },
-            {
-                region : 'center',
-                title : 'No, this region rules!'
-            }
-        ]
-    });
+    // Ext.create('Ext.container.Viewport', {
+    //     layout: 'border',
+    //     items: [
+    //         {
+    //             height : 75,
+    //             region : 'north',
+    //             title : 'Does Santa live here?'
+    //         },
+    //         {
+    //             width : 150,
+    //             region : 'west',
+    //             title : 'The west region rules'
+    //         },
+    //         {
+    //             region : 'center',
+    //             title : 'No, this region rules!'
+    //         }
+    //     ]
+    // });
 
 
     // BUILDING COMPLEX PANELS
     var myBtnHandler = function(btn) {
         Ext.MessageBox.alert('You Clicked', btn.text);
     };
+
     var fileBtn = Ext.create('Ext.button.Button', {
         text: 'File',
         handler : myBtnHandler
     });
+
     var editBtn = Ext.create('Ext.button.Button', {
         text: 'Edit',
         handler : myBtnHandler
     });
+
     var tbFill = new Ext.toolbar.Fill();
 
     var myTopToolbar = Ext.create('Ext.toolbar.Toolbar', {
@@ -363,4 +366,100 @@ Ext.onReady(function() {
         '->',
         '<b>Items open: 1</b>'
     ];
+
+    var myPanel = Ext.create('Ext.panel.Panel', {
+        width: 200,
+        height: 150,
+        title: 'Ext Panels rock!',
+        collapsible : true,
+        renderTo: Ext.getBody(),
+        tbar: myTopToolbar,
+        bbar: myBottomToolbar,
+        html: 'My first Toolbar Panel!'
+    });
+
+    var myPanel1 = Ext.create('Ext.panel.Panel', {
+        width: 200,
+        height: 150,
+        title: 'Ext Panels rock!',
+        collapsible : true,
+        renderTo: Ext.getBody(),
+        tbar: myTopToolbar,
+        bbar: myBottomToolbar,
+        html: 'My first Toolbar Panel!',
+
+        buttonAlign : 'left',
+        buttons: [{
+            text: 'Press me!',
+            handler : myBtnHandler
+        }],
+        tools: [{
+            type: 'gear',
+            handler : function(evt, toolEl, panel) {
+                var toolClassNames = toolEl.className.split(' ');
+                var toolClass = toolClassNames[1];
+                var toolId = toolClass.split('-')[2];
+                Ext.MessageBox.alert('You Clicked', 'Tool ' + toolId);
+            }
+        },
+        {
+            type: 'help',
+            handler : function() {
+                Ext.MessageBox.alert('You Clicked', 'The help tool');
+            }
+        }]
+    });
+
+    var buttons = [
+        { text: "btn 1"},
+        { text: "btn 2"},
+        { text: "btn 3"}
+    ];
+
+    var topDockedToolbar = {
+        xtype: 'toolbar',
+        dock: 'top',
+        items: buttons
+    };
+
+    var bottomDockedToolbar = {
+        xtype: 'toolbar',
+        dock: 'bottom',
+        items: buttons,
+        weight: 5
+    };
+
+    var leftDockedToolbar = {
+        xtype: 'toolbar',
+        vertical: true,
+        dock: 'left',
+        items: buttons,
+        weight: 10
+    };
+
+    var rightDockedToolbar = {
+        xtype: 'toolbar',
+        vertical : true,
+        dock: 'right',
+        items: buttons,
+        weight: 10
+    };
+
+    var myPanel2 = Ext.create('Ext.panel.Panel', {
+        width: 350,
+        height: 250,
+        title: 'Ext Panels rock!',
+        renderTo: Ext.getBody(),
+        html: 'Content body',
+        buttons: {
+            weight: -1,
+            items : buttons
+        },
+        dockedItems : [
+            topDockedToolbar,
+            bottomDockedToolbar,
+            leftDockedToolbar,
+            rightDockedToolbar
+        ]
+    });
 });
