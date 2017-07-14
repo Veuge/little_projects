@@ -304,10 +304,9 @@ Ext.onReady(function(){
     //     height: 300,
     //     width: 300,
     //     title: "A container with HBox layout",
-    //     // autoScroll: true,
+    //     autoScroll: true,
     //     layoutConfig: {
-    //         // type: "hbox",
-    //         pack: "center"
+    //         pack: "end"
     //     },
     //     defaults: {
     //         frame: true,
@@ -333,7 +332,8 @@ Ext.onReady(function(){
     Ext.create("Ext.Window", {
         layout: {
             type: 'hbox',
-            pack: 'center'
+            pack: "end", // horizontal alignment
+            align: 'stretch' // vertical alignment
         },
         height       : 300,
         width        : 300,
@@ -345,16 +345,150 @@ Ext.onReady(function(){
         items : [
             {
                 title  : 'Panel 1',
-                height : 100
+                height : 100,
+                flex: 1 // horizontal width with proportions
             },
             {
                 title  : 'Panel 2',
                 height : 75,
-                width  : 100
+                // width  : 100 // horizontal width with pixels
+                flex: 1 // horizontal width with proportions
             },
             {
                 title  : 'Panel 3',
-                height : 200
+                height : 200,
+                flex: 2 // horizontal width with proportions
+            }
+        ]
+    }).show();
+
+    var myWin4 = Ext.create("Ext.Window", {
+        height: 300,
+        width: 300,
+        border: false,
+        autoScroll: true,
+        title: "A window with table layout",
+        layout: {
+            type: "table",
+            columns: 4
+        },
+        defaults: {             // Default settings for each cell
+            height: 90,
+            width: 60
+        },
+        items: [                // List of items
+            { html: 1 },
+            { html: 2 },
+            { html: 3 },
+            { html: 4 },
+            { html: 5 },
+            { html: 6 },
+            { html: 7 },
+            { html: 8 },
+            { html: 9 },
+            { html: 10 },
+            { html: 11 },
+            { html: 12 },
+        ]
+    });
+    myWin4.show();
+
+    var myWin5 = Ext.create("Ext.Window", {
+        height: 300,
+        width: 300,
+        border: false,
+        autoScroll: true,
+        title: "A window with table layout",
+        layout: {
+            type: "table",
+            columns: 4
+        },
+        defaults: {             // Default settings for each cell
+            height: 50,
+            width: 50
+        },
+        items: [
+            {
+                html: "1",
+                colspan: 3,
+                width: 150
+            },
+            {
+                html: "2",
+                rowspan: 2,
+                height: 100
+            },
+            {
+                html: "3",
+            },
+            {
+                html: '4',
+                rowspan : 2,
+                height : 100
+            },
+            {
+                html : '5'
+            },
+            {
+                html : '6'
+            },
+            {
+                html : '7'
+            },
+            {
+                html: '8'
+            },
+            {
+                html: '9',
+                colspan : 3,
+                width: 150
+            }
+        ]
+    });
+    myWin5.show();
+
+    Ext.create("Ext.Viewport", {
+        layout: "border",
+        defaults: {
+            frame: true,
+            split: true
+        },
+        items: [
+            {
+                title: "North panel",
+                region: "north",
+                height: 100,
+                minHeight: 100,
+                maxHeight: 150,
+                collapsible: true
+            },
+            {
+                title: "South panel",
+                region: "south",
+                height: 75,
+                split: false,
+                margins: {
+                    top: 5
+                }
+            },
+            {
+                title: 'East Panel',
+                region: 'east',
+                width: 100,
+                minWidth: 75,
+                maxWidth: 150,
+                collapsible : true
+            },
+            {
+                title: 'West Panel',
+                region: 'west',
+                collapsible : true,
+                collapseMode : 'mini',
+                width: 100
+            },
+            {
+                title : 'Center Panel',
+                region : 'center'
             }
         ]
     }).show();
