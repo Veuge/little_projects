@@ -43,12 +43,14 @@ Ext.define("playground.view.RegularStudentsForm", {
                     xtype: "datefield",
                     name: "last_payment",
                     fieldLabel: "Last payment",
+                    format: "Y/m/d",
                     maxValue: new Date()
                 },
                 {
                     xtype: "datefield",
                     name: "next_payment",
                     fieldLabel: "Next payment",
+                    format: "Y/m/d"
                 },
                 {
                     xtype: "numberfield",

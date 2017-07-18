@@ -42,17 +42,22 @@ Ext.define('playground.controller.Main', {
         grid.getStore().load();
     },
 
+    // Shows the form :v
     onAddClick: function(button, event, options){
-        console.log("CLick!");
         var win = Ext.create("playground.view.RegularStudentsForm");
+        var form = win.down("form");
+
+        var record = new playground.model.RegularStudent({});
+        form.loadRecord(record);
         win.setTitle("Create regular student");
     },
 
+    // Shows the form with the instance of the record clicked
     onEditClick: function(row, record, item, index, event, options){
         var win = Ext.create("playground.view.RegularStudentsForm")
-        win.setTitle("Edit regular student - " + record.get("name") + " " + record.get("last_name"));
-
         var form = win.down("form");
+
+        win.setTitle("Edit regular student - " + record.get("name") + " " + record.get("last_name"));
         form.loadRecord(record);
     },
 
@@ -64,17 +69,18 @@ Ext.define('playground.controller.Main', {
     },
 
     onSaveClick: function(button, event, options){
-        console.log("Here!");
         var win = button.up("window");
         var form = win.down("form");
         var record = form.getRecord();
+
+        if(record.get("id") === 0){
+            delete record.data.id;
+        }
+
         var values = form.getValues();
-        console.log(values);
 
         record.set(values);
-        console.log(record);
         record.save();
-
         win.close();
     },
 
