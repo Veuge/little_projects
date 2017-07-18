@@ -8,37 +8,37 @@ Ext.define("playground.view.RegularStudentsGrid", {
     columns: [
         {
             text: "ID",
-            width: 35,
+            flex: 1,
             dataIndex: "id"
         },
         {
             text: "NAME",
-            width: 35,
+            flex: 3,
             dataIndex: "name"
         },
         {
             text: "LAST NAME",
-            width: 35,
+            flex: 3,
             dataIndex: "last_name"
         },
         {
             text: "GENDER",
-            width: 35,
+            flex: 2,
             dataIndex: "gender"
         },
         {
             text: "LAST PAYMENT",
-            width: 35,
+            flex: 2,
             dataIndex: "last_payment"
         },
         {
             text: "NEXT PAYMENT",
-            width: 35,
+            flex: 2,
             dataIndex: "next_payment"
         },
         {
             text: "SUBJECTS ALLOWED",
-            width: 35,
+            flex: 2,
             dataIndex: "subjects_allowed"
         },
     ],

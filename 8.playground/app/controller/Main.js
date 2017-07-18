@@ -26,6 +26,10 @@ Ext.define('playground.controller.Main', {
 
             "regularstudentsform button#cancel": {
                 click: this.onCancelClick
+            },
+
+            "regularstudentsform button#add": {
+                click: this.onSaveClick
             }
         });
     },
@@ -53,5 +57,22 @@ Ext.define('playground.controller.Main', {
         var form = win.down("form");
         form.getForm().reset();
         win.close();
+    },
+
+    onSaveClick: function(button, event, options){
+        console.log("Here!");
+        var win = button.up("window");
+        var form = win.down("form");
+        var record = form.getRecord();
+        var values = form.getValues();
+        console.log(values);
+
+        record.set(values);
+        console.log(record);
+        record.save();
+
+        win.close();
+
+
     }
 });

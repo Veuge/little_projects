@@ -2,18 +2,18 @@ Ext.define("playground.view.RegularStudentsForm", {
     extend: "Ext.window.Window",
     alias: "widget.regularstudentsform",
 
-    height: 250,
-    width: 400,
+    // height: 250,
+    // width: 400,
     layout: "fit",
     autoShow: true,
     items: [
         {
             xtype: "form",
-            bodyPadding: 15,            
+            bodyPadding: 15,
             defaults: {
                 anchor: "100%",
             },
-            
+
             items: [
                 {
                     xtype: "textfield",
@@ -56,22 +56,16 @@ Ext.define("playground.view.RegularStudentsForm", {
                     fieldLabel: "Subjects allowed"
                 }
             ],
-            dockedItems: [
+            buttons: [
                 {
-                    xtype: "toolbar",
-                    dock: "bottom",
-                    items: [
-                        {
-                            xtype: "button",
-                            text: "Save",
-                            itemId: "add"
-                        },
-                        {
-                            xtype: "button",
-                            text: "Cancel",
-                            itemId: "cancel"
-                        }
-                    ]
+                    xtype: "button",
+                    text: "Save",
+                    itemId: "add"
+                },
+                {
+                    xtype: "button",
+                    text: "Cancel",
+                    itemId: "cancel"
                 }
             ]
         }
