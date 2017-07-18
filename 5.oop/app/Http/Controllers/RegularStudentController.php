@@ -26,7 +26,8 @@ class RegularStudentController extends ApiController
      */
     public function index()
     {
-        $limit = Input::get("limit") ?: 10 ;
+        $limit = Input::get("limit") ?: 100 ;
+        // $start = Input::get("start") ?: 1;
         $regulars = RegularStudent::paginate($limit);
 
         if(! $regulars){

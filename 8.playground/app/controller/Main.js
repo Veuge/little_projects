@@ -9,6 +9,27 @@ Ext.define('playground.controller.Main', {
     ],
 
     views: [
-        "playground.view.RegularStudentsGrid"
-    ]
+        "playground.view.RegularStudentsGrid",
+        "playground.view.RegularStudentsForm"
+    ],
+
+    init: function(application){
+        this.control({
+            "grid": {
+                render: this.onGridRender
+            },
+
+            "button": {
+                click: this.onAddClick
+            }
+        });
+    },
+
+    onGridRender: function(grid, options){
+        grid.getStore().load();
+    },
+
+    onAddClick: function(button, event, options){
+        console.log("CLick!");
+    }
 });

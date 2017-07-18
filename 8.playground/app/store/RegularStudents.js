@@ -9,5 +9,7 @@ Ext.define("playground.store.RegularStudents", {
             type: 'json',
             root: "data"
         }
-    } 
+    },
+    // autoLoad: true, 
+    // pageSize: 20
 });

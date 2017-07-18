@@ -17,7 +17,7 @@ class StudentsSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('es_ES');
-        $quantity = 20;
+        $quantity = 150;
 
         for ($i=0; $i < $quantity; $i++) {
             $gender = $faker->randomElement($array = array ('male','female'));

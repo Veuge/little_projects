@@ -62,6 +62,7 @@ Ext.define("playground.view.RegularStudentsGrid", {
             xtype: 'pagingtoolbar',
             store: "playground.store.RegularStudents",
             dock: 'bottom',
+            emptyMsg: "No emails to display",
             displayInfo: true
         }
     ]

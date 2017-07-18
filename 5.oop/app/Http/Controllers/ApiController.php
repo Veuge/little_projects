@@ -26,7 +26,7 @@ class ApiController extends Controller
     protected function responseWithPagination($collection, $data){
         $data = array_merge($data, [
             'paginator' => [
-                'total_count' => $collection->total(),
+                'total' => $collection->total(),
                 'total_pages' => ceil($collection->total() / $collection->count()),
                 'current_page' => $collection->resolveCurrentPage(),
                 'limit' => $collection->count()
