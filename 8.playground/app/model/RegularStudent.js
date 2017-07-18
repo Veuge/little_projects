@@ -13,6 +13,6 @@ Ext.define('playground.model.RegularStudent', {
 
     proxy: {
         type: 'rest',
-        url : '/regulars'
+        url : 'http://localhost:8000/api/regulars'
     }
 });
