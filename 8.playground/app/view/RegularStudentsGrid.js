@@ -50,10 +50,12 @@ Ext.define("playground.view.RegularStudentsGrid", {
                 {
                     xtype: "button",
                     text: "New",
+                    itemId: "add"
                 },
                 {
                     xtype: "button",
                     text: "Delete",
+                    itemId: "delete"
                 }
 
             ]

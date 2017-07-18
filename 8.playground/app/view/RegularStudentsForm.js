@@ -5,7 +5,6 @@ Ext.define("playground.view.RegularStudentsForm", {
     height: 250,
     width: 400,
     layout: "fit",
-    title: "Create regular student",
     autoShow: true,
     items: [
         {
@@ -64,11 +63,13 @@ Ext.define("playground.view.RegularStudentsForm", {
                     items: [
                         {
                             xtype: "button",
-                            text: "Save"
+                            text: "Save",
+                            itemId: "add"
                         },
                         {
                             xtype: "button",
-                            text: "Cancel"
+                            text: "Cancel",
+                            itemId: "cancel"
                         }
                     ]
                 }
