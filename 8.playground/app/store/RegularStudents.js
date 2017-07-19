@@ -10,7 +10,10 @@ Ext.define("playground.store.RegularStudents", {
             root: "data",
             totalProperty: "paginator.total"
         },
+        writer: {
+            writeRecordId: false,
+            dateFormat: "Y-m-d"
+        }
     },
-    // autoLoad: true,
     pageSize: 20
 });
