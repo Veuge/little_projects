@@ -29,12 +29,14 @@ Ext.define("playground.view.RegularStudentsGrid", {
         {
             text: "LAST PAYMENT",
             flex: 2,
-            dataIndex: "last_payment"
+            dataIndex: "last_payment",
+            renderer: Ext.util.Format.dateRenderer('Y-m-d')
         },
         {
             text: "NEXT PAYMENT",
             flex: 2,
-            dataIndex: "next_payment"
+            dataIndex: "next_payment",
+            renderer: Ext.util.Format.dateRenderer('Y-m-d')
         },
         {
             text: "SUBJECTS ALLOWED",

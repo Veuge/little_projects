@@ -71,15 +71,11 @@ Ext.define('playground.controller.Main', {
     onSaveClick: function(button, event, options){
         var win = button.up("window");
         var form = win.down("form");
-        var record = form.getRecord();
-
-        if(record.get("id") === 0){
-            delete record.data.id;
-        }
-
         var values = form.getValues();
 
-        record.set(values);
+        form.updateRecord();
+        var record = form.getRecord();
+
         record.save();
         win.close();
     },
