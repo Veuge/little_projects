@@ -75,8 +75,21 @@ Ext.define('playground.controller.Main', {
 
         form.updateRecord();
         var record = form.getRecord();
+        console.log(record);
 
-        record.save();
+        if(record.getId() === 0){
+            delete record.data.id;
+        }
+
+        record.save({
+            failure: function(record, operation){
+                console.log("Failed");
+            },
+
+            success: function(record, operation){
+                console.log("Success");
+            }
+        });
         win.close();
     },
 

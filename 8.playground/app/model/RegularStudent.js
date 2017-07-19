@@ -14,11 +14,5 @@ Ext.define('playground.model.RegularStudent', {
     proxy: {
         type: 'rest',
         url : 'http://10.100.1.85:8000/api/regulars'
-    },
-
-    // formatDate: function(date){
-    //     // var year =
-    //     var newDate = Ext.Date.format(new Date(), "Y-m-d");
-    //     return newDate;
-    // }
+    }
 });
