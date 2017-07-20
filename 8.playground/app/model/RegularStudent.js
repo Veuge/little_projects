@@ -1,5 +1,5 @@
 Ext.define('playground.model.RegularStudent', {
-    extend: "Ext.data.Model",
+    extend: 'Ext.data.Model',
 
     fields: [
         { name: 'id', type: 'int'},

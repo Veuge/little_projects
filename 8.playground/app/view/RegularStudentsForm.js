@@ -1,73 +1,73 @@
-Ext.define("playground.view.RegularStudentsForm", {
-    extend: "Ext.window.Window",
-    alias: "widget.regularstudentsform",
+Ext.define('playground.view.RegularStudentsForm', {
+    extend: 'Ext.window.Window',
+    alias: 'widget.regularstudentsform',
 
     // height: 250,
     // width: 400,
-    layout: "fit",
+    layout: 'fit',
     autoShow: true,
     items: [
         {
-            xtype: "form",
+            xtype: 'form',
             bodyPadding: 15,
             defaults: {
-                anchor: "100%",
+                anchor: '100%',
             },
 
             items: [
                 {
-                    xtype: "textfield",
-                    name: "name",
-                    fieldLabel: "Student name"
+                    xtype: 'textfield',
+                    name: 'name',
+                    fieldLabel: 'Student name'
                 },
                 {
-                    xtype: "textfield",
-                    name: "last_name",
-                    fieldLabel: "Student last name"
+                    xtype: 'textfield',
+                    name: 'last_name',
+                    fieldLabel: 'Student last name'
                 },
                 {
-                    xtype: "combo",
-                    name: "gender",
-                    fieldLabel: "Gender",
-                    queryMode: "local",
-                    displayField: "gender",
+                    xtype: 'combo',
+                    name: 'gender',
+                    fieldLabel: 'Gender',
+                    queryMode: 'local',
+                    displayField: 'gender',
                     store: {
-                        fields: ["gender"],
+                        fields: ['gender'],
                         data: [
-                            { "gender": "Female" },
-                            { "gender": "Male" },
+                            { 'gender': 'Female' },
+                            { 'gender': 'Male' },
                         ]
                     }
                 },
                 {
-                    xtype: "datefield",
-                    name: "last_payment",
-                    fieldLabel: "Last payment",
-                    format: "Y/m/d",
+                    xtype: 'datefield',
+                    name: 'last_payment',
+                    fieldLabel: 'Last payment',
+                    format: 'Y/m/d',
                     maxValue: new Date()
                 },
                 {
-                    xtype: "datefield",
-                    name: "next_payment",
-                    fieldLabel: "Next payment",
-                    format: "Y/m/d"
+                    xtype: 'datefield',
+                    name: 'next_payment',
+                    fieldLabel: 'Next payment',
+                    format: 'Y/m/d'
                 },
                 {
-                    xtype: "numberfield",
-                    name: "subjects_allowed",
-                    fieldLabel: "Subjects allowed"
+                    xtype: 'numberfield',
+                    name: 'subjects_allowed',
+                    fieldLabel: 'Subjects allowed'
                 }
             ],
             buttons: [
                 {
-                    xtype: "button",
-                    text: "Save",
-                    itemId: "add"
+                    xtype: 'button',
+                    text: 'Save',
+                    itemId: 'add'
                 },
                 {
-                    xtype: "button",
-                    text: "Cancel",
-                    itemId: "cancel"
+                    xtype: 'button',
+                    text: 'Cancel',
+                    itemId: 'cancel'
                 }
             ]
         }

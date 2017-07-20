@@ -4,10 +4,10 @@ Ext.define('playground.Application', {
     extend: 'Ext.app.Application',
 
     requires: [
-        "Ext.toolbar.Paging",
-        "Ext.form.Panel",
-        "Ext.form.field.ComboBox",
-        "Ext.form.field.Date",
+        'Ext.toolbar.Paging',
+        'Ext.form.Panel',
+        'Ext.form.field.ComboBox',
+        'Ext.form.field.Date',
     ],
 
     views: [
@@ -16,7 +16,7 @@ Ext.define('playground.Application', {
 
     controllers: [
         // TODO: add controllers here
-        "Main"
+        'Main'
     ],
 
     stores: [

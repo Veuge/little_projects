@@ -1,72 +1,72 @@
-Ext.define("playground.view.RegularStudentsGrid", {
-    extend: "Ext.grid.Panel",
+Ext.define('playground.view.RegularStudentsGrid', {
+    extend: 'Ext.grid.Panel',
 
-    alias: "widget.regularstudentsgrid",
-    store: "playground.store.RegularStudents",
-    title: "Regular Students grid",
+    alias: 'widget.regularstudentsgrid',
+    store: 'playground.store.RegularStudents',
+    title: 'Regular Students grid',
 
     columns: [
         {
-            text: "ID",
+            text: 'ID',
             flex: 1,
-            dataIndex: "id"
+            dataIndex: 'id'
         },
         {
-            text: "NAME",
+            text: 'NAME',
             flex: 3,
-            dataIndex: "name"
+            dataIndex: 'name'
         },
         {
-            text: "LAST NAME",
+            text: 'LAST NAME',
             flex: 3,
-            dataIndex: "last_name"
+            dataIndex: 'last_name'
         },
         {
-            text: "GENDER",
+            text: 'GENDER',
             flex: 2,
-            dataIndex: "gender"
+            dataIndex: 'gender'
         },
         {
-            text: "LAST PAYMENT",
+            text: 'LAST PAYMENT',
             flex: 2,
-            dataIndex: "last_payment",
+            dataIndex: 'last_payment',
             renderer: Ext.util.Format.dateRenderer('Y-m-d')
         },
         {
-            text: "NEXT PAYMENT",
+            text: 'NEXT PAYMENT',
             flex: 2,
-            dataIndex: "next_payment",
+            dataIndex: 'next_payment',
             renderer: Ext.util.Format.dateRenderer('Y-m-d')
         },
         {
-            text: "SUBJECTS ALLOWED",
+            text: 'SUBJECTS ALLOWED',
             flex: 2,
-            dataIndex: "subjects_allowed"
+            dataIndex: 'subjects_allowed'
         },
     ],
     dockedItems: [
         {
-            xtype: "toolbar",
-            dock: "top",
+            xtype: 'toolbar',
+            dock: 'top',
             items: [
                 {
-                    xtype: "button",
-                    text: "New",
-                    itemId: "add"
+                    xtype: 'button',
+                    text: 'New',
+                    itemId: 'add'
                 },
                 {
-                    xtype: "button",
-                    text: "Delete",
-                    itemId: "delete"
+                    xtype: 'button',
+                    text: 'Delete',
+                    itemId: 'delete'
                 }
 
             ]
         },
         {
             xtype: 'pagingtoolbar',
-            store: "playground.store.RegularStudents",
+            store: 'playground.store.RegularStudents',
             dock: 'bottom',
-            emptyMsg: "No emails to display",
+            emptyMsg: 'No emails to display',
             displayInfo: true
         }
     ]
