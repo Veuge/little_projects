@@ -4,6 +4,10 @@ Ext.define('playground.view.RegularStudentsGrid', {
     alias: 'widget.regularstudentsgrid',
     store: 'playground.store.RegularStudents',
     title: 'Regular Students grid',
+    // plugins: [
+    //     'rowediting'
+    // ],
+    stripeRows: true,
 
     columns: [
         {

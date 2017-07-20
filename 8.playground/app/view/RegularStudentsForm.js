@@ -1,6 +1,7 @@
 Ext.define('playground.view.RegularStudentsForm', {
     extend: 'Ext.window.Window',
     alias: 'widget.regularstudentsform',
+    itemId: 'formWindow',
 
     // height: 250,
     // width: 400,
@@ -18,7 +19,7 @@ Ext.define('playground.view.RegularStudentsForm', {
                 {
                     xtype: 'textfield',
                     name: 'name',
-                    fieldLabel: 'Student name'
+                    fieldLabel: 'Student name',
                 },
                 {
                     xtype: 'textfield',
@@ -62,7 +63,7 @@ Ext.define('playground.view.RegularStudentsForm', {
                 {
                     xtype: 'button',
                     text: 'Save',
-                    itemId: 'add'
+                    itemId: 'save'
                 },
                 {
                     xtype: 'button',

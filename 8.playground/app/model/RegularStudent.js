@@ -1,12 +1,7 @@
 Ext.define('playground.model.RegularStudent', {
-    extend: 'Ext.data.Model',
+    extend: 'playground.model.Student',
 
     fields: [
-        { name: 'id', type: 'int'},
-        { name: 'name', type: 'string'},
-        { name: 'last_name', type: 'string'},
-        { name: 'gender', type: 'string'},
-        { name: 'last_payment', type: 'date'},
         { name: 'next_payment', type: 'date'},
         { name: 'subjects_allowed', type: 'int'}
     ],
