@@ -43,8 +43,6 @@ Ext.define('playground.controller.RegularStudentController', {
         var grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
         var win = Ext.ComponentQuery.query('#formWindow')[0];
         var form = win.down('form');
-        console.log(form);
-
         var values = form.getValues();
         var store = grid.getStore();
         var record;
@@ -58,9 +56,14 @@ Ext.define('playground.controller.RegularStudentController', {
 
         var errors = record.validate();
 
+        for(var i = 0; i < errors.items.length; i++){
+            console.log(form);
+            console.log(errors.items[i]);
+        }
+
         record.validateDate(record.kjadka);
 
-        
+
 
         record.save({
             failure: function(record, operation){
