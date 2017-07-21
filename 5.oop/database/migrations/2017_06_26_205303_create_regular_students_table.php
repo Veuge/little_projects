@@ -66,6 +66,13 @@ class CreateRegularStudentsTable extends Migration
             $table->foreign('scholarship_id')->references('id')->on('scholarship_students')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
         });
+
+        Schema::create('careers', function(Blueprint $table){
+            $table->increments('id');
+            $table->string('name');
+            $table->text('description');
+            
+        });
     }
 
     /**

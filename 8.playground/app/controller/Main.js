@@ -9,6 +9,8 @@ Ext.define('playground.controller.Main', {
     ],
 
     views: [
+        'playground.view.MenuTree',
+        'playground.view.ColumnPanel',
         'playground.view.RegularStudentsGrid',
         'playground.view.RegularStudentsForm'
     ],

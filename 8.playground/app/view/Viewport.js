@@ -11,6 +11,6 @@ Ext.define('playground.view.Viewport', {
     },
 
     items: [{
-        xtype: 'regularstudentsgrid'
+        xtype: 'columnpanel'
     }]
 });
