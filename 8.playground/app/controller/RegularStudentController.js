@@ -35,10 +35,10 @@ Ext.define('playground.controller.RegularStudentController', {
      * @param  {[type]} options [description]
      * @return {[type]}         [description]
      */
-    callRegulars: function(grid, options){
+    callRegulars: function(){
         var grid = Ext.ComponentQuery.query('regularstudentsgrid');
-        console.log("grid", grid);
-        grid[0].getStore().load();
+        console.log(grid);
+        // grid[0].getStore().load();
     },
 
     onSaveClick: function(button, event, options){
@@ -64,9 +64,6 @@ Ext.define('playground.controller.RegularStudentController', {
         }
 
         record.validateDate(record.kjadka);
-
-
-
         record.save({
             failure: function(record, operation){
                 console.log('Failed');
