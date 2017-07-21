@@ -15,9 +15,9 @@ Ext.define('playground.controller.RegularStudentController', {
 
     init: function(application){
         this.control({
-            'grid': {
-                render: this.onGridRender,
-            },
+            // 'grid': {
+            //     render: this.callRegulars,
+            // },
 
             'regularstudentsform #save': {
                 click: this.onSaveClick
@@ -35,8 +35,10 @@ Ext.define('playground.controller.RegularStudentController', {
      * @param  {[type]} options [description]
      * @return {[type]}         [description]
      */
-    onGridRender: function(grid, options){
-        grid.getStore().load();
+    callRegulars: function(grid, options){
+        var grid = Ext.ComponentQuery.query('regularstudentsgrid');
+        console.log("grid", grid);
+        grid[0].getStore().load();
     },
 
     onSaveClick: function(button, event, options){

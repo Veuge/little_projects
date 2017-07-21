@@ -17,18 +17,53 @@ Ext.define('playground.controller.Main', {
 
     init: function(application){
         this.control({
-            'grid': {
-                itemdblclick: this.onEditClick
-            },
+            'menutree': {
+                itemclick: this.loadCorrectGrid
+            }
 
-            'regularstudentsgrid button#add': {
-                click: this.onAddClick
-            },
-
-            'regularstudentsform button#cancel': {
-                click: this.onCancelClick
-            },
+            // 'grid': {
+            //     itemdblclick: this.onEditClick
+            // },
+            //
+            // 'regularstudentsgrid button#add': {
+            //     click: this.onAddClick
+            // },
+            //
+            // 'regularstudentsform button#cancel': {
+            //     click: this.onCancelClick
+            // },
         });
+    },
+
+    loadCorrectGrid: function(view, record, item, index, e, options){
+        var app = this.getApplication().getController('RegularStudentController');
+        console.log(app);
+
+        if(record.isLeaf()){
+            console.log(index);
+            switch (index) {
+                case 1:
+                    callCareers();
+                    console.log('callCareers');
+                    break;
+                case 2:
+                    callSubjects();
+                    console.log('callSubjects');
+                    break;
+                case 3:
+                    callClassrooms();
+                    console.log('callClassrooms');
+                    break;
+                case 5:
+                    app.callRegulars();
+                    console.log('callRegulars');
+                    break;
+                case 6:
+                    callScholarships();
+                    console.log('callScholarships');
+                    break;
+            }
+        }
     },
 
     // Shows the form :v
