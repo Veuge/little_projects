@@ -5,7 +5,8 @@ Ext.define('playground.store.RegularStudents', {
     model: 'playground.model.RegularStudent',
     proxy: {
         type: 'ajax',
-        url: 'http://192.168.1.159:8000/api/regulars',
+        // url: 'http://192.168.1.159:8000/api/regulars',
+        url: 'http://10.100.1.85:8000/api/regulars',
         reader: {
             type: 'json',
             root: 'data',

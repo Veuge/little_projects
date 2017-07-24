@@ -9,14 +9,15 @@ Ext.define('playground.controller.SubjectController', {
     ],
 
     views: [
+        'playground.view.MenuTree',
         'playground.view.SubjectsGrid',
         'playground.view.SubjectsForm'
     ],
 
     init: function(application){
         this.control({
-            'subjectsgrid': {
-                render: this.callScholarships,
+            'menutree': {
+                dummyevent: this.callSubjects,
             },
 
             'subjectsform #save': {
@@ -29,9 +30,20 @@ Ext.define('playground.controller.SubjectController', {
         });
     },
 
-    callScholarships: function(){
-        var grid = Ext.ComponentQuery.query('subjectsgrid');
-        grid[0].getStore().load();
+    callSubjects: function(record){
+        if(record.getId() === 'callSubjects'){
+            console.log("HERE");
+            var grid = Ext.ComponentQuery.query('subjectsgrid')[0];
+            var panel = Ext.ComponentQuery.query('gridspanel')[0];
+            var children = panel.items.items;
+
+            for(var i = 0; i < children.length; i++){
+                children[i].hide();
+            }
+
+            grid.getStore().load();
+            grid.show();
+        }
     },
 
     onSaveClick: function(button, event, options){

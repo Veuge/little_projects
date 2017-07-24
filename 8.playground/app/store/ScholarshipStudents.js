@@ -4,7 +4,8 @@ Ext.define('playground.store.ScholarshipStudents', {
     model: 'playground.model.ScholarshipStudent',
     proxy: {
         type: 'ajax',
-        url: 'http://192.168.1.159:8000/api/scholarships',
+        // url: 'http://192.168.1.159:8000/api/scholarships',
+        url: 'http://10.100.1.85:8000/api/scholarships',
         reader: {
             type: 'json',
             root: 'data',

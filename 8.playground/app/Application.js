@@ -13,6 +13,7 @@ Ext.define('playground.Application', {
     views: [
         'playground.view.MenuTree',
         'playground.view.ColumnPanel',
+        'playground.view.GridsPanel',
         'playground.view.RegularStudentsGrid',
         'playground.view.RegularStudentsForm',
         'playground.view.ScholarshipStudentsGrid',

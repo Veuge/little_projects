@@ -26,7 +26,11 @@ Ext.define('playground.controller.Main', {
     init: function(application){
         this.control({
             'menutree': {
-                itemclick: this.loadCorrectGrid
+                // itemclick: this.loadCorrectGrid,
+                // dummyevent: function(){
+                //
+                //     console.log("hello");
+                // }
             },
 
             'grid': {
@@ -47,37 +51,39 @@ Ext.define('playground.controller.Main', {
 
             'subjectsgrid button#add': {
                 click: this.onAddSubjectClick
-            },
+            }
         });
     },
 
-    loadCorrectGrid: function(view, record, item, index, e, options){
-        var app = this.getApplication().getController('RegularStudentController');
-
-        if(record.isLeaf()){
-            switch (index) {
-                case 1:
-                    callCareers();
-                    console.log('callCareers');
-                    break;
-                case 2:
-                    callSubjects();
-                    console.log('callSubjects');
-                    break;
-                case 3:
-                    callClassrooms();
-                    console.log('callClassrooms');
-                    break;
-                case 5:
-                    app.callRegulars();
-                    break;
-                case 6:
-                    callScholarships();
-                    console.log('callScholarships');
-                    break;
-            }
-        }
-    },
+    // loadCorrectGrid: function(view, record, item, index, e, options){
+    //     var app = this.getApplication().getController('RegularStudentController');
+    //     console.log(app);
+    //
+    //     if(record.isLeaf()){
+    //         switch (index) {
+    //             case 1:
+    //                 callCareers();
+    //                 console.log('callCareers');
+    //                 break;
+    //             case 2:
+    //                 callSubjects();
+    //                 console.log('callSubjects');
+    //                 break;
+    //             case 3:
+    //                 callClassrooms();
+    //                 console.log('callClassrooms');
+    //                 break;
+    //             case 5:
+    //
+    //                 app.callRegulars();
+    //                 break;
+    //             case 6:
+    //                 callScholarships();
+    //                 console.log('callScholarships');
+    //                 break;
+    //         }
+    //     }
+    // },
 
     // Shows the form :v
     onAddClick: function(button, event, options){

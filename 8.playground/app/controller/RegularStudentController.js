@@ -10,13 +10,17 @@ Ext.define('playground.controller.RegularStudentController', {
 
     views: [
         'playground.view.RegularStudentsGrid',
-        'playground.view.RegularStudentsForm'
+        'playground.view.RegularStudentsForm',
+        'playground.view.MenuTree'
     ],
 
     init: function(application){
         this.control({
-            'regularstudentsgrid': {
-                render: this.callRegulars,
+            // 'regularstudentsgrid': {
+            //     render: this.callRegulars,
+            // },
+            'menutree': {
+                dummyevent: this.callRegulars
             },
 
             'regularstudentsform #save': {
@@ -29,9 +33,20 @@ Ext.define('playground.controller.RegularStudentController', {
         });
     },
 
-    callRegulars: function(){
-        var grid = Ext.ComponentQuery.query('regularstudentsgrid');
-        grid[0].getStore().load();
+    callRegulars: function(record){
+        if(record.getId() === "callRegulars"){
+            var grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
+            var panel = Ext.ComponentQuery.query('gridspanel')[0];
+            var children = panel.items.items;
+
+            for (var i = 0; i < children.length; i++) {
+                children[i].hide();
+            }
+
+            grid.getStore().load();
+            grid.show();
+            // welcome[0].hide();
+        }
     },
 
     onSaveClick: function(button, event, options){

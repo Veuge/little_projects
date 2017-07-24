@@ -9,14 +9,15 @@ Ext.define('playground.controller.ScholarshipStudentController', {
     ],
 
     views: [
+        'playground.view.MenuTree',
         'playground.view.ScholarshipStudentsGrid',
         'playground.view.ScholarshipStudentsForm'
     ],
 
     init: function(application){
         this.control({
-            'scholarshipstudentsgrid': {
-                render: this.callScholarships,
+            'menutree': {
+                dummyevent: this.callScholarships,
             },
 
             'scholarshipstudentsform #save': {
@@ -29,9 +30,19 @@ Ext.define('playground.controller.ScholarshipStudentController', {
         });
     },
 
-    callScholarships: function(){
-        var grid = Ext.ComponentQuery.query('scholarshipstudentsgrid');
-        grid[0].getStore().load();
+    callScholarships: function(record){
+        if(record.getId() === 'callScholarships'){
+            var grid = Ext.ComponentQuery.query('scholarshipstudentsgrid')[0];
+            var panel = Ext.ComponentQuery.query('gridspanel')[0];
+            var children = panel.items.items;
+
+            for (var i = 0; i < children.length; i++) {
+                children[i].hide();
+            }
+
+            grid.getStore().load();
+            grid.show();
+        }
     },
 
     onSaveClick: function(button, event, options){

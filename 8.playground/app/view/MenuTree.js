@@ -3,6 +3,11 @@ Ext.define('playground.view.MenuTree', {
     alias: 'widget.menutree',
     itemId: 'menuTree',
     title: 'Menu',
+    listeners: {
+        cellclick: function(view, td, cellIndex, record, tr, rowIndex, e, eOpts){
+            this.fireEvent('dummyevent', record);
+        }
+    },
     store: {
         xtype: 'tree',
         root: {
@@ -15,7 +20,8 @@ Ext.define('playground.view.MenuTree', {
                 },
                 {
                     text: 'Subjects',
-                    leaf: true
+                    leaf: true,
+                    id: 'callSubjects'
                 },
                 {
                     text: 'Classrooms',
@@ -27,15 +33,17 @@ Ext.define('playground.view.MenuTree', {
                     children: [
                         {
                             text: 'Regular Students',
-                            leaf: true
+                            leaf: true,
+                            id: 'callRegulars'
                         },
                         {
                             text: 'Scholarship Students',
-                            leaf: true
+                            leaf: true,
+                            id: 'callScholarships'
                         }
                     ]
                 },
             ]
         }
     }
-})
+});
