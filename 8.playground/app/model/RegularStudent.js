@@ -13,6 +13,6 @@ Ext.define('playground.model.RegularStudent', {
     },
 
     associations: [
-        { type: 'hasMany', model: 'playground.model.Subject', name: 'subjects'},
+        { type: 'hasMany', model: 'playground.model.Subject', name: 'subjects' },
     ]
 });
