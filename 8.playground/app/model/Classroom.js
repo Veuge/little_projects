@@ -4,5 +4,9 @@ Ext.define('playground.model.Classroom', {
     fields: [
         { name: 'classroom_name', type: 'string' },
         { name: 'capacity', type: 'int' }
+    ],
+
+    associations: [
+        { type: 'belongsTo', model: 'playground.model.Subject' };
     ]
 });

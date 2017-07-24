@@ -10,5 +10,9 @@ Ext.define('playground.model.RegularStudent', {
         type: 'rest',
         // url : 'http://192.168.1.159:8000/api/regulars'
         url : 'http://10.100.1.85:8000/api/regulars'
-    }
+    },
+
+    associations: [
+        { type: 'hasMany', model: 'playground.model.Subject', name: 'subjects'},
+    ]
 });

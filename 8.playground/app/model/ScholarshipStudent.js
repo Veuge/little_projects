@@ -5,9 +5,14 @@ Ext.define('playground.model.ScholarshipStudent', {
         { name: 'discount', type: 'int' },
         { name: 'min_gpa', type: 'float' }
     ],
+
     proxy: {
         type: 'rest',
         // url : 'http://192.168.1.159:8000/api/scholarships'
         url : 'http://10.100.1.85:8000/api/scholarships'
-    }
+    },
+
+    associations: [
+        { type: 'hasMany', model: 'playground.model.Subject' };
+    ]
 });
