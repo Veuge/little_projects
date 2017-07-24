@@ -14,16 +14,16 @@ Ext.define('playground.view.ColumnPanel', {
             xtype: 'menutree',
             flex: 1
         },
-        {
-            xtype: 'panel',
-            flex: 4,
-            title: 'Welcome!',
-            html: 'Please select an item from the tree menu to see the details',
-            bodyPadding: 15
-        }
         // {
-        //     xtype: 'regularstudentsgrid',
-        //     flex: 4
+        //     xtype: 'panel',
+        //     flex: 4,
+        //     title: 'Welcome!',
+        //     html: 'Please select an item from the tree menu to see the details',
+        //     bodyPadding: 15
         // }
+        {
+            xtype: 'regularstudentsgrid',
+            flex: 4
+        }
     ]
 })

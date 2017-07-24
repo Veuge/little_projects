@@ -1,5 +1,5 @@
 Ext.define('playground.model.ScholarshipStudent', {
-    extend: "playground.model.Student"
+    extend: "playground.model.Student",
 
     fields: [
         { name: 'discount', type: 'int' },

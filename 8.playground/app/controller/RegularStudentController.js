@@ -15,9 +15,9 @@ Ext.define('playground.controller.RegularStudentController', {
 
     init: function(application){
         this.control({
-            // 'grid': {
-            //     render: this.callRegulars,
-            // },
+            'grid': {
+                render: this.callRegulars,
+            },
 
             'regularstudentsform #save': {
                 click: this.onSaveClick
@@ -29,16 +29,9 @@ Ext.define('playground.controller.RegularStudentController', {
         });
     },
 
-    /**
-     * [description]
-     * @param  {[type]} grid    [description]
-     * @param  {[type]} options [description]
-     * @return {[type]}         [description]
-     */
     callRegulars: function(){
         var grid = Ext.ComponentQuery.query('regularstudentsgrid');
-        console.log(grid);
-        // grid[0].getStore().load();
+        grid[0].getStore().load();
     },
 
     onSaveClick: function(button, event, options){
@@ -52,18 +45,6 @@ Ext.define('playground.controller.RegularStudentController', {
         form.updateRecord();
         record = form.getRecord();
 
-        if(record.getId() === 0){
-            delete record.data.id;
-        }
-
-        var errors = record.validate();
-
-        for(var i = 0; i < errors.items.length; i++){
-            console.log(form);
-            console.log(errors.items[i]);
-        }
-
-        record.validateDate(record.kjadka);
         record.save({
             failure: function(record, operation){
                 console.log('Failed');
