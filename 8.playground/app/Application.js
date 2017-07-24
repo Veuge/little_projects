@@ -16,14 +16,17 @@ Ext.define('playground.Application', {
         'playground.view.RegularStudentsGrid',
         'playground.view.RegularStudentsForm',
         'playground.view.ScholarshipStudentsGrid',
-        'playground.view.ScholarshipStudentsForm'
+        'playground.view.ScholarshipStudentsForm',
+        'playground.view.SubjectsGrid',
+        'playground.view.SubjectsForm'
     ],
 
     controllers: [
         // TODO: add controllers here
         'Main',
         'RegularStudentController',
-        'ScholarshipStudentController'
+        'ScholarshipStudentController',
+        'SubjectController',
     ],
 
     stores: [

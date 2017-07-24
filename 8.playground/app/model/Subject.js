@@ -4,6 +4,12 @@ Ext.define('playground.model.Subject', {
     fields: [
         { name: 'name', type: 'string' },
         { name: 'description', type: 'string' },
-        { name: 'credits', type: 'int' }
-    ]
+        { name: 'credits', type: 'int' },
+        { name: 'classroom_id', type: 'int' },
+    ],
+
+    proxy: {
+        type: 'rest',
+        url : 'http://192.168.1.159:8000/api/subjects'
+    }
 });

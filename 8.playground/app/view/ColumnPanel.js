@@ -22,7 +22,7 @@ Ext.define('playground.view.ColumnPanel', {
         //     bodyPadding: 15
         // }
         {
-            xtype: 'scholarshipstudentsgrid',
+            xtype: 'subjectsgrid',
             flex: 4
         }
     ]

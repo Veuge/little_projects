@@ -3,11 +3,13 @@ Ext.define('playground.controller.Main', {
 
     models: [
         'playground.model.RegularStudent',
-        'playground.model.ScholarshipStudent'
+        'playground.model.ScholarshipStudent',
+        'playground.model.Subject'
     ],
     stores: [
         'playground.store.RegularStudents',
-        'playground.store.ScholarshipStudents'
+        'playground.store.ScholarshipStudents',
+        'playground.store.Subjects'
     ],
 
     views: [
@@ -16,7 +18,9 @@ Ext.define('playground.controller.Main', {
         'playground.view.RegularStudentsGrid',
         'playground.view.RegularStudentsForm',
         'playground.view.ScholarshipStudentsGrid',
-        'playground.view.ScholarshipStudentsForm'
+        'playground.view.ScholarshipStudentsForm',
+        'playground.view.SubjectsGrid',
+        'playground.view.SubjectsForm'
     ],
 
     init: function(application){
@@ -39,7 +43,11 @@ Ext.define('playground.controller.Main', {
 
             'scholarshipstudentsgrid button#add': {
                 click: this.onAddScholarshipClick
-            }
+            },
+
+            'subjectsgrid button#add': {
+                click: this.onAddSubjectClick
+            },
         });
     },
 
@@ -104,5 +112,15 @@ Ext.define('playground.controller.Main', {
         var record = new playground.model.ScholarshipStudent({});
         form.loadRecord(record);
         win.setTitle('Create Scholarship student');
+    },
+
+    onAddSubjectClick: function(button, event, options){
+        var win = Ext.create('playground.view.SubjectsForm');
+        var form = win.down('form');
+
+        var record = new playground.model.Subject({});
+        record.set('classroom_id', 1);
+        form.loadRecord(record);
+        win.setTitle('Create Subject');
     },
 });
