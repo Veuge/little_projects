@@ -2,17 +2,21 @@ Ext.define('playground.controller.Main', {
     extend: 'Ext.app.Controller',
 
     models: [
-        'playground.model.RegularStudent'
+        'playground.model.RegularStudent',
+        'playground.model.ScholarshipStudent'
     ],
     stores: [
-        'playground.store.RegularStudents'
+        'playground.store.RegularStudents',
+        'playground.store.ScholarshipStudents'
     ],
 
     views: [
         'playground.view.MenuTree',
         'playground.view.ColumnPanel',
         'playground.view.RegularStudentsGrid',
-        'playground.view.RegularStudentsForm'
+        'playground.view.RegularStudentsForm',
+        'playground.view.ScholarshipStudentsGrid',
+        'playground.view.ScholarshipStudentsForm'
     ],
 
     init: function(application){
@@ -32,6 +36,10 @@ Ext.define('playground.controller.Main', {
             'regularstudentsform button#cancel': {
                 click: this.onCancelClick
             },
+
+            'scholarshipstudentsgrid button#add': {
+                click: this.onAddScholarshipClick
+            }
         });
     },
 
@@ -87,5 +95,14 @@ Ext.define('playground.controller.Main', {
         var form = win.down('form');
         form.getForm().reset();
         win.close();
-    }
+    },
+
+    onAddScholarshipClick: function(button, event, options){
+        var win = Ext.create('playground.view.ScholarshipStudentsForm');
+        var form = win.down('form');
+
+        var record = new playground.model.ScholarshipStudent({});
+        form.loadRecord(record);
+        win.setTitle('Create Scholarship student');
+    },
 });

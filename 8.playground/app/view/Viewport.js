@@ -2,8 +2,8 @@ Ext.define('playground.view.Viewport', {
     extend: 'Ext.container.Viewport',
     requires:[
         'Ext.layout.container.Fit',
-        'playground.view.Main',
-        'playground.view.RegularStudentsGrid'
+        'playground.view.RegularStudentsGrid',
+        'playground.view.ScholarshipStudentsGrid'
     ],
 
     layout: {

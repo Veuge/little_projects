@@ -11,13 +11,19 @@ Ext.define('playground.Application', {
     ],
 
     views: [
-        // TODO: add views here
+        'playground.view.MenuTree',
+        'playground.view.ColumnPanel',
+        'playground.view.RegularStudentsGrid',
+        'playground.view.RegularStudentsForm',
+        'playground.view.ScholarshipStudentsGrid',
+        'playground.view.ScholarshipStudentsForm'
     ],
 
     controllers: [
         // TODO: add controllers here
         'Main',
-        'RegularStudentController'
+        'RegularStudentController',
+        'ScholarshipStudentController'
     ],
 
     stores: [

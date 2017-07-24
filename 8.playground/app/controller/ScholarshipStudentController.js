@@ -1,41 +1,41 @@
-Ext.define('playground.controller.RegularStudentController', {
+Ext.define('playground.controller.ScholarshipStudentController', {
     extend: 'Ext.app.Controller',
 
     models: [
-        'playground.model.RegularStudent'
+        'playground.model.ScholarshipStudent'
     ],
     stores: [
-        'playground.store.RegularStudents'
+        'playground.store.ScholarshipStudents'
     ],
 
     views: [
-        'playground.view.RegularStudentsGrid',
-        'playground.view.RegularStudentsForm'
+        'playground.view.ScholarshipStudentsGrid',
+        'playground.view.ScholarshipStudentsForm'
     ],
 
     init: function(application){
         this.control({
-            'regularstudentsgrid': {
-                render: this.callRegulars,
+            'scholarshipstudentsgrid': {
+                render: this.callScholarships,
             },
 
-            'regularstudentsform #save': {
+            'scholarshipstudentsform #save': {
                 click: this.onSaveClick
             },
 
-            'regularstudentsgrid #delete': {
+            'scholarshipstudentsgrid #delete': {
                 click: this.onDeleteClick
             }
         });
     },
 
-    callRegulars: function(){
-        var grid = Ext.ComponentQuery.query('regularstudentsgrid');
+    callScholarships: function(){
+        var grid = Ext.ComponentQuery.query('scholarshipstudentsgrid');
         grid[0].getStore().load();
     },
 
     onSaveClick: function(button, event, options){
-        var grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
+        var grid = Ext.ComponentQuery.query('scholarshipstudentsgrid')[0];
         var win = Ext.ComponentQuery.query('#formWindow')[0];
         var form = win.down('form');
         var values = form.getValues();
@@ -59,7 +59,7 @@ Ext.define('playground.controller.RegularStudentController', {
     },
 
     onDeleteClick: function(button, event, options){
-        var grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
+        var grid = Ext.ComponentQuery.query('scholarshipstudentsgrid')[0];
         var register = grid.getSelectionModel().getSelection();
         var store = register[0].store;
 
