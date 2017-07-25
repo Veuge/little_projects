@@ -32,7 +32,6 @@ Ext.define('playground.controller.SubjectController', {
 
     callSubjects: function(record){
         if(record.getId() === 'callSubjects'){
-            console.log("HERE");
             var grid = Ext.ComponentQuery.query('subjectsgrid')[0];
             var panel = Ext.ComponentQuery.query('gridspanel')[0];
             var children = panel.items.items;

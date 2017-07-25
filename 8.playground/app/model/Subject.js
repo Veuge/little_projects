@@ -18,5 +18,5 @@ Ext.define('playground.model.Subject', {
         { type: 'belongsTo', model: 'playground.model.RegularStudent' },
         { type: 'belongsTo', model: 'playground.model.ScholarshipStudent' },
         { type: 'hasOne', model: 'playground.model.Classroom', foreignKey: 'classroom_id' }
-    ];
+    ]
 });
