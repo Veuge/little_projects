@@ -4,8 +4,7 @@ Ext.define('playground.model.Subject', {
     fields: [
         { name: 'name', type: 'string' },
         { name: 'description', type: 'string' },
-        { name: 'credits', type: 'int' },
-        { name: 'classroom_id', type: 'int' },
+        { name: 'credits', type: 'int' }
     ],
 
     proxy: {
@@ -15,8 +14,7 @@ Ext.define('playground.model.Subject', {
     },
 
     associations: [
-        { type: 'belongsTo', model: 'playground.model.RegularStudent' },
+        { type: 'hasMany', model: 'playground.model.RegularSubject', name: 'regulars' },
         { type: 'belongsTo', model: 'playground.model.ScholarshipStudent' },
-        { type: 'hasOne', model: 'playground.model.Classroom', foreignKey: 'classroom_id' }
     ]
 });

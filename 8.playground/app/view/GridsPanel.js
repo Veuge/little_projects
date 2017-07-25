@@ -22,6 +22,10 @@ Ext.define('playground.view.GridsPanel', {
         {
             xtype: 'subjectsgrid',
             hidden: true
+        },
+        {
+            xtype: 'classroomsgrid',
+            hidden: true
         }
     ]
 });

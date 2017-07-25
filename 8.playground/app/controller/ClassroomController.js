@@ -1,38 +1,38 @@
-Ext.define('playground.controller.RegularStudentController', {
+Ext.define('playground.controller.ClassroomController', {
     extend: 'Ext.app.Controller',
 
     models: [
-        'playground.model.RegularStudent'
+        'playground.model.Classroom'
     ],
     stores: [
-        'playground.store.RegularStudents'
+        'playground.store.Classrooms'
     ],
 
     views: [
-        'playground.view.RegularStudentsGrid',
-        'playground.view.RegularStudentsForm',
+        'playground.view.ClassroomsGrid',
+        'playground.view.ClassroomsForm',
         'playground.view.MenuTree'
     ],
 
     init: function(application){
         this.control({
             'menutree': {
-                dummyevent: this.callRegulars
+                dummyevent: this.callClassrooms
             },
 
-            'regularstudentsform #save': {
+            'classroomsform #save': {
                 click: this.onSaveClick
             },
 
-            'regularstudentsgrid #delete': {
+            'classroomsgrid #delete': {
                 click: this.onDeleteClick
             }
         });
     },
 
-    callRegulars: function(record){
-        if(record.getId() === "callRegulars"){
-            var grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
+    callClassrooms: function(record){
+        if(record.getId() === "callClassrooms"){
+            var grid = Ext.ComponentQuery.query('classroomsgrid')[0];
             var panel = Ext.ComponentQuery.query('gridspanel')[0];
             var children = panel.items.items;
 
@@ -46,7 +46,7 @@ Ext.define('playground.controller.RegularStudentController', {
     },
 
     onSaveClick: function(button, event, options){
-        var grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
+        var grid = Ext.ComponentQuery.query('classroomsgrid')[0];
         var win = Ext.ComponentQuery.query('#formWindow')[0];
         var form = win.down('form');
         var store = grid.getStore();
@@ -60,13 +60,9 @@ Ext.define('playground.controller.RegularStudentController', {
         else {
             console.log("create");
             var values = form.getValues();
-            record = Ext.create('playground.model.RegularStudent', {
-                name: values.name,
-                last_name: values.last_name,
-                gender: values.gender,
-                last_payment: values.last_payment,
-                next_payment: values.next_payment,
-                subjects_allowed: values.subjects_allowed
+            record = Ext.create('playground.model.Classroom', {
+                classroom_name: values.classroom_name,
+                capacity: values.capacity
             });
         }
 
@@ -84,7 +80,7 @@ Ext.define('playground.controller.RegularStudentController', {
     },
 
     onDeleteClick: function(button, event, options){
-        var grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
+        var grid = Ext.ComponentQuery.query('classroomsgrid')[0];
         var register = grid.getSelectionModel().getSelection();
         var store = register[0].store;
 

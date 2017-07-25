@@ -19,7 +19,9 @@ Ext.define('playground.Application', {
         'playground.view.ScholarshipStudentsGrid',
         'playground.view.ScholarshipStudentsForm',
         'playground.view.SubjectsGrid',
-        'playground.view.SubjectsForm'
+        'playground.view.SubjectsForm',
+        'playground.view.ClassroomsGrid',
+        'playground.view.ClassroomsForm'
     ],
 
     controllers: [
@@ -28,6 +30,7 @@ Ext.define('playground.Application', {
         'RegularStudentController',
         'ScholarshipStudentController',
         'SubjectController',
+        'ClassroomController',
     ],
 
     stores: [

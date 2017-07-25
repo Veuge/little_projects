@@ -13,14 +13,16 @@ Ext.define('playground.controller.Main', {
     ],
 
     views: [
-        'playground.view.MenuTree',
-        'playground.view.ColumnPanel',
-        'playground.view.RegularStudentsGrid',
-        'playground.view.RegularStudentsForm',
-        'playground.view.ScholarshipStudentsGrid',
-        'playground.view.ScholarshipStudentsForm',
-        'playground.view.SubjectsGrid',
-        'playground.view.SubjectsForm'
+        'MenuTree',
+        'ColumnPanel',
+        'RegularStudentsGrid',
+        'RegularStudentsForm',
+        'ScholarshipStudentsGrid',
+        'ScholarshipStudentsForm',
+        'SubjectsGrid',
+        'SubjectsForm',
+        'ClassroomsGrid',
+        // 'ClassroomsForm'
     ],
 
     init: function(application){
@@ -30,7 +32,7 @@ Ext.define('playground.controller.Main', {
             },
 
             'regularstudentsgrid button#add': {
-                click: this.onAddClick
+                click: this.onAddClick('regularstudentsgrid')
             },
 
             'regularstudentsform button#cancel': {
@@ -48,13 +50,12 @@ Ext.define('playground.controller.Main', {
     },
 
     // Shows the form :v
-    onAddClick: function(button, event, options){
-        var win = Ext.create('playground.view.RegularStudentsForm');
-        var form = win.down('form');
-
-        var record = new playground.model.RegularStudent({});
-        form.loadRecord(record);
-        win.setTitle('Create regular student');
+    onAddClick: function(view){
+        return function(button, event, options){
+            var win = Ext.create('playground.view.RegularStudentsForm');
+            var form = win.down('form');
+            win.setTitle('Create regular student');
+        }
     },
 
     // Shows the form with the instance of the record clicked
@@ -90,5 +91,11 @@ Ext.define('playground.controller.Main', {
         record.set('classroom_id', 1);
         form.loadRecord(record);
         win.setTitle('Create Subject');
+    },
+
+    onAddClassroomClick: function(button, event, options){
+        var win = Ext.create('playground.view.ClassroomsForm');
+        var form = win.down('form');
+        win.setTitle('Create Classroom');
     },
 });

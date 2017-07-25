@@ -1,0 +1,22 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "title": "some title",
+            "body": "somebody once told me",
+            "author": {"id":1, "name": "neil"},
+            "comments": [
+                {
+                    "id":55,
+                    "emailAddress": "user@example.com",
+                    "body": "test comment"
+                },
+                {
+                    "id":66,
+                    "emailAddress": "user2@example.com",
+                    "body": "another comment"
+                }
+            ]
+        }
+    ]
+}
