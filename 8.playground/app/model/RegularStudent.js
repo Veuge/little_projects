@@ -31,5 +31,9 @@ Ext.define('playground.model.RegularStudent', {
             associationKey: 'subjects',
             name: 'subjects'
         }
-    ]
+    ],
+
+    getStudent: function(studentId){
+        
+    }
 });

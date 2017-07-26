@@ -107,7 +107,7 @@ Ext.onReady(function(){
         description: 'Please work!',
         credits: 5
     });
-    
+
     console.log(subj.getId());
 
     var a = Ext.create('playground.model.RegularSubject', {
