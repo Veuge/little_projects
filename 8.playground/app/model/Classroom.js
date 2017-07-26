@@ -21,7 +21,7 @@ Ext.define('playground.model.Classroom', {
         }
     },
 
-    associations: [
-        { type: 'belongsTo', model: 'playground.model.Subject' }
+    hasMany: [
+        { model: 'playground.model.Subject', name: 'getSubjects' }
     ]
 });
