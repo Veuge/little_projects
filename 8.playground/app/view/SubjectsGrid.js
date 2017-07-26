@@ -26,6 +26,11 @@ Ext.define('playground.view.SubjectsGrid', {
             text: 'CREDITS',
             flex: 2,
             dataIndex: 'credits'
+        },
+        {
+            header: 'CLASSROOM',
+            flex: 2,
+            dataIndex: 'classroom_id'
         }
     ],
     dockedItems: [

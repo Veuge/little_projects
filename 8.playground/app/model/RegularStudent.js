@@ -1,6 +1,10 @@
 Ext.define('playground.model.RegularStudent', {
     extend: 'playground.model.Student',
 
+    require: [
+        'playground.model.RegularSubject'
+    ],
+
     fields: [
         { name: 'next_payment', type: 'date'},
         { name: 'subjects_allowed', type: 'int'}
@@ -20,7 +24,12 @@ Ext.define('playground.model.RegularStudent', {
         }
     },
 
-    associations: [
-        { type: 'hasMany', model: 'playground.model.RegularSubject', name: 'subjects' },
+    hasMany: [
+        {
+            model: 'playground.model.RegularSubject',
+            foreignKey: 'subject_id',
+            associationKey: 'subjects',
+            name: 'subjects'
+        }
     ]
 });

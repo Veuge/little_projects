@@ -71,7 +71,6 @@ class CreateRegularStudentsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description');
-            
         });
     }
 
@@ -88,5 +87,6 @@ class CreateRegularStudentsTable extends Migration
         Schema::dropIfExists('scholarship_students');
         Schema::dropIfExists('subjects');
         Schema::dropIfExists('classrooms');
+        Schema::dropIfExists('careers');
     }
 }

@@ -1,6 +1,10 @@
 Ext.define('playground.model.Subject', {
     extend: 'Ext.data.Model',
 
+    require: [
+        'playground.model.RegularSubject'
+    ],
+
     fields: [
         { name: 'name', type: 'string' },
         { name: 'description', type: 'string' },
@@ -16,7 +20,17 @@ Ext.define('playground.model.Subject', {
 
     belongsTo: [
         { model: 'playground.model.Classroom', getterName: 'getClassroom' }
+    ],
+
+    hasMany: [
+        {
+            model: 'playground.model.RegularSubject',
+            foreignKey: 'regular_id',
+            associationKey: 'regulars',
+            name: 'regulars'
+        }
     ]
+
     // associations: [
     //     { type: 'hasMany', model: 'playground.model.RegularSubject', name: 'regulars' },
     //     { type: 'belongsTo', model: 'playground.model.ScholarshipStudent' },

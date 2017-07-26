@@ -33,6 +33,14 @@ Ext.define('playground.view.SubjectsForm', {
                     step: 1,
                     minValue: 1,
                     maxValue: 10
+                },
+                {
+                    xtype: 'combo',
+                    fieldLabel: 'Classroom',
+                    store: 'playground.store.Classrooms',
+                    displayField: 'classroom_name',
+                    name: 'classroom_id',
+                    valueField: 'id'
                 }
             ],
             buttons: [

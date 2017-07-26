@@ -20,7 +20,7 @@ Ext.define('playground.controller.ClassroomController', {
                 dummyevent: this.callClassrooms
             },
 
-            'classroomsform #save': {
+            'classroomsform #saveClassroom': {
                 click: this.onSaveClick
             },
 

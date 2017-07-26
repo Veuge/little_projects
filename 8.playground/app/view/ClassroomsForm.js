@@ -1,7 +1,7 @@
 Ext.define('playground.view.ClassroomsForm', {
     extend: 'Ext.window.Window',
     alias: 'widget.classroomsform',
-    itemId: 'classroomsForm',
+    itemId: 'formWindow',
 
     layout: 'fit',
     autoShow: 'true',

@@ -45,6 +45,10 @@ Ext.define('playground.controller.Main', {
 
             'subjectsgrid button#add': {
                 click: this.onAddSubjectClick
+            },
+
+            'classroomsgrid button#add': {
+                click: this.onAddClassroomClick
             }
         });
     },
@@ -77,19 +81,12 @@ Ext.define('playground.controller.Main', {
     onAddScholarshipClick: function(button, event, options){
         var win = Ext.create('playground.view.ScholarshipStudentsForm');
         var form = win.down('form');
-
-        var record = new playground.model.ScholarshipStudent({});
-        form.loadRecord(record);
         win.setTitle('Create Scholarship student');
     },
 
     onAddSubjectClick: function(button, event, options){
         var win = Ext.create('playground.view.SubjectsForm');
         var form = win.down('form');
-
-        var record = new playground.model.Subject({});
-        record.set('classroom_id', 1);
-        form.loadRecord(record);
         win.setTitle('Create Subject');
     },
 

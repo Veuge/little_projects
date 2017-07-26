@@ -2,7 +2,7 @@ Ext.define('playground.model.Classroom', {
     extend: 'Ext.data.Model',
 
     fields: [
-        { name: 'id', type: 'int' },
+        // { name: 'id', type: 'int', persist: false },
         { name: 'classroom_name', type: 'string' },
         { name: 'capacity', type: 'int' }
     ],

@@ -33,12 +33,12 @@ Ext.define('playground.view.ClassroomsGrid', {
                 {
                     xtype: 'button',
                     text: 'Add',
-                    itemId: 'addClassroom'
+                    itemId: 'add'
                 },
                 {
                     xtype: 'button',
-                    text: 'Add',
-                    itemId: 'deleteClassroom'
+                    text: 'Delete',
+                    itemId: 'delete'
                 }
             ]
         },

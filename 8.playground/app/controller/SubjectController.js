@@ -49,20 +49,32 @@ Ext.define('playground.controller.SubjectController', {
         var grid = Ext.ComponentQuery.query('subjectsgrid')[0];
         var win = Ext.ComponentQuery.query('#formWindow')[0];
         var form = win.down('form');
-        var values = form.getValues();
         var store = grid.getStore();
         var record;
 
-        form.updateRecord();
-        record = form.getRecord();
+        if(record){
+            console.log("edit");
+            form.updateRecord();
+            record = form.getRecord();
+        }
+        else{
+            console.log("create");
+            var values = form.getValues();
+            record = Ext.create('playground.model.Subject', {
+                name: values.name,
+                description: values.description,
+                credits: values.credits,
+                classroom_id: values.classroom_id
+            });
+        }
 
         record.save({
-            failure: function(record, operation){
-                console.log('Failed');
-            },
-
             success: function(record, operation){
                 console.log('Success');
+            },
+
+            failure: function(record, operation){
+                console.log('Failed');
             }
         });
         store.sync();
