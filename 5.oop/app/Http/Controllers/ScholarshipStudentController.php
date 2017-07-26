@@ -16,7 +16,7 @@ class ScholarshipStudentController extends ApiController
 
     function __construct(ScholarshipStudentTransformer $transformer, SubjectTransformer $subTransformer){
         $this->scholarshipTransformer = $transformer;
-        $this->subjectTransformer = $transformer;
+        $this->subjectTransformer = $subTransformer;
     }
 
     /**
