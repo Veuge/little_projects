@@ -48,6 +48,23 @@ Ext.define('playground.view.RegularStudentsGrid', {
             flex: 2,
             dataIndex: 'subjects_allowed'
         },
+        {
+            text: 'SUBJECTS',
+            flex: 2,
+            renderer: function(){
+                var subjects = 'http://192.168.1.159:8000/api/regulars/' + 3 + '/subjects';
+                var me = this;
+                console.log(me.getStore());
+                Ext.Ajax.request({
+                    url: subjects,
+                    success: function(response){
+                        var resp = Ext.JSON.decode(response.responseText);
+                        // console.log(resp.data[0].name);
+                        // return resp.data[0].name;
+                    }
+                });
+            }
+        }
     ],
     dockedItems: [
         {

@@ -14,8 +14,16 @@ Ext.define('playground.model.Subject', {
 
     proxy: {
         type: 'rest',
-        // url : 'http://192.168.1.159:8000/api/subjects'
-        url : 'http://10.100.1.85:8000/api/subjects'
+        url : 'http://192.168.1.159:8000/api/subjects',
+        // url : 'http://10.100.1.85:8000/api/subjects',
+        reader: {
+            type: 'json',
+            root: 'data',
+            totalProperty: 'paginator.total'
+        },
+        writer: {
+            writeRecordId: false
+        }
     },
 
     belongsTo: [
