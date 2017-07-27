@@ -32,14 +32,22 @@ Ext.define('playground.controller.SubjectController', {
 
     callSubjects: function(record){
         if(record.getId() === 'callSubjects'){
-            var grid = Ext.ComponentQuery.query('subjectsgrid')[0];
+            var grid;
             var panel = Ext.ComponentQuery.query('gridspanel')[0];
-            var children = panel.items.items;
+            var welcome = Ext.ComponentQuery.query('#welcome')[0];
+            welcome.hide();
 
-            for(var i = 0; i < children.length; i++){
-                children[i].hide();
-            }
+            var cont = Ext.ComponentQuery.query('#gridscontainer')[0];
+            var items = {
+                items: [
+                    { xtype: 'subjectsgrid' }
+                ]
+            };
 
+            cont.removeAll(true);
+            cont.add(items);
+
+            grid = Ext.ComponentQuery.query('subjectsgrid')[0];
             grid.getStore().load();
             grid.show();
         }

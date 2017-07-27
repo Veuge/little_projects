@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 
 // Route::middleware(['cors', 'preflight'])->group(function(){
     Route::resource('regulars', 'RegularStudentController', ['except' => ['create', 'edit']]);
+    Route::resource('regulars?{nested=true/false}', 'RegularStudentController@nested', ['except' => ['create', 'edit']]);
     Route::get('regulars/{regular}/subjects', 'RegularStudentController@subjects');
 
     Route::resource('scholarships', 'ScholarshipStudentController', ['except' => ['create', 'edit']]);

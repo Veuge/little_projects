@@ -36,6 +36,8 @@ class ApiController extends Controller
         return $this->response($data);
     }
 
+    // protected function responseNested($coll)
+
     public function responseWithError($message){
         return $this->response([
             'error' => [

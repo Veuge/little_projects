@@ -5,15 +5,16 @@ namespace Api\Transformers;
 class ScholarshipStudentTransformer extends Transformer
 {
 
-    public function transform($regular){
+    public function transform($scholarship){
+        
         return [
-            'id' => (int) $regular['id'],
-            'name' => $regular['name'],
-            'last_name' => $regular['last_name'],
-            'gender' => $regular['gender'],
-            'last_payment' => $regular['last_payment'],
-            'discount' => $regular['discount'],
-            'min_gpa' => (int) $regular['min_gpa']
+            'id' => (int) $scholarship['id'],
+            'name' => $scholarship['name'],
+            'last_name' => $scholarship['last_name'],
+            'gender' => $scholarship['gender'],
+            'last_payment' => $scholarship['last_payment'],
+            'discount' => $scholarship['discount'],
+            'min_gpa' => (int) $scholarship['min_gpa']
         ];
     }
 

@@ -11,7 +11,6 @@ Ext.define('playground.model.RegularSubject', {
         { name: 'regular_id', type: 'int' },
         { name: 'subject_id', type: 'int' }
     ],
-
     belongsTo: [
         {
             model: 'playground.model.RegularStudent',
@@ -46,4 +45,8 @@ Ext.define('playground.model.RegularSubject', {
     //         foreignKey: 'subject_id'
     //     }
     // ]
+
+    getSubjects: function(){
+
+    }
 });

@@ -1,6 +1,6 @@
 Ext.define('playground.controller.RegularStudentController', {
-    extend: 'Ext.app.Controller',
 
+    extend: 'Ext.app.Controller',
     models: [
         'playground.model.RegularStudent'
     ],
@@ -31,18 +31,27 @@ Ext.define('playground.controller.RegularStudentController', {
     },
 
     callRegulars: function(record){
-        if(record.getId() === "callRegulars"){
-            var grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
-            var panel = Ext.ComponentQuery.query('gridspanel')[0];
-            var children = panel.items.items;
+        console.log(record);
+        // if(record.getId() === "callRegulars"){
+        //     var grid;
+        //     var welcome = Ext.ComponentQuery.query('#welcome')[0];
+        //     welcome.hide();
+        //
+        //     var cont = Ext.ComponentQuery.query('#gridscontainer')[0];
+        //     var items = {
+        //         items: [
+        //             { xtype: 'regularstudentsgrid' }
+        //         ]
+        //     };
 
-            for (var i = 0; i < children.length; i++) {
-                children[i].hide();
-            }
-
-            grid.getStore().load();
-            grid.show();
-        }
+            // gridspanel.add(cont);
+            // cont.removeAll(true);
+            // cont.add(items);
+            //
+            // grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
+            // grid.getStore().load();
+            // grid.show();
+        // }
     },
 
     onSaveClick: function(button, event, options){

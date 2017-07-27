@@ -14,8 +14,8 @@ Ext.define('playground.model.Subject', {
 
     proxy: {
         type: 'rest',
-        url : 'http://192.168.1.159:8000/api/subjects',
-        // url : 'http://10.100.1.85:8000/api/subjects',
+        // url : 'http://192.168.1.159:8000/api/subjects',
+        url : 'http://10.100.1.85:8000/api/subjects',
         reader: {
             type: 'json',
             root: 'data',
@@ -37,10 +37,16 @@ Ext.define('playground.model.Subject', {
             associationKey: 'regulars',
             name: 'regulars'
         }
-    ]
+    ],
 
-    // associations: [
-    //     { type: 'hasMany', model: 'playground.model.RegularSubject', name: 'regulars' },
-    //     { type: 'belongsTo', model: 'playground.model.ScholarshipStudent' },
-    // ]
+    getStudents: function(){
+        var completeURL = "http://10.100.1.85:8000/api/subjects/" + this.id + "/students";
+
+        Ext.Ajax.request({
+            url: completeURL,
+            success: function(response){
+                console.log(response.responseText);
+            }
+        });
+    }
 });

@@ -27,16 +27,35 @@ class RegularStudentController extends ApiController
     public function index()
     {
         $limit = Input::get("limit") ?: 100 ;
-        // $start = Input::get("start") ?: 1;
+        $nested = Input::get('nested') ?: false;
         $regulars = RegularStudent::paginate($limit);
 
         if(! $regulars){
             return $this->responseInternalError();
         }
         else{
-            return $this->responseWithPagination($regulars, [
-                'data' => $this->regularTransformer->transformCollection($regulars->all())
-            ]);
+            if($nested){
+                $nested = RegularStudent::paginate($limit);
+
+                for ($i = 0; $i < count($nested); $i++) {
+                    $regular = $nested[$i];
+
+                    $subjects = $regular->subjects()->get();
+                    if($subjects){
+                        $regular['subjects_enrolled'] = $subjects;
+                        $nested[$i] = $regular;
+                    }
+                }
+                return $this->responseWithPagination($nested, [
+                    'data' => $this->regularTransformer->transformCollection($nested->all())
+                ]);
+            }
+            else{
+                return $this->responseWithPagination($regulars, [
+                    'data' => $this->regularTransformer->transformCollection($regulars->all())
+                ]);
+            }
+
         }
     }
 
@@ -125,4 +144,5 @@ class RegularStudentController extends ApiController
             'data' => $this->subjectTransformer->transformCollection($subjects->all())
         ]);
     }
+
 }

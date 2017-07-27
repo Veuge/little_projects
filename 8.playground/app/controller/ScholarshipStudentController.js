@@ -32,14 +32,21 @@ Ext.define('playground.controller.ScholarshipStudentController', {
 
     callScholarships: function(record){
         if(record.getId() === 'callScholarships'){
-            var grid = Ext.ComponentQuery.query('scholarshipstudentsgrid')[0];
-            var panel = Ext.ComponentQuery.query('gridspanel')[0];
-            var children = panel.items.items;
+            var grid;
+            var welcome = Ext.ComponentQuery.query('#welcome')[0];
+            var gridspanel = Ext.ComponentQuery.query('gridspanel')[0];
+            welcome.hide();
+            var cont = Ext.ComponentQuery.query('#gridscontainer')[0];
+            var items = {
+                items: [
+                    { xtype: 'scholarshipstudentsgrid' }
+                ]
+            };
 
-            for (var i = 0; i < children.length; i++) {
-                children[i].hide();
-            }
+            cont.removeAll(true);
+            cont.add(items);
 
+            grid = Ext.ComponentQuery.query('scholarshipstudentsgrid')[0];
             grid.getStore().load();
             grid.show();
         }

@@ -1,5 +1,6 @@
 Ext.define('playground.controller.ClassroomController', {
-    extend: 'Ext.app.Controller',
+    // extend: 'Ext.app.Controller',
+    // extend: 'Ext.app.MainController',
 
     models: [
         'playground.model.Classroom'
@@ -32,14 +33,22 @@ Ext.define('playground.controller.ClassroomController', {
 
     callClassrooms: function(record){
         if(record.getId() === "callClassrooms"){
-            var grid = Ext.ComponentQuery.query('classroomsgrid')[0];
+            var grid;
             var panel = Ext.ComponentQuery.query('gridspanel')[0];
-            var children = panel.items.items;
+            var welcome = Ext.ComponentQuery.query('#welcome')[0];
+            welcome.hide();
 
-            for (var i = 0; i < children.length; i++) {
-                children[i].hide();
-            }
+            var cont = Ext.ComponentQuery.query('#gridscontainer')[0];
+            var items = {
+                items: [
+                    { xtype: 'classroomsgrid' }
+                ]
+            };
 
+            cont.removeAll(true);
+            cont.add(items);
+
+            grid = Ext.ComponentQuery.query('classroomsgrid')[0];
             grid.getStore().load();
             grid.show();
         }
