@@ -4,10 +4,7 @@ Ext.define('playground.view.RegularStudentsGrid', {
     alias: 'widget.regularstudentsgrid',
     store: 'playground.store.RegularStudents',
     title: 'Regular Students grid',
-    layout: 'fit',
-    // plugins: [
-    //     'rowediting'
-    // ],
+
     stripeRows: true,
 
     columns: [
@@ -46,23 +43,15 @@ Ext.define('playground.view.RegularStudentsGrid', {
         {
             text: 'SUBJECTS ALLOWED',
             flex: 2,
-            dataIndex: 'subjects_allowed'
+            dataIndex: 'subjects_allowed',
         },
         {
             text: 'SUBJECTS',
             flex: 2,
-            renderer: function(){
-                var subjects = 'http://192.168.1.159:8000/api/regulars/' + 3 + '/subjects';
-                var me = this;
-                console.log(me.getStore());
-                Ext.Ajax.request({
-                    url: subjects,
-                    success: function(response){
-                        var resp = Ext.JSON.decode(response.responseText);
-                        // console.log(resp.data[0].name);
-                        // return resp.data[0].name;
-                    }
-                });
+            dataIndex: 'id',
+            name: 'subjects',
+            renderer: function(value, row){
+                var arraySubjects = row.record.getSubject();
             }
         }
     ],
