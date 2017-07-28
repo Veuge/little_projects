@@ -11,8 +11,8 @@ Ext.define('playground.model.RegularStudent', {
     ],
     proxy: {
         type: 'rest',
-        // url : 'http://192.168.1.159:8000/api/regulars',
-        url : 'http://10.100.1.85:8000/api/regulars',
+        url : 'http://192.168.1.159:8000/api/regulars',
+        // url : 'http://10.100.1.85:8000/api/regulars',
         reader: {
             type: 'json',
             root: 'data',
@@ -36,16 +36,21 @@ Ext.define('playground.model.RegularStudent', {
     getSubject: function(){
         var me = this;
         var resp;
-        var subjects = 'http://10.100.1.85:8000/api/regulars/' + me.getId() + '/subjects';
+        // var subjects = 'http://10.100.1.85:8000/api/regulars/' + me.getId() + '/subjects';
+        var subjects = 'http://192.168.1.159:8000/api/regulars/' + me.getId() + '/subjects';
 
-        // var promise = new Promise(function(resolve, reject){
-            // var req = new XMLHttpRequest();
-            // req.open('GET', subjects);
-            // req.setRequestHeader("Content-Type", "application/json");
-            // req.send() = function(){
-            //
-            // };
-        // });
+        return new Promise(function(resolve, reject){
+            Ext.Ajax.request({
+                url: subjects,
+                success: function(response) {
+                    var resp = Ext.decode(response.responseText);
+                    resolve(resp);
+                },
+                failure: function(response) {
+                    reject("Could not get student subjects - server response was " + response.status);
+                }
+            });
+        });
 
         // Ext.Ajax.request({
         //     url: subjects,

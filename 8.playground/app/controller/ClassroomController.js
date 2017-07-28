@@ -1,5 +1,5 @@
 Ext.define('playground.controller.ClassroomController', {
-    // extend: 'Ext.app.Controller',
+    extend: 'Ext.app.Controller',
     // extend: 'Ext.app.MainController',
 
     models: [

@@ -48,10 +48,22 @@ Ext.define('playground.view.RegularStudentsGrid', {
         {
             text: 'SUBJECTS',
             flex: 2,
-            dataIndex: 'id',
+            dataIndex: 'subjects',
             name: 'subjects',
             renderer: function(value, row){
-                var arraySubjects = row.record.getSubject();
+                row.record.getSubject().then(function(response){
+                    var arrayOfSubjects = response.data;
+                    var str = "";
+
+                    for(var i = 0; i < arrayOfSubjects.length; i++){
+                        str += "<p>" + arrayOfSubjects[i].name + "</p>";
+                    }
+                    // console.log("here", arrayOfSubjects);
+                    console.log(str);
+                    return str;
+                }, function(error){
+                    console.log(error);
+                });
             }
         }
     ],
