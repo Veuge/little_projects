@@ -15,17 +15,17 @@ Ext.define('playground.view.RegularStudentsGrid', {
         },
         {
             text: 'NAME',
-            flex: 3,
+            flex: 2,
             dataIndex: 'name'
         },
         {
             text: 'LAST NAME',
-            flex: 3,
+            flex: 2,
             dataIndex: 'last_name'
         },
         {
             text: 'GENDER',
-            flex: 2,
+            flex: 1,
             dataIndex: 'gender'
         },
         {
@@ -42,28 +42,23 @@ Ext.define('playground.view.RegularStudentsGrid', {
         },
         {
             text: 'SUBJECTS ALLOWED',
-            flex: 2,
+            flex: 1,
             dataIndex: 'subjects_allowed',
         },
         {
             text: 'SUBJECTS',
-            flex: 2,
+            flex: 3,
             dataIndex: 'subjects',
             name: 'subjects',
             renderer: function(value, row){
-                row.record.getSubject().then(function(response){
-                    var arrayOfSubjects = response.data;
-                    var str = "";
-
-                    for(var i = 0; i < arrayOfSubjects.length; i++){
-                        str += "<p>" + arrayOfSubjects[i].name + "</p>";
-                    }
-                    // console.log("here", arrayOfSubjects);
-                    console.log(str);
-                    return str;
-                }, function(error){
-                    console.log(error);
-                });
+                row.record.appendStore();
+                var store = this.getStore();
+                var item = store.getById(row.record.getId());
+                var str = "";
+                for(var i = 0; i < item.get('subjects').length; i++){
+                    str += '<p>' + item.get('subjects')[i].name + "</p>";
+                }
+                return str;
             }
         }
     ],

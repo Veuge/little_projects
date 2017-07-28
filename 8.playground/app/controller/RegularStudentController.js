@@ -31,12 +31,11 @@ Ext.define('playground.controller.RegularStudentController', {
     },
 
     callRegulars: function(record){
-        console.log(record);
         if(record.getId() === "callRegulars"){
             var grid;
             var welcome = Ext.ComponentQuery.query('#welcome')[0];
             welcome.hide();
-        
+
             var cont = Ext.ComponentQuery.query('#gridscontainer')[0];
             var items = {
                 items: [
@@ -45,7 +44,7 @@ Ext.define('playground.controller.RegularStudentController', {
             };
             cont.removeAll(true);
             cont.add(items);
-            
+
             grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
             grid.getStore().load();
             grid.show();

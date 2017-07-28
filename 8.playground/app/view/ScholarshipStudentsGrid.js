@@ -43,6 +43,22 @@ Ext.define('playground.view.ScholarshipStudentsGrid', {
             flex: 2,
             dataIndex: 'min_gpa'
         },
+        {
+            text: 'SUBJECTS',
+            flex: 3,
+            dataIndex: 'subjects',
+            name: 'subjects',
+            renderer: function(value, row){
+                row.record.appendStore();
+                var store = this.getStore();
+                var item = store.getById(row.record.getId());
+                var str = "";
+                for(var i = 0; i < item.get('subjects').length; i++){
+                    str += '<p>' + item.get('subjects')[i].name + "</p>";
+                }
+                return str;
+            }
+        }
     ],
     dockedItems: [
         {

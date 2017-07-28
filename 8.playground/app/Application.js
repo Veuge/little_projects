@@ -26,6 +26,7 @@ Ext.define('playground.Application', {
 
     controllers: [
         'Main',
+        // 'MainController',
         'RegularStudentController',
         'ScholarshipStudentController',
         'SubjectController',

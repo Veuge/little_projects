@@ -57,6 +57,14 @@ Ext.define('playground.view.RegularStudentsForm', {
                     xtype: 'numberfield',
                     name: 'subjects_allowed',
                     fieldLabel: 'Subjects allowed'
+                },
+                {
+                    xtype: 'combo',
+                    fieldLabel: 'Subjects',
+                    store: 'playground.store.Subjects',
+                    displayField: 'name',
+                    name: 'subjects',
+                    valueField: 'id'
                 }
             ],
             buttons: [
