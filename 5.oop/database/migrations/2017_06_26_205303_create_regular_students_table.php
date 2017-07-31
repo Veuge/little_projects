@@ -13,24 +13,38 @@ class CreateRegularStudentsTable extends Migration
      */
     public function up()
     {
+        Schema::create('careers', function(Blueprint $table){
+            $table->increments('id');
+            $table->string('name');
+            $table->text('description');
+        });
+
         Schema::create('regular_students', function(Blueprint $table) {
             $table->increments('id');
+            $table->integer('career_id')->unsigned();
+
             $table->string('name');
             $table->string('last_name');
             $table->enum('gender',['male', 'female']);
             $table->date('last_payment');
             $table->date('next_payment');
             $table->integer('subjects_allowed');
+
+            $table->foreign('career_id')->references('id')->on('careers');
         });
 
         Schema::create('scholarship_students', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('career_id')->unsigned();
+
             $table->string('name');
             $table->string('last_name');
             $table->enum('gender',['Male', 'Female']);
             $table->date('last_payment');
             $table->integer('discount');
             $table->float('min_gpa');
+            
+            $table->foreign('career_id')->references('id')->on('careers');
         });
 
         Schema::create('classrooms', function (Blueprint $table) {
@@ -45,11 +59,13 @@ class CreateRegularStudentsTable extends Migration
             $table->text('description');
             $table->integer('credits');
             $table->integer('classroom_id')->unsigned();
+            $table->integer('career_id')->unsigned();
 
-            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
+            $table->foreign('classroom_id')->references('id')->on('classrooms');
+            $table->foreign('career_id')->references('id')->on('careers');
         });
 
-        Schema::create('regular_subjects', function(Blueprint $table){
+        Schema::create('regular_subject', function(Blueprint $table){
             $table->increments('id');
             $table->integer('regular_id')->unsigned();
             $table->integer('subject_id')->unsigned();
@@ -58,7 +74,7 @@ class CreateRegularStudentsTable extends Migration
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
         });
 
-        Schema::create('scholarship_subjects', function(Blueprint $table){
+        Schema::create('scholarship_subject', function(Blueprint $table){
             $table->increments('id');
             $table->integer('scholarship_id')->unsigned();
             $table->integer('subject_id')->unsigned();
@@ -67,11 +83,6 @@ class CreateRegularStudentsTable extends Migration
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
         });
 
-        Schema::create('careers', function(Blueprint $table){
-            $table->increments('id');
-            $table->string('name');
-            $table->text('description');
-        });
     }
 
     /**
@@ -81,8 +92,8 @@ class CreateRegularStudentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('regular_subjects');
-        Schema::dropIfExists('scholarship_subjects');
+        Schema::dropIfExists('regular_subject');
+        Schema::dropIfExists('scholarship_subject');
         Schema::dropIfExists('regular_students');
         Schema::dropIfExists('scholarship_students');
         Schema::dropIfExists('subjects');

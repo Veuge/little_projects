@@ -9,7 +9,7 @@ use Api\Transformers\SubjectTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
-class RegularStudentController extends ApiController
+class RegularController extends ApiController
 {
     protected $regularTransformer;
     protected $subjectTransformer;
@@ -137,12 +137,12 @@ class RegularStudentController extends ApiController
         }
     }
 
-    public function subjects(RegularStudent $regular){
-        $subjects = $regular->subjects()->get();
+    // public function subjects(RegularStudent $regular){
+    //     $subjects = $regular->subjects()->get();
 
-        return $this->response([
-            'data' => $this->subjectTransformer->transformCollection($subjects->all())
-        ]);
-    }
+    //     return $this->response([
+    //         'data' => $this->subjectTransformer->transformCollection($subjects->all())
+    //     ]);
+    // }
 
 }

@@ -10,25 +10,20 @@ use Illuminate\Http\Request;
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
-|
+| 
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::resource('careers', 'CareerController', ['except' => ['create', 'edit']]);
 
-// Route::middleware(['cors', 'preflight'])->group(function(){
-    Route::resource('regulars', 'RegularStudentController', ['except' => ['create', 'edit']]);
-    Route::resource('regulars?{nested=true/false}', 'RegularStudentController@nested', ['except' => ['create', 'edit']]);
-    Route::get('regulars/{regular}/subjects', 'RegularStudentController@subjects');
+Route::resource('regulars', 'RegularController', ['except' => ['create', 'edit']]);
+Route::resource('regulars/{regular}/subjects', 'RegularSubjectController', ['only' => ['index', 'store', 'destroy']]);
 
-    Route::resource('scholarships', 'ScholarshipStudentController', ['except' => ['create', 'edit']]);
-    Route::get('scholarships/{scholarship}/subjects', 'ScholarshipStudentController@subjects');
+Route::resource('scholarships', 'ScholarshipController', ['except' => ['create', 'edit']]);
+Route::resource('scholarships/{scholarship}/subjects', 'ScholarshipSubjectController', ['only' => ['index', 'store', 'destroy']]);
 
-    Route::resource('subjects', 'SubjectController', ['except' => ['create', 'edit']]);
-    Route::get('subjects/{subject}/students', 'SubjectController@students');
-    Route::get('subjects/{subject}/classrooms', 'SubjectController@classrooms');
+Route::resource('subjects', 'SubjectController', ['except' => ['create', 'edit']]);
+Route::get('subjects/{subject}/students', 'SubjectController@students');
+Route::get('subjects/{subject}/classrooms', 'SubjectController@classrooms');
 
-    Route::resource('classrooms', 'ClassroomController', ['except' => ['create', 'edit']]);
-    Route::get('classrooms/{classroom}/subjects', 'ClassroomController@subjects');
-// });
+Route::resource('classrooms', 'ClassroomController', ['except' => ['create', 'edit']]);
+Route::get('classrooms/{classroom}/subjects', 'ClassroomController@subjects');

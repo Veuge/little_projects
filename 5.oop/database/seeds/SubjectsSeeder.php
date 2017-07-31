@@ -23,7 +23,8 @@ class SubjectsSeeder extends Seeder
                 'name' => $prefix . "-" . $version,
                 'description' => $faker->sentence(10, true),
                 'credits' => $faker->numberBetween(5, 10),
-                'classroom_id' => $faker->numberBetween(1, 5)
+                'classroom_id' => $faker->numberBetween(1, 5),
+                'career_id' => $faker->numberBetween(1, 5)
             ]);
             $subject->save();
         }

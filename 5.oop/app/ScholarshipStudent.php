@@ -10,6 +10,10 @@ class ScholarshipStudent extends Model
     protected $guarded = [];
 
     public function subjects(){
-        return $this->belongsToMany('App\Subject', 'scholarship_subjects', 'scholarship_id', 'subject_id');
+        return $this->belongsToMany('App\Subject', 'scholarship_subject', 'scholarship_id', 'subject_id');
+    }
+
+    public function career(){
+        return $this->belongsTo('App\Career');
     }
 }

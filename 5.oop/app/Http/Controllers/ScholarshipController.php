@@ -9,7 +9,7 @@ use Api\Transformers\SubjectTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
-class ScholarshipStudentController extends ApiController
+class ScholarshipController extends ApiController
 {
     protected $scholarshipTransformer;
     protected $subjectTransformer;
@@ -26,13 +26,27 @@ class ScholarshipStudentController extends ApiController
      */
     public function index()
     {
-        $limit = Input::get("limit") ?: 10 ;
+        $limit = Input::get("limit") ?: 100 ;
         $scholarships = ScholarshipStudent::paginate($limit);
 
+        $nested = Input::get("nested") ?: false;
+        
         if(! $scholarships){
             return $this->responseInternalError();
         }
         else{
+            if($nested){
+                for($i = 0; $i < count($scholarships); $i ++){
+                    $scholarship = $scholarships[$i];
+
+                    $subjects = $scholarship->subjects()->get();
+                    if($subjects){
+                        $scholarship['subjects_enrolled'] = $subjects;
+                        $scholarships[$i] = $scholarship;
+                    }
+                }                
+            }
+
             return $this->responseWithPagination($scholarships, [
                 'data' => $this->scholarshipTransformer->transformCollection($scholarships->all())
             ]);

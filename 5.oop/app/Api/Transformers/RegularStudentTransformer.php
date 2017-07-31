@@ -16,6 +16,7 @@ class RegularStudentTransformer extends Transformer
                 'last_payment' => $regular['last_payment'],
                 'next_payment' => $regular['next_payment'],
                 'subjects_allowed' => (int) $regular['subjects_allowed'],
+                'career_id' => $regular['career_id'],
                 'subjects' => $regular['subjects_enrolled']
             ];
         }
@@ -28,6 +29,7 @@ class RegularStudentTransformer extends Transformer
                 'last_payment' => $regular['last_payment'],
                 'next_payment' => $regular['next_payment'],
                 'subjects_allowed' => (int) $regular['subjects_allowed'],
+                'career_id' => $regular['career_id'],
             ];
         }
 

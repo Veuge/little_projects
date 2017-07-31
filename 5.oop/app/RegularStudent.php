@@ -10,6 +10,10 @@ class RegularStudent extends Model
     protected $guarded = [];
 
     public function subjects(){
-        return $this->belongsToMany('App\Subject', 'regular_subjects', 'regular_id', 'subject_id');
+        return $this->belongsToMany('App\Subject', 'regular_subject', 'regular_id', 'subject_id');
+    }
+
+    public function career(){
+        return $this->belongsTo('App\Career');
     }
 }
