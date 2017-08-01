@@ -83,6 +83,20 @@ class CreateRegularStudentsTable extends Migration
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
         });
 
+        Schema::create('schedules', function(Blueprint $table){
+            $table->increments('id');
+            $table->enum('day', ['Monday','Tuesday','Wednesday','Thursday','Friday']);
+            $table->integer('start');
+        });
+
+        Schema::create('schedule_subject', function(Blueprint $table){
+            $table->increments('id');
+            $table->integer('schedule_id')->unsigned();
+            $table->integer('subject_id')->unsigned();
+
+            $table->foreign('schedule_id')->references('id')->on('schedules');
+            $table->foreign('subject_id')->references('id')->on('subjects');
+        });
     }
 
     /**
@@ -92,6 +106,8 @@ class CreateRegularStudentsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('schedule_subject');
+        Schema::dropIfExists('schedules');
         Schema::dropIfExists('regular_subject');
         Schema::dropIfExists('scholarship_subject');
         Schema::dropIfExists('regular_students');

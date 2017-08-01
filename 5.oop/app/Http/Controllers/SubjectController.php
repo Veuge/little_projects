@@ -36,6 +36,16 @@ class SubjectController extends ApiController
             return $this->responseInternalError();
         }
         else {
+            for($i = 0; $i < count($subjects); $i++){
+                $subject = $subjects[$i];
+                $schedules = $subject->schedules()->get();
+                
+                if($schedules){
+                        $subject['schedules'] = $schedules;
+                        $subjects[$i] = $subject;
+                    }
+            }
+            
             return $this->responseWithPagination($subjects, [
                 'data' => $this->subjectTransformer->transformCollection($subjects->all())
             ]);

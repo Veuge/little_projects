@@ -20,4 +20,8 @@ class Subject extends Model
     public function regulars(){
         return $this->belongsToMany('App\RegularStudent', 'regular_subject', 'regular_id', 'subject_id');
     }
+
+    public function schedules(){
+        return $this->belongsToMany('App\Schedule', 'schedule_subject', 'schedule_id', 'subject_id');
+    }
 }

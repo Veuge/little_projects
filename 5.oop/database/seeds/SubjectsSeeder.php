@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Subject;
+use App\Schedule;
 
 class SubjectsSeeder extends Seeder
 {
@@ -14,10 +15,10 @@ class SubjectsSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('es_ES');
-        $quantity = 9;
+        $quantity = 30;
 
         for($i = 0; $i < $quantity; $i++){
-            $prefix = $faker->randomElement($array = array ('INF','MAT','EST'));
+            $prefix = $faker->randomElement($array = array ('INF','MAT','EST', 'ADM', 'GST'));
             $version = $faker->numberBetween($min = 101, $max = 200);
             $subject = new Subject([
                 'name' => $prefix . "-" . $version,
@@ -27,6 +28,26 @@ class SubjectsSeeder extends Seeder
                 'career_id' => $faker->numberBetween(1, 5)
             ]);
             $subject->save();
+        }
+
+        for($i = 0; $i < 20; $i ++){
+            $schedule = new Schedule([
+                'day' => $faker->randomElement($array = array ('Monday','Tuesday','Wednesday','Thursday','Friday')),
+                'start' => $faker->time($format = 'H')
+            ]);
+            $schedule->save();
+        }
+
+        $subjects = Subject::all();
+        $scheduleIds = Schedule::pluck('id')->toArray();
+
+        foreach ($subjects as $subject) {
+            for($i = 0; $i < $faker->numberBetween($min = 1, $max = 5); $i++){
+                DB::table("schedule_subject")->insert([
+                    'subject_id' => $subject->id,
+                    'schedule_id' => $faker->randomElement($scheduleIds)
+                ]);
+            }
         }
     }
 }
