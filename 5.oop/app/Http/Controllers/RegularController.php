@@ -27,14 +27,14 @@ class RegularController extends ApiController
     public function index()
     {
         $limit = Input::get("limit") ?: 100 ;
-        $nested = Input::get('nested') ?: false;
+        // $nested = Input::get('nested') ?: false;
         $regulars = RegularStudent::paginate($limit);
 
         if(! $regulars){
             return $this->responseInternalError();
         }
         else{
-            if($nested){
+            // if($nested){
                 $nested = RegularStudent::paginate($limit);
 
                 for ($i = 0; $i < count($nested); $i++) {
@@ -49,12 +49,12 @@ class RegularController extends ApiController
                 return $this->responseWithPagination($nested, [
                     'data' => $this->regularTransformer->transformCollection($nested->all())
                 ]);
-            }
-            else{
-                return $this->responseWithPagination($regulars, [
-                    'data' => $this->regularTransformer->transformCollection($regulars->all())
-                ]);
-            }
+            // }
+            // else{
+            //     return $this->responseWithPagination($regulars, [
+            //         'data' => $this->regularTransformer->transformCollection($regulars->all())
+            //     ]);
+            // }
 
         }
     }

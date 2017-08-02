@@ -72,9 +72,17 @@ Ext.define('playground.controller.RegularStudentController', {
                 gender: values.gender,
                 last_payment: values.last_payment,
                 next_payment: values.next_payment,
-                subjects_allowed: values.subjects_allowed
+                subjects_allowed: values.subjects_allowed,
+                subjects: values.subjects,
+                career_id: 1
             });
         }
+
+        console.log(record);
+
+        var subjects = record.get('subjects');
+        delete record.data.subjects;
+        console.log(record);
 
         record.save({
             success: function(record, operation){
@@ -85,6 +93,26 @@ Ext.define('playground.controller.RegularStudentController', {
                 console.log('Failed');
             }
         });
+
+        if(!record.getId()){
+            record.setId(store.getTotalCount() + 1);
+        }
+
+        console.log(subjects);
+
+        Ext.Ajax.request({
+            url: 'http://192.168.1.159:8000/api/regulars/' + record.getId() + '/subjects',
+            method: 'POST',
+            jsonData: subjects,
+            success: function(response, opts) {
+                var obj = Ext.decode(response.responseText);
+                console.dir(obj);
+            },
+            failure: function(response, opts) {
+                console.log('server-side failure with status code ' + response.status);
+            }
+        });
+
         store.sync();
         win.close();
     },

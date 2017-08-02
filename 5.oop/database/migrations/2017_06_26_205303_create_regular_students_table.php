@@ -35,7 +35,7 @@ class CreateRegularStudentsTable extends Migration
 
         Schema::create('scholarship_students', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('career_id')->unsigned();
+            $table->integer('career_id')->unsigned()->default(1);
 
             $table->string('name');
             $table->string('last_name');

@@ -62,9 +62,10 @@ Ext.define('playground.view.RegularStudentsForm', {
                     xtype: 'combo',
                     fieldLabel: 'Subjects',
                     store: 'playground.store.Subjects',
-                    displayField: 'name',
                     name: 'subjects',
-                    valueField: 'id'
+                    displayField: 'name',
+                    valueField: 'id',
+                    multiSelect: true
                 }
             ],
             buttons: [

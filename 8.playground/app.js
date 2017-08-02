@@ -5,6 +5,10 @@
 */
 
 Ext.application({
+    requires: [ 
+        'playground.Constants'
+    ],
+
     name: 'playground',
 
     extend: 'playground.Application',

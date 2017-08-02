@@ -50,13 +50,10 @@ Ext.define('playground.view.RegularStudentsGrid', {
             flex: 3,
             dataIndex: 'subjects',
             name: 'subjects',
-            renderer: function(value, row){
-                row.record.appendStore();
-                var store = this.getStore();
-                var item = store.getById(row.record.getId());
-                var str = "";
-                for(var i = 0; i < item.get('subjects').length; i++){
-                    str += '<p>' + item.get('subjects')[i].name + "</p>";
+            renderer: function(value){
+                var str = '';
+                for(var i = 0; i < value.length; i++){
+                    str += '<span>' + value[i].name + " </span>";
                 }
                 return str;
             }
