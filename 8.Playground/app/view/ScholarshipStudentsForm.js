@@ -20,6 +20,8 @@ Ext.define('playground.view.ScholarshipStudentsForm', {
                     xtype: 'textfield',
                     name: 'name',
                     fieldLabel: 'Student name',
+                    allowBlank: false,
+                    msgTarget: 'title'
                 },
                 {
                     xtype: 'textfield',
@@ -45,7 +47,7 @@ Ext.define('playground.view.ScholarshipStudentsForm', {
                     name: 'last_payment',
                     fieldLabel: 'Last payment',
                     format: 'Y/m/d',
-                    maxValue: new Date()
+                    minValue: new Date()
                 },
                 {
                     xtype: 'numberfield',

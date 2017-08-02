@@ -16,7 +16,8 @@ Ext.define('playground.view.MenuTree', {
             children: [
                 {
                     text: 'Careers',
-                    leaf: true
+                    leaf: true,
+                    id: 'callCareers'
                 },
                 {
                     text: 'Subjects',

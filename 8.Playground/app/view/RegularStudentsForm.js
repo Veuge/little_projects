@@ -3,18 +3,52 @@ Ext.define('playground.view.RegularStudentsForm', {
     alias: 'widget.regularstudentsform',
     itemId: 'formWindow',
 
-    // height: 250,
-    // width: 400,
-    layout: 'fit',
+    height: 400,
+    width: 500,
+    layout: {
+        type: 'accordion',
+        titleCollapse: false,
+        animate: true,
+        activeOnTop: true,
+    },
     autoShow: true,
     items: [
         {
             xtype: 'form',
+            alias: 'widget.formCareer',
+            itemId: 'formCareer',
+            title: 'Career information',
             bodyPadding: 15,
             defaults: {
                 anchor: '100%',
             },
-
+            items: [
+                {
+                    xtype: 'radiogroup',
+                    itemId: 'radio',
+                    fieldLabel: 'Career',
+                    name: 'whatever',
+                    columns: 1,
+                    vertical: true,
+                    // items: [
+                    //     { boxLabel: 'Radio 1', name: 'radio', inputValue: '1' },
+                    //     { boxLabel: 'Radio 2', name: 'radio', inputValue: '2', checked: true},
+                    //     { boxLabel: 'Radio 3', name: 'radio', inputValue: '3' },
+                    //     { boxLabel: 'Radio 4', name: 'radio', inputValue: '4' },
+                    //     { boxLabel: 'Radio 5', name: 'radio', inputValue: '5' },
+                    //     { boxLabel: 'Radio 6', name: 'radio', inputValue: '6' }
+                    // ]
+                }
+            ]
+        },
+        {
+            xtype: 'form',
+            alias: 'widget.regularstudentinfo',
+            title: 'Regular Student',
+            bodyPadding: 15,
+            defaults: {
+                anchor: '100%',
+            },
             items: [
                 {
                     xtype: 'textfield',
@@ -68,18 +102,34 @@ Ext.define('playground.view.RegularStudentsForm', {
                     multiSelect: true
                 }
             ],
-            buttons: [
+        },
+        {
+            xtype: 'form',
+            title: 'Subjects',
+            bodyPadding: 15,
+            defaults: {
+                anchor: '100%',
+            },
+            items: [
                 {
-                    xtype: 'button',
-                    text: 'Save',
-                    itemId: 'save'
-                },
-                {
-                    xtype: 'button',
-                    text: 'Cancel',
-                    itemId: 'cancel'
+                    xtype: 'textfield',
+                    name: 'whatever',
+                    fieldLabel: 'LOL'
                 }
             ]
         }
-    ]
+    ],
+    buttons: [
+        {
+            xtype: 'button',
+            text: 'Save',
+            itemId: 'save'
+        },
+        {
+            xtype: 'button',
+            text: 'Cancel',
+            itemId: 'cancel'
+        }
+    ],
+
 })
