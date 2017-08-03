@@ -18,23 +18,23 @@ class CareersSeeder extends Seeder
         DB::table('careers')->delete();
         $careers = array(
             array(
-                'name' => 'Ingenieria Ambiental', 
+                'name' => 'Business Administration',
                 'description' => $faker->realText($maxNbChars = 200)
             ),
             array(
-                'name' => 'Ingenieria Comercial', 
+                'name' => 'Systems Engineering',
                 'description' => $faker->realText($maxNbChars = 200)
             ),
             array(
-                'name' => 'Ingenieria de Sistemas', 
+                'name' => 'Computer Science',
                 'description' => $faker->realText($maxNbChars = 200)
             ),
             array(
-                'name' => 'Administración de Empresas', 
+                'name' => 'Electrical Engineering',
                 'description' => $faker->realText($maxNbChars = 200)
             ),
             array(
-                'name' => 'Gastronomía', 
+                'name' => 'Materials Science', 
                 'description' => $faker->realText($maxNbChars = 200)
             )
         );

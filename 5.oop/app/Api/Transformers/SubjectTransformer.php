@@ -12,6 +12,7 @@ class SubjectTransformer extends Transformer
             'description' => $subject['description'],
             'credits' => (int) $subject['credits'],
             'classroom_id' => $subject['classroom_id'],
+            'career_id' => $subject['career_id'],
             'schedules' => $subject['schedules'],
         ];
     }

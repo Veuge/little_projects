@@ -26,7 +26,8 @@ Ext.define('playground.model.Subject', {
     },
 
     belongsTo: [
-        { model: 'playground.model.Classroom', getterName: 'getClassroom' }
+        { model: 'playground.model.Classroom', getterName: 'getClassroom' },
+        { model: 'playground.model.Career', getterName: 'getCareer' }
     ],
 
     hasMany: [

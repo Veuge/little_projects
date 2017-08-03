@@ -1,6 +1,18 @@
 Ext.define('playground.controller.Main', {
     extend: 'Ext.app.Controller',
 
+    statics: {
+        CAREER_FORM: 'formCareer',
+        RSTUDENT_FORM: 'regularStudentInfo',
+        SUBJECT_FORM: 'subjectForm'
+    },
+
+    refs: [
+        { ref: 'completeForm', selector: 'regularstudentsform' },
+        { ref: 'formCareer', selector: 'formCareer' },
+        { ref: 'formRStudent', selector: 'regularstudentinfo' }
+    ],
+
     models: [
         'playground.model.RegularStudent',
         'playground.model.ScholarshipStudent',
@@ -29,6 +41,8 @@ Ext.define('playground.controller.Main', {
     ],
 
     init: function(application){
+        // var me = this;
+
         this.control({
 
             'grid': {
@@ -36,6 +50,7 @@ Ext.define('playground.controller.Main', {
             },
 
             'regularstudentsgrid button#add': {
+                // click: me.onAddClick
                 click: this.onAddClick
             },
 
@@ -53,24 +68,20 @@ Ext.define('playground.controller.Main', {
 
             'classroomsgrid button#add': {
                 click: this.onAddClassroomClick
+            },
+            'regularstudentsform button#nextButton': {
+                click: this.onNextButtonClick
             }
         });
     },
 
     // Shows the form :v
-    // onAddClick: function(view){
-    //     return function(button, event, options){
-    //         var win = Ext.create('playground.view.RegularStudentsForm');
-    //         var form = win.down('form');
-    //         win.setTitle('Create regular student');
-    //     }
-    // },
-    //
-    onAddClick: function(button, event, options){
+    onAddClick: function(button, e, options){
         var win = Ext.create('playground.view.RegularStudentsForm');
         var form = win.down('form');
         var formCareer = Ext.ComponentQuery.query('#formCareer')[0];
-        console.log('form career', formCareer);
+        // console.log('form career', formCareer);
+
         var storeCareers = Ext.create('playground.store.Careers');
         var radioItems = [];
         var radioGroup = Ext.ComponentQuery.query('#radio')[0];
@@ -88,131 +99,15 @@ Ext.define('playground.controller.Main', {
 
                 // radioGroup.items = radioItems;
                 // console.log('radio group', radioGroup);
-                // // radioGroup.updateLayout();
+                // radioGroup.updateLayout();
                 // formCareer.add(this, radioGroup, 0);
                 // formCareer.updateLayout();
             }
         });
     },
 
-    // onAddClick: function(button, event, options){
-    //     var storeCareers = Ext.create('playground.store.Careers');
-    //     var radioItems = [];
-    //
-    //     storeCareers.load({
-    //         callback: function(records, success){
-    //             storeCareers.each(function(record){
-    //                 radioItems.push({
-    //                 boxLabel: record.get('name'),
-    //                     name: record.get('id'),
-    //                     inputValue: record.get('id')
-    //                 });
-    //
-    //                 var form = Ext.create('Ext.window.Window', {
-    //                     height: 400,
-    //                     width: 500,
-    //                     title: 'Create Regular Student',
-    //
-    //                     layout: {
-    //                         type: 'accordion',
-    //                         titleCollapse: false,
-    //                         animate: true,
-    //                         activeOnTop: true,
-    //                     },
-    //                     autoShow: true,
-    //                     items: [
-    //                         {
-    //                             xtype: 'form',
-    //                             title: 'Career',
-    //                             bodyPadding: 15,
-    //                             defaults: {
-    //                                 anchor: '100%',
-    //                             },
-    //                             items: [
-    //                                 {
-    //                                     xtype: 'radiogroup',
-    //                                     itemId: 'radio',
-    //                                     fieldLabel: 'Career',
-    //                                     name: 'whatever',
-    //                                     columns: 1,
-    //                                     vertical: true,
-    //                                     items: radioItems
-    //                                 }
-    //                             ]
-    //                         },
-    //                         {
-    //                             xtype: 'regularstudentinfo',
-    //                             title: 'Regular Student',
-    //                             bodyPadding: 15,
-    //                             defaults: {
-    //                                 anchor: '100%'
-    //                             },
-    //                             items: [
-    //                                 {
-    //                                     xtype: 'textfield',
-    //                                     name: 'name',
-    //                                     fieldLabel: 'Student name',
-    //                                 },
-    //                                 {
-    //                                     xtype: 'textfield',
-    //                                     name: 'last_name',
-    //                                     fieldLabel: 'Student last name'
-    //                                 },
-    //                                 {
-    //                                     xtype: 'combo',
-    //                                     name: 'gender',
-    //                                     fieldLabel: 'Gender',
-    //                                     queryMode: 'local',
-    //                                     displayField: 'gender',
-    //                                     store: {
-    //                                         fields: ['gender'],
-    //                                         data: [
-    //                                             { 'gender': 'Female' },
-    //                                             { 'gender': 'Male' },
-    //                                         ]
-    //                                     }
-    //                                 },
-    //                                 {
-    //                                     xtype: 'datefield',
-    //                                     name: 'last_payment',
-    //                                     fieldLabel: 'Last payment',
-    //                                     format: 'Y/m/d',
-    //                                     maxValue: new Date()
-    //                                 },
-    //                                 {
-    //                                     xtype: 'datefield',
-    //                                     name: 'next_payment',
-    //                                     fieldLabel: 'Next payment',
-    //                                     format: 'Y/m/d'
-    //                                 },
-    //                                 {
-    //                                     xtype: 'numberfield',
-    //                                     name: 'subjects_allowed',
-    //                                     fieldLabel: 'Subjects allowed'
-    //                                 },
-    //                                 {
-    //                                     xtype: 'combo',
-    //                                     fieldLabel: 'Subjects',
-    //                                     store: 'playground.store.Subjects',
-    //                                     name: 'subjects',
-    //                                     displayField: 'name',
-    //                                     valueField: 'id',
-    //                                     multiSelect: true
-    //                                 }
-    //                             ]
-    //                         }
-    //                     ]
-    //                 }).show();
-    //
-    //             }, this);
-    //         }
-    //     });
-    //
-    //
-    // },
-
     // Shows the form with the instance of the record clicked
-    onEditClick: function(row, record, item, index, event, options){
+    onEditClick: function(row, record, item, index, e, options){
         var win = Ext.create('playground.view.RegularStudentsForm')
         var form = win.down('form');
 
@@ -220,28 +115,55 @@ Ext.define('playground.controller.Main', {
         form.loadRecord(record);
     },
 
-    onCancelClick: function(button, event, options){
+    onCancelClick: function(button, e, options){
         var win = button.up('window');
         var form = win.down('form');
         form.getForm().reset();
         win.close();
     },
 
-    onAddScholarshipClick: function(button, event, options){
+    onAddScholarshipClick: function(button, e, options){
         var win = Ext.create('playground.view.ScholarshipStudentsForm');
         var form = win.down('form');
         win.setTitle('Create Scholarship student');
     },
 
-    onAddSubjectClick: function(button, event, options){
+    onAddSubjectClick: function(button, e, options){
         var win = Ext.create('playground.view.SubjectsForm');
         var form = win.down('form');
         win.setTitle('Create Subject');
     },
 
-    onAddClassroomClick: function(button, event, options){
+    onAddClassroomClick: function(button, e, options){
         var win = Ext.create('playground.view.ClassroomsForm');
         var form = win.down('form');
         win.setTitle('Create Classroom');
     },
+
+    onNextButtonClick: function(button, e, options){
+        var me = this;
+        var form = me.getCompleteForm();
+        var formChildren = form.items.items;
+
+        var nextFormId = me.getNextForm(button);
+        var nextForm = Ext.ComponentQuery.query('#' + nextFormId)[0];
+    },
+
+
+    // HELPER FUNCTIONS
+
+    getNextForm: function(btn){
+        var me = this;
+        var controllerReference = me.getController('Main').self;
+
+        var currentForm = btn.up('form');
+        var currentFormId = currentForm.getItemId();
+
+        if(currentFormId === controllerReference.CAREER_FORM){
+            return controllerReference.RSTUDENT_FORM;
+        }
+        else if(currentFormId === controllerReference.RSTUDENT_FORM){
+            return controllerReference.SUBJECT_FORM;
+        }
+    }
 });

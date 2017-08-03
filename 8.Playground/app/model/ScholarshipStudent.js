@@ -8,7 +8,16 @@ Ext.define('playground.model.ScholarshipStudent', {
 
     proxy: {
         type: 'rest',
-        url : playground.Constants.BASE_URL + 'scholarships'
+        url : playground.Constants.BASE_URL + 'scholarships',
+        reader: {
+            type: 'json',
+            root: 'data',
+            totalProperty: 'paginator.total'
+        },
+        writer: {
+            writeRecordId: false,
+            dateFormat: 'Y-m-d'
+        }
     },
 
     associations: [

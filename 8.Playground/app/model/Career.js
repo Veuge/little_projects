@@ -15,5 +15,9 @@ Ext.define('playground.model.Career', {
             root: 'data',
             totalProperty: 'paginator.total'
         }
+    },
+
+    hasMany: {
+        model: 'playground.model.Subject', name: 'subjects'
     }
 });

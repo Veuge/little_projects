@@ -12,6 +12,8 @@ Ext.define('playground.view.RegularStudentsForm', {
         activeOnTop: true,
     },
     autoShow: true,
+    titleCollapse: true,
+    hideCollapse: true,
     items: [
         {
             xtype: 'form',
@@ -30,20 +32,16 @@ Ext.define('playground.view.RegularStudentsForm', {
                     name: 'whatever',
                     columns: 1,
                     vertical: true,
-                    // items: [
-                    //     { boxLabel: 'Radio 1', name: 'radio', inputValue: '1' },
-                    //     { boxLabel: 'Radio 2', name: 'radio', inputValue: '2', checked: true},
-                    //     { boxLabel: 'Radio 3', name: 'radio', inputValue: '3' },
-                    //     { boxLabel: 'Radio 4', name: 'radio', inputValue: '4' },
-                    //     { boxLabel: 'Radio 5', name: 'radio', inputValue: '5' },
-                    //     { boxLabel: 'Radio 6', name: 'radio', inputValue: '6' }
-                    // ]
                 }
+            ],
+            buttons: [
+                { xtpe: 'button', text: 'Next', itemId: 'nextButton' }
             ]
         },
         {
             xtype: 'form',
             alias: 'widget.regularstudentinfo',
+            itemId: 'regularStudentInfo',
             title: 'Regular Student',
             bodyPadding: 15,
             defaults: {
@@ -91,20 +89,15 @@ Ext.define('playground.view.RegularStudentsForm', {
                     xtype: 'numberfield',
                     name: 'subjects_allowed',
                     fieldLabel: 'Subjects allowed'
-                },
-                {
-                    xtype: 'combo',
-                    fieldLabel: 'Subjects',
-                    store: 'playground.store.Subjects',
-                    name: 'subjects',
-                    displayField: 'name',
-                    valueField: 'id',
-                    multiSelect: true
                 }
             ],
+            buttons: [
+                { xtpe: 'button', text: 'Next', itemId: 'nextButton' }
+            ]
         },
         {
             xtype: 'form',
+            itemId: 'subjectForm',
             title: 'Subjects',
             bodyPadding: 15,
             defaults: {
@@ -112,9 +105,15 @@ Ext.define('playground.view.RegularStudentsForm', {
             },
             items: [
                 {
-                    xtype: 'textfield',
-                    name: 'whatever',
-                    fieldLabel: 'LOL'
+                    xtype: 'combo',
+                    fieldLabel: 'Subjects',
+                    store: 'playground.store.Subjects',
+                    name: 'subjects',
+                    displayField: 'name',
+                    valueField: 'id',
+                    multiSelect: true,
+                    // titleCollapse: true,
+                    hideCollapse: true
                 }
             ]
         }
