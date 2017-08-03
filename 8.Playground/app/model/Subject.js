@@ -14,8 +14,7 @@ Ext.define('playground.model.Subject', {
 
     proxy: {
         type: 'rest',
-        // url : 'http://192.168.1.159:8000/api/subjects',
-        url : 'http://10.100.1.85:8000/api/subjects',
+        url : playground.Constants.BASE_URL + 'subjects',
         reader: {
             type: 'json',
             root: 'data',
@@ -40,7 +39,7 @@ Ext.define('playground.model.Subject', {
     ],
 
     getStudents: function(){
-        var completeURL = "http://10.100.1.85:8000/api/subjects/" + this.id + "/students";
+        var completeURL = playground.Constants.BASE_URL + "subjects/" + this.id + "/students";
 
         Ext.Ajax.request({
             url: completeURL,

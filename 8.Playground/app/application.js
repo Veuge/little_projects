@@ -4,6 +4,8 @@ Ext.define('playground.Application', {
     extend: 'Ext.app.Application',
 
     requires: [
+        'playground.Constants',
+
         'Ext.toolbar.Paging',
         'Ext.form.Panel',
         'Ext.form.field.ComboBox',

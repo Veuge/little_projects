@@ -9,7 +9,7 @@ Ext.define('playground.model.Classroom', {
 
     proxy: {
         type: 'rest',
-        url: 'http://10.100.1.85:8000/api/classrooms',
+        url: playground.Constants.BASE_URL + 'classrooms',
         reader: {
             type: 'json',
             root: 'data',

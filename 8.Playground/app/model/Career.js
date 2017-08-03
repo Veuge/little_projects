@@ -9,7 +9,7 @@ Ext.define('playground.model.Career', {
 
     proxy: {
         type: 'rest',
-        url: 'http://10.100.1.85:8000/api/careers',
+        url: playground.Constants.BASE_URL + 'careers',
         reader: {
             type: 'json',
             root: 'data',

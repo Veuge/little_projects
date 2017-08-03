@@ -101,7 +101,7 @@ Ext.define('playground.controller.RegularStudentController', {
         console.log(subjects);
 
         Ext.Ajax.request({
-            url: 'http://192.168.1.159:8000/api/regulars/' + record.getId() + '/subjects',
+            url: playground.Constants.BASE_URL + record.getId() + '/subjects',
             method: 'POST',
             jsonData: subjects,
             success: function(response, opts) {
