@@ -4,13 +4,29 @@ Ext.define('playground.controller.Main', {
     statics: {
         CAREER_FORM: 'formCareer',
         RSTUDENT_FORM: 'regularStudentInfo',
-        SUBJECT_FORM: 'subjectForm'
+        SUBJECT_FORM: 'subjectForm',
+        MORNING: 'morning',
+        MORNING_MIN: 7,
+        MORNING_MAX: 12,
+        AFTERNOON: 'afternoon',
+        AFTERNOON_MIN: 13,
+        AFTERNOON_MAX: 18,
+        NIGHT: 'night',
+        NIGHT_MIN: 19,
+        NIGHT_MAX: 23,
     },
 
     refs: [
-        { ref: 'completeForm', selector: 'regularstudentsform' },
-        { ref: 'formCareer', selector: 'formCareer' },
-        { ref: 'formRStudent', selector: 'regularstudentinfo' }
+        // { ref: 'completeForm', selector: 'regularstudentsform' },
+        // { ref: 'formCareer', selector: 'formCareer' },
+        // { ref: 'formRStudent', selector: 'regularstudentinfo' },
+
+        // Refactor part
+        { ref: 'formContainer', selector: 'form-container'},
+        { ref: 'studentPartialForm', selector: 'pnl-student-partial-form'},
+        { ref: 'subjectPartialForm', selector: 'pnl-subject-partial-form'},
+
+        { ref: 'btnNext', selector: 'btnNext'}
     ],
 
     models: [
@@ -37,7 +53,10 @@ Ext.define('playground.controller.Main', {
         'SubjectsForm',
         'ClassroomsGrid',
         'CareersGrid',
-        // 'ClassroomsForm'
+        'ClassroomsForm',
+        'students.FormContainer',
+        'students.SubjectPartialForm',
+        'students.StudentPartialForm'
     ],
 
     init: function(application){
@@ -69,41 +88,20 @@ Ext.define('playground.controller.Main', {
             'classroomsgrid button#add': {
                 click: this.onAddClassroomClick
             },
-            'regularstudentsform button#nextButton': {
+            'pnl-student-partial-form button#btnNext': {
                 click: this.onNextButtonClick
+            },
+            'pnl-subject-partial-form button#btnSuggest': {
+                click: this.onSuggestButtonClick
             }
         });
     },
 
     // Shows the form :v
     onAddClick: function(button, e, options){
-        var win = Ext.create('playground.view.RegularStudentsForm');
-        var form = win.down('form');
-        var formCareer = Ext.ComponentQuery.query('#formCareer')[0];
-        // console.log('form career', formCareer);
-
-        var storeCareers = Ext.create('playground.store.Careers');
-        var radioItems = [];
-        var radioGroup = Ext.ComponentQuery.query('#radio')[0];
-        win.setTitle('Create regular student');
-
-        storeCareers.load({
-            callback: function(records, success){
-                storeCareers.each(function(record){
-                    radioGroup.add({
-                        boxLabel: record.get('name'),
-                        name: record.get('id'),
-                        inputValue: record.get('id')
-                    });
-                }, this);
-
-                // radioGroup.items = radioItems;
-                // console.log('radio group', radioGroup);
-                // radioGroup.updateLayout();
-                // formCareer.add(this, radioGroup, 0);
-                // formCareer.updateLayout();
-            }
-        });
+        var win = Ext.create('playground.view.students.FormContainer');
+        var formStudent = Ext.create('playground.view.students.StudentPartialForm');
+        win.add(formStudent);
     },
 
     // Shows the form with the instance of the record clicked
@@ -142,28 +140,90 @@ Ext.define('playground.controller.Main', {
 
     onNextButtonClick: function(button, e, options){
         var me = this;
-        var form = me.getCompleteForm();
-        var formChildren = form.items.items;
+        var win = me.getFormContainer();
+        var currentFormPanel = me.getStudentPartialForm();
+        var currentForm = currentFormPanel.down('form');
+        var nextFormPanel = Ext.create('playground.view.students.SubjectPartialForm');
 
-        var nextFormId = me.getNextForm(button);
-        var nextForm = Ext.ComponentQuery.query('#' + nextFormId)[0];
+        var values = currentForm.getValues();
+
+        var newStudent = Ext.create('playground.model.RegularStudent', {
+            name: values.name,
+            last_name: values.last_name,
+            gender: values.gender,
+            last_payment: values.last_payment,
+            next_payment: values.next_payment,
+            subjects_allowed: values.subjects_allowed,
+            subjects: values.subjects,
+            career_id: values.career_id
+        });
+
+        newStudent.save({
+            success: function(record, operation){
+                console.log("Student saved successfully");
+            },
+            failure: function(record, operation){
+                console.log("Something went wrong");
+            }
+        });
+
+        win.remove(currentFormPanel, true);
+        win.add(nextFormPanel);
     },
 
-
-    // HELPER FUNCTIONS
-
-    getNextForm: function(btn){
+    onSuggestButtonClick: function(button, e, options){
         var me = this;
-        var controllerReference = me.getController('Main').self;
 
-        var currentForm = btn.up('form');
-        var currentFormId = currentForm.getItemId();
+        var win = me.getFormContainer();
+        var currentFormPanel = me.getSubjectPartialForm();
+        var subjectsForm = currentFormPanel.down('form');
+        var values = subjectsForm.getValues();
+        var subjectsStore = Ext.create('playground.store.Subjects');
+        var subjectsSelected = [];
 
-        if(currentFormId === controllerReference.CAREER_FORM){
-            return controllerReference.RSTUDENT_FORM;
+        win.remove(currentFormPanel, true);
+
+        subjectsStore.load({
+            scope: this,
+            callback: function(records, success){
+                subjectsSelected = Ext.Array.filter(records, function(record){
+                    return Ext.Array.indexOf(values.subjects, record.getId()) >= 0;
+                });
+                me.generateSchedule(subjectsSelected, "afternoon");
+            }
+        });
+    },
+
+    generateSchedule: function(subjects, preference){
+        var me = this;
+        var controllerRef = me.getController('Main').self;
+        var possible = [];
+        var min, max;
+
+        console.log(subjects.length);
+
+        if(preference === controllerRef.MORNING){
+            min = controllerRef.MORNING_MIN;
+            max = controllerRef.MORNING_MAX;
         }
-        else if(currentFormId === controllerReference.RSTUDENT_FORM){
-            return controllerReference.SUBJECT_FORM;
+        else if (preference === controllerRef.AFTERNOON) {
+            min = controllerRef.AFTERNOON_MIN;
+            max = controllerRef.AFTERNOON_MAX;
         }
+        else if (preference === controllerRef.NIGHT) {
+            min = controllerRef.NIGHT_MIN;
+            max = controllerRef.NIGHT_MAX;
+        }
+
+        // Ext.Array.forEach(subjects, function(subject){
+        for(var i = 0; i < subjects.length; i++){
+            var subject = subjects[i];
+            var schedules = subject.get('schedules');
+            if(schedules.start >= min && schedules.start <= max){
+                possible.push(subject);
+            }
+        }
+        // });
+        console.log(possible);
     }
 });

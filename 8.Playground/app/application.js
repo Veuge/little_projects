@@ -24,7 +24,8 @@ Ext.define('playground.Application', {
         'playground.view.SubjectsForm',
         'playground.view.ClassroomsGrid',
         'playground.view.ClassroomsForm',
-        'playground.view.CareersGrid'
+        'playground.view.CareersGrid',
+        'playground.view.students.FormContainer'
     ],
 
     controllers: [

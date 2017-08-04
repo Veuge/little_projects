@@ -6,7 +6,7 @@ Ext.define('playground.model.Student', {
         { name: 'last_name', type: 'string' },
         { name: 'gender', type: 'string' },
         { name: 'last_payment', type: 'date' },
-        { name: 'subjects', type: 'auto'},
+        // { name: 'subjects', type: 'auto'},
         { name: 'career_id', type: 'int' }
     ],
 

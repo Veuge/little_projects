@@ -9,7 +9,9 @@ Ext.define('playground.model.Subject', {
         { name: 'name', type: 'string' },
         { name: 'description', type: 'string' },
         { name: 'credits', type: 'int' },
-        { name: 'classroom_id', type: 'int' }
+        { name: 'classroom_id', type: 'int' },
+        { name: 'career_id', type: 'int' },
+        { name: 'schedules', type: 'auto' }
     ],
 
     proxy: {

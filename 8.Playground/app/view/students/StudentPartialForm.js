@@ -14,14 +14,24 @@ Ext.define('playground.view.students.StudentPartialForm', {
             },
             items: [
                 {
+                    xtype: 'combo',
+                    store: 'playground.store.Careers',
+                    fieldLabel: 'Career',
+                    displayField: 'name',
+                    valueField: 'id',
+                    name: 'career_id'
+                },
+                {
                     xtype: 'textfield',
                     name: 'name',
                     fieldLabel: 'Student name',
+                    allowBlank: false
                 },
                 {
                     xtype: 'textfield',
                     name: 'last_name',
-                    fieldLabel: 'Student last name'
+                    fieldLabel: 'Student last name',
+                    allowBlank: false
                 },
                 {
                     xtype: 'combo',
@@ -53,11 +63,12 @@ Ext.define('playground.view.students.StudentPartialForm', {
                 {
                     xtype: 'numberfield',
                     name: 'subjects_allowed',
-                    fieldLabel: 'Subjects allowed'
+                    fieldLabel: 'Subjects allowed',
+                    minValue: 0
                 }
             ],
             buttons: [
-                { xtpe: 'button', text: 'Next', itemId: 'nextButton' }
+                { xtpe: 'button', text: 'Next', itemId: 'btnNext' }
             ]
         }
     ]
