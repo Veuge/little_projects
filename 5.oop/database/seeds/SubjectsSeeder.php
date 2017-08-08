@@ -31,9 +31,14 @@ class SubjectsSeeder extends Seeder
         }
 
         for($i = 0; $i < 20; $i ++){
+            do{
+                $start = $faker->time($format = 'H');
+            }
+            while($start < 7 || $start > 22);
+
             $schedule = new Schedule([
                 'day' => $faker->randomElement($array = array ('Monday','Tuesday','Wednesday','Thursday','Friday')),
-                'start' => $faker->time($format = 'H')
+                'start' => $start
             ]);
             $schedule->save();
         }

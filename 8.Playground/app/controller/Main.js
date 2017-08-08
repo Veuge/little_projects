@@ -186,42 +186,22 @@ Ext.define('playground.controller.Main', {
         subjectsStore.load({
             scope: this,
             callback: function(records, success){
-                console.log(records);
                 subjectsSelected = me.getSelectableSubjects(values, records, 'morning');
-                // me.generateSchedule(subjectsSelected, "afternoon");
+                me.generateSchedule(subjectsSelected);
             }
         });
     },
 
-    generateSchedule: function(subjects, preference){
-        var me = this;
-        var controllerRef = me.getController('Main').self;
-        var possible = [];
-        var min, max;
-
-        if(preference === controllerRef.MORNING){
-            min = controllerRef.MORNING_MIN;
-            max = controllerRef.MORNING_MAX;
-        }
-        else if (preference === controllerRef.AFTERNOON) {
-            min = controllerRef.AFTERNOON_MIN;
-            max = controllerRef.AFTERNOON_MAX;
-        }
-        else if (preference === controllerRef.NIGHT) {
-            min = controllerRef.NIGHT_MIN;
-            max = controllerRef.NIGHT_MAX;
-        }
-
-        // Ext.Array.forEach(subjects, function(subject){
-        for(var i = 0; i < subjects.length; i++){
-            var subject = subjects[i];
-            var schedules = subject.get('schedules');
-            if(schedules.start >= min && schedules.start <= max){
-                possible.push(subject);
+    generateSchedule: function(subjects){
+        var selected = []
+        console.log(subjects);
+        for(var i = 0; i < subjects.length; i ++){
+            var optionsQty = subjects[i].schedules.length;
+            if(optionsQty === 0){
+                selected.push(subjects[i]);
             }
         }
-        // });
-        // console.log(possible);
+        console.log(selected);
     },
 
     getSelectableSubjects: function(selectedIds, subjectsArray, preference){
@@ -243,9 +223,9 @@ Ext.define('playground.controller.Main', {
             max = controllerRef.NIGHT_MAX;
         }
 
-        for(var i = 0; i < subjectsArray.length; i++){
-            var subject = subjectsArray[i];
-        // Ext.Array.forEach(subjectsArray, function(subject) {
+        // for(var i = 0; i < subjectsArray.length; i++){
+        //     var subject = subjectsArray[i];
+        Ext.Array.forEach(subjectsArray, function(subject) {
             if(Ext.Array.indexOf(selectedIds.subjects, subject.getId()) >= 0){
                 var schedules = subject.get('schedules');
                 var selectableSch = [];
@@ -260,11 +240,9 @@ Ext.define('playground.controller.Main', {
                     selectableSub.push(subject);
                 }
             }
-            console.log(selectableSub[0].schedules);
-        }
-        // });
+        // }
+        });
+        return selectableSub;
 
-    },
-
-    selectSchedules: function(){}
+    }
 });
