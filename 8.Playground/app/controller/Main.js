@@ -63,17 +63,7 @@ Ext.define('playground.controller.Main', {
         // var me = this;
 
         this.control({
-
-            'grid': {
-                itemdblclick: this.onEditClick
-            },
-
-            'regularstudentsgrid button#add': {
-                // click: me.onAddClick
-                click: this.onAddClick
-            },
-
-            'regularstudentsform button#cancel': {
+            'win-regulars-form button#cancel': {
                 click: this.onCancelClick
             },
 
@@ -88,29 +78,13 @@ Ext.define('playground.controller.Main', {
             'classroomsgrid button#add': {
                 click: this.onAddClassroomClick
             },
-            'pnl-student-partial-form button#btnNext': {
-                click: this.onNextButtonClick
-            },
+            // 'pnl-student-partial-form button#btnNext': {
+            //     click: this.onNextButtonClick
+            // },
             'pnl-subject-partial-form button#btnSuggest': {
                 click: this.onSuggestButtonClick
             }
         });
-    },
-
-    // Shows the form :v
-    onAddClick: function(button, e, options){
-        var win = Ext.create('playground.view.students.FormContainer');
-        var formStudent = Ext.create('playground.view.students.StudentPartialForm');
-        win.add(formStudent);
-    },
-
-    // Shows the form with the instance of the record clicked
-    onEditClick: function(row, record, item, index, e, options){
-        var win = Ext.create('playground.view.RegularStudentsForm')
-        var form = win.down('form');
-
-        win.setTitle('Edit regular student - ' + record.get('name') + ' ' + record.get('last_name'));
-        form.loadRecord(record);
     },
 
     onCancelClick: function(button, e, options){
@@ -138,39 +112,11 @@ Ext.define('playground.controller.Main', {
         win.setTitle('Create Classroom');
     },
 
-    onNextButtonClick: function(button, e, options){
-        var me = this;
-        var win = me.getFormContainer();
-        var currentFormPanel = me.getStudentPartialForm();
-        var currentForm = currentFormPanel.down('form');
-        var nextFormPanel = Ext.create('playground.view.students.SubjectPartialForm');
-
-        var values = currentForm.getValues();
-
-        var newStudent = Ext.create('playground.model.RegularStudent', {
-            name: values.name,
-            last_name: values.last_name,
-            gender: values.gender,
-            last_payment: values.last_payment,
-            next_payment: values.next_payment,
-            subjects_allowed: values.subjects_allowed,
-            subjects: values.subjects,
-            career_id: values.career_id
-        });
-
-        newStudent.save({
-            success: function(record, operation){
-                console.log("Student saved successfully");
-            },
-            failure: function(record, operation){
-                console.log("Something went wrong");
-            }
-        });
-
-        win.remove(currentFormPanel, true);
-        win.add(nextFormPanel);
-    },
-
+    /**
+     * Obtains the selected subjects with the preferred time to generate schedules
+     * @param  {button} button
+     * @param  {Event} e
+     */
     onSuggestButtonClick: function(button, e, options){
         var me = this;
 
@@ -190,18 +136,6 @@ Ext.define('playground.controller.Main', {
                 me.generateSchedule(subjectsSelected);
             }
         });
-    },
-
-    generateSchedule: function(subjects){
-        var selected = []
-        console.log(subjects);
-        for(var i = 0; i < subjects.length; i ++){
-            var optionsQty = subjects[i].schedules.length;
-            if(optionsQty === 0){
-                selected.push(subjects[i]);
-            }
-        }
-        console.log(selected);
     },
 
     getSelectableSubjects: function(selectedIds, subjectsArray, preference){
@@ -243,6 +177,16 @@ Ext.define('playground.controller.Main', {
         // }
         });
         return selectableSub;
+    },
 
-    }
+    generateSchedule: function(subjects){
+        var selected = []
+        for(var i = 0; i < subjects.length; i ++){
+            var optionsQty = subjects[i].schedules.length;
+            if(optionsQty === 1){
+                selected.push(subjects[i]);
+            }
+        }
+        console.log(selected);
+    },
 });

@@ -1,43 +1,21 @@
 Ext.define('playground.view.RegularStudentsForm', {
     extend: 'Ext.window.Window',
-    alias: 'widget.regularstudentsform',
+    alias: 'widget.win-regulars-form',
     itemId: 'formWindow',
 
     height: 400,
     width: 500,
-    layout: {
-        type: 'accordion',
-        titleCollapse: false,
-        animate: true,
-        activeOnTop: true,
-    },
+    layout: 'fit',
+    // layout: {
+    //     type: 'accordion',
+    //     titleCollapse: false,
+    //     animate: true,
+    //     activeOnTop: true,
+    // },
     autoShow: true,
     titleCollapse: true,
     hideCollapse: true,
     items: [
-        {
-            xtype: 'form',
-            alias: 'widget.formCareer',
-            itemId: 'formCareer',
-            title: 'Career information',
-            bodyPadding: 15,
-            defaults: {
-                anchor: '100%',
-            },
-            items: [
-                {
-                    xtype: 'radiogroup',
-                    itemId: 'radio',
-                    fieldLabel: 'Career',
-                    name: 'whatever',
-                    columns: 1,
-                    vertical: true,
-                }
-            ],
-            buttons: [
-                { xtpe: 'button', text: 'Next', itemId: 'nextButton' }
-            ]
-        },
         {
             xtype: 'form',
             alias: 'widget.regularstudentinfo',
@@ -90,33 +68,8 @@ Ext.define('playground.view.RegularStudentsForm', {
                     name: 'subjects_allowed',
                     fieldLabel: 'Subjects allowed'
                 }
-            ],
-            buttons: [
-                { xtpe: 'button', text: 'Next', itemId: 'nextButton' }
             ]
         },
-        {
-            xtype: 'form',
-            itemId: 'subjectForm',
-            title: 'Subjects',
-            bodyPadding: 15,
-            defaults: {
-                anchor: '100%',
-            },
-            items: [
-                {
-                    xtype: 'combo',
-                    fieldLabel: 'Subjects',
-                    store: 'playground.store.Subjects',
-                    name: 'subjects',
-                    displayField: 'name',
-                    valueField: 'id',
-                    multiSelect: true,
-                    // titleCollapse: true,
-                    hideCollapse: true
-                }
-            ]
-        }
     ],
     buttons: [
         {

@@ -1,9 +1,14 @@
 Ext.define('playground.controller.RegularStudentController', {
-
     extend: 'Ext.app.Controller',
+
+    statics: {
+        REGULARS_ACTION: 'callRegulars'
+    },
+
     models: [
         'playground.model.RegularStudent'
     ],
+
     stores: [
         'playground.store.RegularStudents'
     ],
@@ -11,27 +16,65 @@ Ext.define('playground.controller.RegularStudentController', {
     views: [
         'playground.view.RegularStudentsGrid',
         'playground.view.RegularStudentsForm',
-        'playground.view.MenuTree'
+        'playground.view.MenuTree',
+
+        'playground.view.students.FormContainer',
+        'playground.view.students.StudentPartialForm',
+        'playground.view.students.SubjectPartialForm',
+    ],
+
+    refs: [
+        {ref: 'regularsGrid', selector: 'grd-regulars'},
+        {ref: 'regularsForm', selector: 'win-regulars-form'},
+        {ref: 'addBtn', selector: '#add'},
+        {ref: 'formContainer', selector: 'form-container'},
+        {ref: 'studentPartialForm', selector: 'pnl-student-partial-form'},
+        {ref: 'subjectPartialForm', selector: 'pnl-subject-partial-form'},
+        {ref: 'btnNext', selector: 'btnNext'}
     ],
 
     init: function(application){
+        var me = this;
+
         this.control({
             'menutree': {
-                dummyevent: this.callRegulars
+                dummyevent: me.callRegulars
             },
 
-            'regularstudentsform #save': {
-                click: this.onSaveClick
+            'win-regulars-form #save': {
+                click: me.onSaveClick
             },
 
             'regularstudentsgrid #delete': {
-                click: this.onDeleteClick
-            }
+                click: me.onDeleteClick
+            },
+
+            'grd-regulars': {
+                itemdblclick: me.onEditClick
+            },
+
+            'grd-regulars button#add': {
+                // click: function(){
+                //     console.log("Something");
+                // }
+                click: me.onAddClick
+            },
+
+            'pnl-student-partial-form button#btnNext': {
+                click: this.onNextClick
+            },
         });
     },
 
+    /**
+     * Populates grid with regular students from grid
+     * @param  {MenuTreeChildren} record
+     */
     callRegulars: function(record){
-        if(record.getId() === "callRegulars"){
+        var me = this;
+        var controllerRef = me.getController('RegularStudentController').self;
+
+        if(record.getId() === controllerRef.REGULARS_ACTION){
             var grid;
             var welcome = Ext.ComponentQuery.query('#welcome')[0];
             welcome.hide();
@@ -39,50 +82,35 @@ Ext.define('playground.controller.RegularStudentController', {
             var cont = Ext.ComponentQuery.query('#gridscontainer')[0];
             var items = {
                 items: [
-                    { xtype: 'regularstudentsgrid' }
+                    { xtype: 'grd-regulars' }
                 ]
             };
             cont.removeAll(true);
             cont.add(items);
 
-            grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
+            grid = me.getRegularsGrid();
             grid.getStore().load();
             grid.show();
         }
     },
 
-    onSaveClick: function(button, event, options){
-        var grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
-        var win = Ext.ComponentQuery.query('#formWindow')[0];
+    /**
+     * Saves the edition of a regular student information
+     * @param  {ButtonView} button
+     * @param  {Event} click
+     */
+    onSaveClick: function(button, click, options){
+        var me = this;
+
+        var grid = me.getRegularsGrid();
+        var win = me.getRegularsForm();
         var form = win.down('form');
         var store = grid.getStore();
         var record = form.getRecord();
 
-        if(record){
-            console.log("edit");
-            form.updateRecord();
-            record = form.getRecord();
-        }
-        else {
-            console.log("create");
-            var values = form.getValues();
-            record = Ext.create('playground.model.RegularStudent', {
-                name: values.name,
-                last_name: values.last_name,
-                gender: values.gender,
-                last_payment: values.last_payment,
-                next_payment: values.next_payment,
-                subjects_allowed: values.subjects_allowed,
-                subjects: values.subjects,
-                career_id: 1
-            });
-        }
-
-        console.log(record);
-
-        var subjects = record.get('subjects');
-        delete record.data.subjects;
-        console.log(record);
+        console.log("edit");
+        form.updateRecord();
+        record = form.getRecord();
 
         record.save({
             success: function(record, operation){
@@ -98,26 +126,16 @@ Ext.define('playground.controller.RegularStudentController', {
             record.setId(store.getTotalCount() + 1);
         }
 
-        console.log(subjects);
-
-        Ext.Ajax.request({
-            url: playground.Constants.BASE_URL + record.getId() + '/subjects',
-            method: 'POST',
-            jsonData: subjects,
-            success: function(response, opts) {
-                var obj = Ext.decode(response.responseText);
-                console.dir(obj);
-            },
-            failure: function(response, opts) {
-                console.log('server-side failure with status code ' + response.status);
-            }
-        });
-
         store.sync();
         win.close();
     },
 
-    onDeleteClick: function(button, event, options){
+    /**
+     * Deletes a regular student
+     * @param  {ButtonView} button
+     * @param  {Event} click
+     */
+    onDeleteClick: function(button, click, options){
         var grid = Ext.ComponentQuery.query('regularstudentsgrid')[0];
         var register = grid.getSelectionModel().getSelection();
         var store = register[0].store;
@@ -128,5 +146,72 @@ Ext.define('playground.controller.RegularStudentController', {
                 store.sync();
             }
         });
-    }
+    },
+
+    /**
+     * Shows the edition form for Regular Students
+     * @param  {gridview} row
+     * @param  {RegularStudent} record
+     * @param  {html} item
+     * @param  {[type]} index   [description]
+     * @param  {Event} e
+     */
+    onEditClick: function(row, record, item, index, e, options){
+        var win = Ext.create('playground.view.RegularStudentsForm')
+        var form = win.down('form');
+
+        win.setTitle('Edit regular student - ' + record.getCompleteName());
+        form.loadRecord(record);
+    },
+
+    /**
+     * Shows the create form for RegularStudentsForm
+     * @param  {button} button
+     * @param  {Event} e
+     */
+    onAddClick: function(button, e, options){
+        var win = Ext.create('playground.view.students.FormContainer');
+        var formStudent = Ext.create('playground.view.students.StudentPartialForm');
+        win.add(formStudent);
+    },
+
+    /**
+     * Saves the information of a Regular Student and goes to next formStudent
+     * @param  {button} button
+     * @param  {Event} e
+     */
+    onNextClick: function(button, e, options){
+        var me = this;
+        var win = me.getFormContainer();
+        var currentFormPanel = me.getStudentPartialForm();
+        var currentForm = currentFormPanel.down('form');
+        var nextFormPanel = Ext.create('playground.view.students.SubjectPartialForm');
+
+        var values = currentForm.getValues();
+
+        var newStudent = Ext.create('playground.model.RegularStudent', {
+            name: values.name,
+            last_name: values.last_name,
+            gender: values.gender,
+            last_payment: values.last_payment,
+            next_payment: values.next_payment,
+            subjects_allowed: values.subjects_allowed,
+            subjects: values.subjects,
+            career_id: values.career_id
+        });
+
+        newStudent.save({
+            success: function(record, operation){
+                console.log("Student saved successfully");
+            },
+            failure: function(record, operation){
+                console.log("Something went wrong");
+            }
+        });
+
+        win.remove(currentFormPanel, true);
+        win.add(nextFormPanel);
+    },
+
+    
 });

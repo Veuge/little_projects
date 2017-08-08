@@ -1,7 +1,7 @@
 Ext.define('playground.view.RegularStudentsGrid', {
     extend: 'Ext.grid.Panel',
 
-    alias: 'widget.regularstudentsgrid',
+    alias: 'widget.grd-regulars',
     store: 'playground.store.RegularStudents',
     title: 'Regular Students grid',
 
@@ -44,20 +44,20 @@ Ext.define('playground.view.RegularStudentsGrid', {
             text: 'SUBJECTS ALLOWED',
             flex: 1,
             dataIndex: 'subjects_allowed',
-        },
-        {
-            text: 'SUBJECTS',
-            flex: 3,
-            dataIndex: 'subjects',
-            name: 'subjects',
-            renderer: function(value){
-                var str = '';
-                for(var i = 0; i < value.length; i++){
-                    str += '<span>' + value[i].name + " </span>";
-                }
-                return str;
-            }
         }
+        // {
+        //     text: 'SUBJECTS',
+        //     flex: 3,
+        //     dataIndex: 'subjects',
+        //     name: 'subjects',
+        //     renderer: function(value){
+        //         var str = '';
+        //         for(var i = 0; i < value.length; i++){
+        //             str += '<span>' + value[i].name + " </span>";
+        //         }
+        //         return str;
+        //     }
+        // }
     ],
     dockedItems: [
         {

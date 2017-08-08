@@ -24,5 +24,10 @@ Ext.define('playground.model.Student', {
             return false;
         }
         return true;
+    },
+
+    getCompleteName: function(){
+        var me = this;
+        return this.get('name') + ' ' + this.get('last_name');
     }
 })
