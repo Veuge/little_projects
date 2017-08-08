@@ -186,10 +186,9 @@ Ext.define('playground.controller.Main', {
         subjectsStore.load({
             scope: this,
             callback: function(records, success){
-                subjectsSelected = Ext.Array.filter(records, function(record){
-                    return Ext.Array.indexOf(values.subjects, record.getId()) >= 0;
-                });
-                me.generateSchedule(subjectsSelected, "afternoon");
+                console.log(records);
+                subjectsSelected = me.getSelectableSubjects(values, records, 'morning');
+                // me.generateSchedule(subjectsSelected, "afternoon");
             }
         });
     },
@@ -199,8 +198,6 @@ Ext.define('playground.controller.Main', {
         var controllerRef = me.getController('Main').self;
         var possible = [];
         var min, max;
-
-        console.log(subjects.length);
 
         if(preference === controllerRef.MORNING){
             min = controllerRef.MORNING_MIN;
@@ -224,6 +221,50 @@ Ext.define('playground.controller.Main', {
             }
         }
         // });
-        console.log(possible);
-    }
+        // console.log(possible);
+    },
+
+    getSelectableSubjects: function(selectedIds, subjectsArray, preference){
+        var me = this;
+        var min, max;
+        var selectableSub = [];
+        var controllerRef = me.getController('Main').self;
+
+        if(preference === controllerRef.MORNING){
+            min = controllerRef.MORNING_MIN;
+            max = controllerRef.MORNING_MAX;
+        }
+        else if (preference === controllerRef.AFTERNOON) {
+            min = controllerRef.AFTERNOON_MIN;
+            max = controllerRef.AFTERNOON_MAX;
+        }
+        else if (preference === controllerRef.NIGHT) {
+            min = controllerRef.NIGHT_MIN;
+            max = controllerRef.NIGHT_MAX;
+        }
+
+        for(var i = 0; i < subjectsArray.length; i++){
+            var subject = subjectsArray[i];
+        // Ext.Array.forEach(subjectsArray, function(subject) {
+            if(Ext.Array.indexOf(selectedIds.subjects, subject.getId()) >= 0){
+                var schedules = subject.get('schedules');
+                var selectableSch = [];
+                for(var j = 0; j < schedules.length; j++){
+                    if(schedules[j].start >= min && schedules[j].start <= max){
+                        selectableSch.push(schedules[j]);
+                    }
+                }
+                if(selectableSch.length > 0){
+                    delete subject.data.schedules;
+                    subject.schedules = selectableSch;
+                    selectableSub.push(subject);
+                }
+            }
+            console.log(selectableSub[0].schedules);
+        }
+        // });
+
+    },
+
+    selectSchedules: function(){}
 });
