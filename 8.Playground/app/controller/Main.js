@@ -133,6 +133,7 @@ Ext.define('playground.controller.Main', {
             scope: this,
             callback: function(records, success){
                 subjectsSelected = me.getSelectableSubjects(values, records, 'morning');
+                console.log(subjectsSelected[0].schedules);
                 me.generateSchedule(subjectsSelected);
             }
         });
@@ -180,7 +181,11 @@ Ext.define('playground.controller.Main', {
     },
 
     generateSchedule: function(subjects){
-        var selected = []
+        var me = this;
+        var selected = [];
+
+        me.removeConflicts(subjects);
+
         for(var i = 0; i < subjects.length; i ++){
             var optionsQty = subjects[i].schedules.length;
             if(optionsQty === 1){
@@ -189,4 +194,28 @@ Ext.define('playground.controller.Main', {
         }
         console.log(selected);
     },
+
+    removeConflicts: function(subjects){
+        var currentSubject;
+        var currentSchedules;
+        var currentDay;
+        var currentHour;
+
+        for(var i = 0; i < subjects.length; i++){
+            currentSubject = subjects[i];
+            currentSchedules = current.schedules();
+            for(var j = 0; j < currentSchedules.length; j++){
+                currentDay = currentSchedules[i].day;
+                currentHour = currentSchedules[i].start;
+
+                if(repeated(currentDay, currentHour, subjects)){
+
+                }
+            }
+        }
+    },
+
+    findConflicts: function(){
+
+    }
 });

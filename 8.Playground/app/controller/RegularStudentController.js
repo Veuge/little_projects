@@ -54,9 +54,6 @@ Ext.define('playground.controller.RegularStudentController', {
             },
 
             'grd-regulars button#add': {
-                // click: function(){
-                //     console.log("Something");
-                // }
                 click: me.onAddClick
             },
 
@@ -213,5 +210,5 @@ Ext.define('playground.controller.RegularStudentController', {
         win.add(nextFormPanel);
     },
 
-    
+
 });
