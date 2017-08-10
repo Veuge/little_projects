@@ -47,7 +47,7 @@ class SubjectsSeeder extends Seeder
         $scheduleIds = Schedule::pluck('id')->toArray();
 
         foreach ($subjects as $subject) {
-            for($i = 0; $i < $faker->numberBetween($min = 1, $max = 5); $i++){
+            for($i = 0; $i < $faker->numberBetween($min = 1, $max = 3); $i++){
                 DB::table("schedule_subject")->insert([
                     'subject_id' => $subject->id,
                     'schedule_id' => $faker->randomElement($scheduleIds)
