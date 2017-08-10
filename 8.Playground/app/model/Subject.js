@@ -39,16 +39,5 @@ Ext.define('playground.model.Subject', {
             associationKey: 'regulars',
             name: 'regulars'
         }
-    ],
-
-    getStudents: function(){
-        var completeURL = playground.Constants.BASE_URL + "subjects/" + this.id + "/students";
-
-        Ext.Ajax.request({
-            url: completeURL,
-            success: function(response){
-                console.log(response.responseText);
-            }
-        });
-    }
+    ]
 });

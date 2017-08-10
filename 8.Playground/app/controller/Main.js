@@ -132,9 +132,9 @@ Ext.define('playground.controller.Main', {
         subjectsStore.load({
             scope: this,
             callback: function(records, success){
-                subjectsSelected = me.getSelectableSubjects(values, records, 'morning');
-                console.log(subjectsSelected[0].schedules);
-                me.generateSchedule(subjectsSelected);
+                subjectsSelected = me.getSelectableSubjects(values, records, 'afternoon');
+                me.identifyConflicts(subjectsSelected);
+                me.suggestSchedules(subjectsSelected);
             }
         });
     },
@@ -180,42 +180,47 @@ Ext.define('playground.controller.Main', {
         return selectableSub;
     },
 
-    generateSchedule: function(subjects){
+    identifyConflicts: function(subjectsArray){
         var me = this;
-        var selected = [];
+        var j = 1;
 
-        me.removeConflicts(subjects);
-
-        for(var i = 0; i < subjects.length; i ++){
-            var optionsQty = subjects[i].schedules.length;
-            if(optionsQty === 1){
-                selected.push(subjects[i]);
+        for(var i = 0; i < subjectsArray.length - 1; i++){
+            while (i + j < subjectsArray.length) {
+                me.compareSchedules(subjectsArray[i].schedules, subjectsArray[i+j].schedules);
+                j++;
             }
         }
-        console.log(selected);
     },
 
-    removeConflicts: function(subjects){
-        var currentSubject;
-        var currentSchedules;
-        var currentDay;
-        var currentHour;
-
-        for(var i = 0; i < subjects.length; i++){
-            currentSubject = subjects[i];
-            currentSchedules = current.schedules();
-            for(var j = 0; j < currentSchedules.length; j++){
-                currentDay = currentSchedules[i].day;
-                currentHour = currentSchedules[i].start;
-
-                if(repeated(currentDay, currentHour, subjects)){
-
+    compareSchedules: function(currentSchedules, nextSchedules){
+        for(var i = 0; i < currentSchedules.length; i++){
+            for(var j = 0; j < nextSchedules.length; j++){
+                if(currentSchedules[i].day === nextSchedules[j].day
+                && currentSchedules[i].hour === nextSchedules[j].hour){
+                    currentSchedules.conflict = true;
+                    nextSchedules.conflict = true;
+                    break;
                 }
             }
         }
     },
 
-    findConflicts: function(){
+    suggestSchedules: function(arraySubjects){
+        var schedules;
+        var conflict;
+        var selected = [];
 
+        for(var i = 0; i < arraySubjects.length; i++){
+            schedules = arraySubjects[i].schedules;
+            conflict = arraySubjects[i].schedules.conflict;
+
+            if(conflict || schedules.length > 1){
+                console.log("Handle conflict. How? trees? graphs? I don't know!");
+            }
+            else {
+                selected.push(arraySubjects[i]);
+            }
+        }
+        console.log(selected);
     }
 });
