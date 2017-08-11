@@ -134,7 +134,8 @@ Ext.define('playground.controller.Main', {
             callback: function(records, success){
                 subjectsSelected = me.getSelectableSubjects(values, records, 'afternoon');
                 me.identifyConflicts(subjectsSelected);
-                me.suggestSchedules(subjectsSelected);
+                console.log(subjectsSelected);
+                // me.suggestSchedules(subjectsSelected);
             }
         });
     },
@@ -193,12 +194,14 @@ Ext.define('playground.controller.Main', {
     },
 
     compareSchedules: function(currentSchedules, nextSchedules){
+        var conflictId = 1;
         for(var i = 0; i < currentSchedules.length; i++){
             for(var j = 0; j < nextSchedules.length; j++){
                 if(currentSchedules[i].day === nextSchedules[j].day
                 && currentSchedules[i].hour === nextSchedules[j].hour){
-                    currentSchedules.conflict = true;
-                    nextSchedules.conflict = true;
+                    currentSchedules[i].conflict = conflictId;
+                    nextSchedules[j].conflict = conflictId;
+                    conflictId++;
                     break;
                 }
             }
@@ -216,6 +219,8 @@ Ext.define('playground.controller.Main', {
 
             if(conflict || schedules.length > 1){
                 console.log("Handle conflict. How? trees? graphs? I don't know!");
+                console.log(arraySubjects);
+
             }
             else {
                 selected.push(arraySubjects[i]);
