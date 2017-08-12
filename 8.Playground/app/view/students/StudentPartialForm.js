@@ -52,19 +52,22 @@ Ext.define('playground.view.students.StudentPartialForm', {
                     name: 'last_payment',
                     fieldLabel: 'Last payment',
                     format: 'Y/m/d',
-                    maxValue: new Date()
+                    maxValue: new Date(),
+                    allowBlank: false
                 },
                 {
                     xtype: 'datefield',
                     name: 'next_payment',
                     fieldLabel: 'Next payment',
-                    format: 'Y/m/d'
+                    format: 'Y/m/d',
+                    allowBlank: false
                 },
                 {
                     xtype: 'numberfield',
                     name: 'subjects_allowed',
                     fieldLabel: 'Subjects allowed',
-                    minValue: 0
+                    minValue: 0,
+                    maxValue: 
                 }
             ],
             buttons: [
