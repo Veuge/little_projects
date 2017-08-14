@@ -13,7 +13,7 @@ Ext.define('Playground.model.Career', {
 
         reader: {
             type: 'json',
-            root: 'data',
+            root: 'data'
         },
 
         writer: {

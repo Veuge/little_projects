@@ -8,6 +8,16 @@ Ext.define('Playground.model.Regular', {
 
     proxy: {
         type: 'rest',
-        url: Playground.Constants.BASE_URL + 'regulars'
+        url: Playground.Constants.BASE_URL + 'regulars',
+        reader: {
+            type: 'json',
+            root: 'data',
+            totalProperty: 'paginator.total'
+        },
+
+        writer: {
+            writeRecordId: false,
+            dateFormat: 'Y-m-d'
+        }
     }
 });

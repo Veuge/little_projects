@@ -11,14 +11,26 @@ Ext.define('Playground.Application', {
     ],
 
     views: [
-        // TODO: add views here
+        'Playground.view.ColumnPanel',
+        'Playground.view.FormContainer',
+        'Playground.view.GridPanel',
+        'Playground.view.MenuTree',
+
+        'Playground.view.careers.CareersGrid',
+
+        'Playground.view.regulars.RegularsGrid',
+        'Playground.view.regulars.RegularsPartialForm',
+        'Playground.view.regulars.SubjectsPartialForm'
     ],
 
     controllers: [
-        // TODO: add controllers here
+        'Playground.controller.CareerController',
+        'Playground.controller.RegularController'
     ],
 
     stores: [
-        // TODO: add stores here
+        'Playground.store.Careers',
+        'Playground.store.Regulars',
+        'Playground.store.Subjects'
     ]
 });
