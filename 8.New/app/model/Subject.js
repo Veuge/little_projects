@@ -31,5 +31,15 @@ Ext.define('Playground.model.Subject', {
         writer: {
             writeRecordId: false
         }
-    }
+    },
+
+    belongsTo: [
+        {
+            model: 'Playground.model.Career',
+            name: 'career',
+            getterName: 'getCareer',
+            setterName: 'setCareer',
+            foreignKey: 'career_id'
+        }
+    ]
 });

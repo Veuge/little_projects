@@ -46,7 +46,7 @@ Ext.define('Playground.view.regulars.RegularsGrid', {
             flex: 1,
             dataIndex: 'subjects_allowed',
         },
-        {
+       /* {
             text: 'SUBJECTS',
             flex: 3,
             dataIndex: 'subjects',
@@ -58,7 +58,7 @@ Ext.define('Playground.view.regulars.RegularsGrid', {
                 }
                 return str;
             }
-        }
+        }*/
     ],
     dockedItems: [
         {

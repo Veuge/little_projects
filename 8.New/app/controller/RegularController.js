@@ -135,7 +135,6 @@ Ext.define('Playground.controller.RegularController', {
      * @param eOpts
      */
     saveStudentInfo: function (btn, e, eOpts) {
-        console.log("HI");
         var me = this;
 
         var win = me.getFormContainer();
@@ -156,7 +155,6 @@ Ext.define('Playground.controller.RegularController', {
         });
 
         newStudent.deleteId();
-        console.log(newStudent);
 
         newStudent.save({
             success: function(record, operation){
@@ -186,8 +184,6 @@ Ext.define('Playground.controller.RegularController', {
         var values = subjectsForm.getValues();
         var subjectsStore = Ext.create('Playground.store.Subjects');
         var subjectsSelected = [];
-
-        console.log(values);
 
         // win.remove(currentFormPanel, true);
 
@@ -241,7 +237,7 @@ Ext.define('Playground.controller.RegularController', {
                 }
                 if(selectableSch.length > 0){
                     delete subject.data.schedules;
-                    subject.schedules = selectableSch;
+                    subject.set('schedules', selectableSch);
                     selectableSub.push(subject);
                 }
             }
@@ -261,7 +257,7 @@ Ext.define('Playground.controller.RegularController', {
 
         for(var i = 0; i < subjectsArray.length - 1; i++){
             while (i + j < subjectsArray.length) {
-                me.compareSchedules(subjectsArray[i].schedules, subjectsArray[i+j].schedules);
+                me.compareSchedules(subjectsArray[i].get('schedules'), subjectsArray[i+j].get('schedules'));
                 j++;
             }
         }
@@ -291,24 +287,74 @@ Ext.define('Playground.controller.RegularController', {
      * Assembles a graph of schedules
      * @param arraySubjects
      */
-    suggestSchedules: function(arraySubjects){
-        var schedules;
-        var conflict;
-        var selected = [];
+    suggestSchedules: function(arraySubjects) {
+        var me = this;
+        var i, j;
+        var subjectSeparated = [];
+        var currentSubject;
+        var newSubject;
+        var currentNode;
+        var nextNode;
 
-        for(var i = 0; i < arraySubjects.length; i++){
-            schedules = arraySubjects[i].schedules;
-            conflict = arraySubjects[i].schedules.conflict;
+        var graph = Ext.create('Playground.model.helpers.Graph');
+        graph._constructor();
 
-            if(conflict || schedules.length > 1){
-                console.log("Handle conflict. How? trees? graphs? I don't know!");
-                console.log(arraySubjects);
+        var adjMatrix = Ext.create('Playground.model.helpers.AdjacencyMatrix');
 
-            }
-            else {
-                selected.push(arraySubjects[i]);
+        /**
+         * Adds vertices to the graph
+         */
+        for(i = 0; i < arraySubjects.length; i++){
+            currentSubject = arraySubjects[i];
+
+            for(j = 0; j < currentSubject.get('schedules').length; j++){
+                newSubject = me.separateSubjects(currentSubject, j);
+                newSubject.level = i;
+                subjectSeparated.push(newSubject);
+                graph.addVertex(subjectSeparated.length - 1);
             }
         }
-        console.log(selected);
+
+        console.log("HERE!", subjectSeparated);
+        adjMatrix._constructor(subjectSeparated.length);
+
+        /**
+         * Adds edges to the graph
+         */
+        for(i = 0; i < subjectSeparated.length - 1; i++){
+            currentNode = subjectSeparated[i];
+            j = 1;
+            while(i + j < subjectSeparated.length){
+                nextNode = subjectSeparated[i + j];
+
+                if(currentNode.data.id !== nextNode.data.id
+                    && (! currentNode.get('schedules').conflict
+                    || currentNode.get('schedules').conflict !== nextNode.get('schedules').conflict)
+                    && currentNode.level === nextNode.level - 1){
+
+                    graph.addEdge(i, i + j);
+                    adjMatrix.addEdge(i, i + j);
+                }
+                j++;
+            }
+        }
+        graph.print();
+        adjMatrix.print();
+
+        graph.
+    },
+
+    separateSubjects: function(subject, index){
+        var schedule = subject.get('schedules')[index];
+        return Ext.create('Playground.model.Subject', {
+            id: subject.data.id,
+            name: subject.data.name,
+            description: subject.data.description,
+            credits: subject.data.credits,
+            classroom_id: subject.data.classroom_id,
+            career_id: subject.data.career_id,
+
+            schedules: schedule
+        });
     }
 });

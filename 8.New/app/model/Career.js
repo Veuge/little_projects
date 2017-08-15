@@ -19,5 +19,9 @@ Ext.define('Playground.model.Career', {
         writer: {
             writeRecordId: false
         }
-    }
+    },
+
+    hasMany: [
+        { model: 'Playground.model.Subject', name: 'subjects' }
+    ]
 });

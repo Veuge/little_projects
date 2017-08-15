@@ -67,7 +67,7 @@ Ext.define('playground.view.students.StudentPartialForm', {
                     name: 'subjects_allowed',
                     fieldLabel: 'Subjects allowed',
                     minValue: 0,
-                    maxValue: 
+                    maxValue: 8
                 }
             ],
             buttons: [
