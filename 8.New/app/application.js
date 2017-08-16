@@ -20,6 +20,7 @@ Ext.define('Playground.Application', {
 
         'Playground.view.regulars.RegularsGrid',
         'Playground.view.regulars.RegularsPartialForm',
+        'Playground.view.regulars.SchedulesPartialForm',
         'Playground.view.regulars.SubjectsPartialForm',
 
         'Playground.view.subjects.SubjectsGrid'
@@ -28,7 +29,9 @@ Ext.define('Playground.Application', {
     controllers: [
         'Playground.controller.CareerController',
         'Playground.controller.RegularController',
-        'Playground.controller.SubjectController'
+        'Playground.controller.SubjectController',
+
+        'Playground.controller.Helpers'
     ],
 
     stores: [

@@ -2,11 +2,13 @@ Ext.define('Playground.controller.RegularController', {
     extend: 'Ext.app.Controller',
 
     models: [
-        'Playground.model.Regular'
+        'Playground.model.Regular',
+        'Playground.model.Suggestion'
     ],
 
     stores: [
-        'Playground.store.Regulars'
+        'Playground.store.Regulars',
+        'Playground.store.Suggestions'
     ],
 
     views: [
@@ -17,6 +19,7 @@ Ext.define('Playground.controller.RegularController', {
 
         'Playground.view.regulars.RegularsGrid',
         'Playground.view.regulars.RegularsPartialForm',
+        'Playground.view.regulars.SchedulesPartialForm',
         'Playground.view.regulars.SubjectsPartialForm'
     ],
 
@@ -29,9 +32,11 @@ Ext.define('Playground.controller.RegularController', {
         { ref: 'btnDelete', selector: '#btnDelete' },
         { ref: 'btnNext', selector: '#btnNext' },
         { ref: 'btnSuggest', selector: '#btnSuggest' },
+        { ref: 'btnChoose', selector: '#btnChoose' },
 
         { ref: 'formContainer', selector: 'frm-container' },
         { ref: 'regularPartialForm', selector: 'pnl-regulars-partial' },
+        { ref: 'schedulePartialForm', selector: 'pnl-schedules-partial' },
         { ref: 'subjectPartialForm', selector: 'pnl-subjects-partial' }
     ],
 
@@ -57,6 +62,10 @@ Ext.define('Playground.controller.RegularController', {
 
             '#btnSuggest': {
                 click: me.suggestSchedulesClick
+            },
+
+            '#btnChoose': {
+                click: me.chooseScheduleClick
             }
         });
     },
@@ -130,7 +139,7 @@ Ext.define('Playground.controller.RegularController', {
     /**
      * Function called when the Next button is clicked.
      * Saves the Regular student info and displays the Subjects form
-     * @param btn       Next buton
+     * @param btn       Next button
      * @param e         Click event
      * @param eOpts
      */
@@ -181,17 +190,16 @@ Ext.define('Playground.controller.RegularController', {
 
         var win = me.getFormContainer();
         var currentFormPanel = me.getSubjectPartialForm();
+        var nextFormPanel = Ext.create('Playground.view.regulars.SchedulesPartialForm');
         var subjectsForm = currentFormPanel.down('form');
         var values = subjectsForm.getValues();
         var subjectsStore = Ext.create('Playground.store.Subjects');
+        var suggestionsStore;
 
         var subjectsSelected = [];
         var subjectsSeparated = [];
         var graph;
         var paths;
-        var scores;
-
-        // win.remove(currentFormPanel, true);
 
         subjectsStore.load({
             scope: this,
@@ -200,13 +208,38 @@ Ext.define('Playground.controller.RegularController', {
                 helpers.identifyConflicts(subjectsSelected);
                 graph = me.schedulesGraph(subjectsSelected, subjectsSeparated);
                 paths = me.findPaths(graph, subjectsSeparated);
-                scores = me.evaluatePaths(paths, subjectsSeparated, values.subjects.length);
+                // console.log(paths);
+                suggestionsStore = me.evaluatePaths(paths, subjectsSeparated, values.subjects.length);
+                me.setupNextForm(nextFormPanel, suggestionsStore);
+
+                console.log(suggestionsStore);
             }
         });
+
+        win.remove(currentFormPanel, true);
+        win.add(nextFormPanel);
     },
 
     /**
-     * Assembles a graph of schedules
+     * Saves the schedule information to the student
+     * @param btn       Choose schedule button
+     * @param e         Click even
+     * @param eOpts
+     */
+    chooseScheduleClick: function(btn, e, eOpts){
+        var me = this;
+
+        console.log("One step closer");
+        var win = me.getFormContainer();
+        var currentFormPanel = win.down('form');
+        var values = currentFormPanel.getValues();
+
+        console.log(currentFormPanel);
+        console.log(values);
+    },
+
+    /**
+     * Assembles a graph of subjects and schedules
      * @param arraySubjects
      * @param subjectsSeparated
      */
@@ -248,21 +281,29 @@ Ext.define('Playground.controller.RegularController', {
         var me = this;
 
         var path;
-        var scores = [];
+        var evaluations = Ext.create('Playground.store.Suggestions');
+        var evaluation;
         var score;
         var subjects = [];
 
         var i, j;
         for(i = 0; i < paths.length; i++){
             score = 0;
+            j = i + 1;
             path = paths[i];
             score += Math.abs(selectedQty - path.length);
             subjects = me.filterPathSubjects(path, subjectsSeparated);
             score += me.scheduleDistance(subjects);
 
-            scores.push(score);
+            evaluation = Ext.create('Playground.model.Suggestion', {
+                name: 'Option ' + j,
+                subjects: subjects,
+                score: score
+            });
+
+            evaluations.add(evaluation);
         }
-        return scores;
+        return evaluations;
     },
 
     filterPathSubjects: function(path, subjectsSeparated){
@@ -330,5 +371,66 @@ Ext.define('Playground.controller.RegularController', {
         }
 
         return total;
+    },
+
+    setupNextForm: function(form, store){
+        var txt = "";
+        var current;
+
+        for(var i = 0; i < store.getCount(); i++){
+            current = store.getAt(i);
+            var option = i + 1;
+            txt += "Option " + option + ": ";
+            txt += "(score " + current.get('score') + ") ";
+
+            for(var j = 0; j < current.get('subjects').length; j++){
+                txt += current.get('subjects')[j].get('name') + " " + current.get('subjects')[j].get('schedules').day
+                    + " " + current.get('subjects')[j].get('schedules').start + " | ";
+            }
+            txt += '\n';
+        }
+
+        console.log(txt);
+
+        var items = [
+            {
+                xtype: 'form',
+                bodyPadding: 15,
+                items: [
+                    {
+                        xtype: 'text',
+                        text: txt
+                    },
+                    {
+                        xtype: 'text',
+                        text: 'The best schedule is the one with lowest score',
+                        style: 'font-weight: bold; color: #26A65B' /*{
+                            fontWeight: 'bold',
+                            fontColor: '#26A65B'
+                        }*/
+                    },
+                    {
+                        xtype: 'combo',
+                        alias: 'widget.'
+                        store: store,
+                        fieldLabel: 'Schedule',
+                        displayField: 'name',
+                        valueField: 'name',
+                        queryMode: 'local',
+                        name: 'name'
+                    }
+
+                ],
+                buttons: [
+                    {
+                        xtype: 'button',
+                        text: 'Choose schedule',
+                        itemId: 'btnChoose'
+                    }
+                ]
+            }
+        ];
+
+        form.add(items);
     }
 });

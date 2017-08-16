@@ -4,7 +4,7 @@ Ext.define('Playground.view.FormContainer', {
     itemId: 'frmContainer',
 
     height: 350,
-    width: 500,
+    width: 600,
 
     layout: 'fit',
     autoShow: true

@@ -72,7 +72,7 @@ Ext.define('Playground.controller.Helpers', {
         for(var i = 0; i < currentSchedules.length; i++){
             for(var j = 0; j < nextSchedules.length; j++){
                 if(currentSchedules[i].day === nextSchedules[j].day
-                    && currentSchedules[i].hour === nextSchedules[j].hour){
+                    && currentSchedules[i].start === nextSchedules[j].start){
                     currentSchedules[i].conflict = conflictId;
                     nextSchedules[j].conflict = conflictId;
                     conflictId++;
