@@ -189,6 +189,7 @@ Ext.define('Playground.controller.RegularController', {
         var subjectsSeparated = [];
         var graph;
         var paths;
+        var scores;
 
         // win.remove(currentFormPanel, true);
 
@@ -199,7 +200,7 @@ Ext.define('Playground.controller.RegularController', {
                 helpers.identifyConflicts(subjectsSelected);
                 graph = me.schedulesGraph(subjectsSelected, subjectsSeparated);
                 paths = me.findPaths(graph, subjectsSeparated);
-                me.evaluatePaths(paths, subjectsSeparated, values.subjects.length);
+                scores = me.evaluatePaths(paths, subjectsSeparated, values.subjects.length);
             }
         });
     },
@@ -258,7 +259,10 @@ Ext.define('Playground.controller.RegularController', {
             score += Math.abs(selectedQty - path.length);
             subjects = me.filterPathSubjects(path, subjectsSeparated);
             score += me.scheduleDistance(subjects);
+
+            scores.push(score);
         }
+        return scores;
     },
 
     filterPathSubjects: function(path, subjectsSeparated){
@@ -306,5 +310,25 @@ Ext.define('Playground.controller.RegularController', {
         }
     },
 
-    shc
+    scheduleDistance: function(subjects){
+        var me = this;
+
+        var total = 0;
+        var i;
+        var currentDay, nextDay;
+        var currentHour, nextHour;
+
+        for(i = 0; i < subjects.length - 1; i++){
+            currentDay = me.dayToIndex(subjects[i].get('schedules').day);
+            nextDay = me.dayToIndex(subjects[i + 1].get('schedules').day);
+
+            currentHour = subjects[i].get('schedules').start;
+            nextHour = subjects[i + 1].get('schedules').start;
+
+            total += Math.abs(currentDay - nextDay) * 10;
+            total += Math.abs(currentHour - nextHour);
+        }
+
+        return total;
+    }
 });
