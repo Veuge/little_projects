@@ -20,8 +20,8 @@
       <file leaf-file-name="RegularController.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controller/RegularController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="385">
-              <caret line="413" column="39" lean-forward="false" selection-start-line="413" selection-start-column="39" selection-end-line="413" selection-end-column="39" />
+            <state relative-caret-position="295">
+              <caret line="245" column="23" lean-forward="false" selection-start-line="245" selection-start-column="23" selection-end-line="245" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -226,12 +226,12 @@
       <workItem from="1502724384635" duration="7852000" />
       <workItem from="1502810400286" duration="12035000" />
       <workItem from="1502838864289" duration="14530000" />
-      <workItem from="1502882870263" duration="24776000" />
+      <workItem from="1502882870263" duration="35875000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77684000" />
+    <option name="totallyTimeSpent" value="88783000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-22" width="1602" height="926" extended-state="6" />
@@ -499,14 +499,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/view/regulars/SchedulesPartialForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="20" lean-forward="false" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/view/regulars/RegularsPartialForm.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -515,10 +507,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/view/regulars/SchedulesPartialForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="20" lean-forward="false" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/controller/RegularController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="413" column="39" lean-forward="false" selection-start-line="413" selection-start-column="39" selection-end-line="413" selection-end-column="39" />
+        <state relative-caret-position="295">
+          <caret line="245" column="23" lean-forward="false" selection-start-line="245" selection-start-column="23" selection-end-line="245" selection-end-column="23" />
           <folding />
         </state>
       </provider>

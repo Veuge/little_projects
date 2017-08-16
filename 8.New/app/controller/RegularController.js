@@ -37,7 +37,9 @@ Ext.define('Playground.controller.RegularController', {
         { ref: 'formContainer', selector: 'frm-container' },
         { ref: 'regularPartialForm', selector: 'pnl-regulars-partial' },
         { ref: 'schedulePartialForm', selector: 'pnl-schedules-partial' },
-        { ref: 'subjectPartialForm', selector: 'pnl-subjects-partial' }
+        { ref: 'subjectPartialForm', selector: 'pnl-subjects-partial' },
+
+        { ref: 'cmbSchedules', selector: '#cmbSchedules' }
     ],
 
     init: function(application){
@@ -173,7 +175,7 @@ Ext.define('Playground.controller.RegularController', {
                 console.log("Something went wrong");
             }
         });
-
+        console.log(newStudent);
         win.remove(currentFormPanel, true);
         win.add(nextFormPanel);
     },
@@ -223,20 +225,43 @@ Ext.define('Playground.controller.RegularController', {
     /**
      * Saves the schedule information to the student
      * @param btn       Choose schedule button
-     * @param e         Click even
+     * @param e         Click event
      * @param eOpts
      */
     chooseScheduleClick: function(btn, e, eOpts){
         var me = this;
 
-        console.log("One step closer");
         var win = me.getFormContainer();
+        var grid = me.getRegularsGrid();
+        var cmbSchedules = me.getCmbSchedules();
         var currentFormPanel = win.down('form');
-        var values = currentFormPanel.getValues();
 
-        console.log(currentFormPanel);
-        console.log(values);
+        var studentsStore = grid.getStore();
+        var lastPage = Math.ceil(studentsStore.getTotalCount() / studentsStore.pageSize);
+
+        var optionSelected = currentFormPanel.getValues();
+        var schedulesStore = cmbSchedules.getStore();
+
+        studentsStore.loadPage(lastPage, {
+            callback: function (records) {
+                var studentId = this.last().getId();
+
+                for(var i = 0; i < schedulesStore.getCount(); i++){
+                    var current = schedulesStore.getAt(i);
+                    if(current.get('name') === optionSelected.name){
+                        var selectedSubjects = current.get('subjects');
+                        break;
+                    }
+                }
+            }
+        });
+
+        /* (regular_id, subject_id, schedule_id) */
+
     },
+
+    /* =========================================================================================================================== */
+
 
     /**
      * Assembles a graph of subjects and schedules
@@ -271,7 +296,9 @@ Ext.define('Playground.controller.RegularController', {
         var paths = [];
         for(i = 0; i < startSubjects.length; i++){
             for(j = 0; j < endSubjects.length; j++){
-                paths.push(graph.pathFromTo(startSubjects[i], endSubjects[j]));
+                if(graph.pathFromTo(startSubjects[i], endSubjects[j])){
+                    paths.push(graph.pathFromTo(startSubjects[i], endSubjects[j]));
+                }
             }
         }
         return paths;
@@ -411,7 +438,8 @@ Ext.define('Playground.controller.RegularController', {
                     },
                     {
                         xtype: 'combo',
-                        alias: 'widget.'
+                        alias: 'widget.cmb-schedules',
+                        itemId: 'cmbSchedules',
                         store: store,
                         fieldLabel: 'Schedule',
                         displayField: 'name',
