@@ -13,6 +13,9 @@ Ext.define('Playground.Constants', {
     CLASSROOMS_ACTION:      'callClassrooms',
     CAREERS_ACTION:         'callCareers',
 
+    /**
+     * Constants for hours in schedules and identifying strings
+     */
     MORNING_MIN:            7,
     MORNING_MAX:            12,
     MORNING:                'Morning',
@@ -21,5 +24,18 @@ Ext.define('Playground.Constants', {
     AFTERNOON:              'Afternoon',
     NIGHT_MIN:              19,
     NIGHT_MAX:              23,
-    NIGHT:                  'Night'
+    NIGHT:                  'Night',
+
+    MONDAY_INDEX:            1,
+    TUESDAY_INDEX:           2,
+    WEDNESDAY_INDEX:         3,
+    THURSDAY_INDEX:          4,
+    FRIDAY_INDEX:            5,
+
+    MONDAY:                 'Monday',
+    TUESDAY:                'Tuesday',
+    WEDNESDAY:              'Wednesday',
+    THURSDAY:               'Thursday',
+    FRIDAY:                 'Friday'
+
 });

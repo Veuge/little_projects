@@ -14,10 +14,51 @@ Ext.define('Playground.model.helpers.Graph', {
         this.edges[vertex] = [];
     },
 
+    addVertices: function(array, subjectsSeparated){
+        var app = Playground.getApplication();
+        var helpers = app.getController('Playground.controller.Helpers');
+        var currentSubject;
+        var newSubject;
+
+        for(i = 0; i < array.length; i++){
+            currentSubject = array[i];
+
+            for(j = 0; j < currentSubject.get('schedules').length; j++){
+                newSubject = helpers.separateSubjects(currentSubject, j);
+                newSubject.level = i;
+                subjectsSeparated.push(newSubject);
+                this.addVertex(subjectsSeparated.length - 1);
+            }
+        }
+    },
+
     addEdge: function (vertex1, vertex2) {
         this.edges[vertex1].push(vertex2);
-        // this.edges[vertex2].push(vertex1);
         this.numberOfEdges++;
+    },
+
+    addEdges: function(subjectSeparated, adjMatrix){
+        var i, j;
+        var currentNode;
+        var nextNode;
+
+        for(i = 0; i < subjectSeparated.length - 1; i++){
+            currentNode = subjectSeparated[i];
+            j = 1;
+            while(i + j < subjectSeparated.length){
+                nextNode = subjectSeparated[i + j];
+
+                if(currentNode.data.id !== nextNode.data.id
+                    && (! currentNode.get('schedules').conflict
+                        || currentNode.get('schedules').conflict !== nextNode.get('schedules').conflict)
+                    && currentNode.level === nextNode.level - 1){
+
+                    this.addEdge(i, i + j);
+                    adjMatrix.addEdge(i, i + j);
+                }
+                j++;
+            }
+        }
     },
 
     size: function() {

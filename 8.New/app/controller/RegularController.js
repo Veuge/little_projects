@@ -177,171 +177,62 @@ Ext.define('Playground.controller.RegularController', {
      */
     suggestSchedulesClick: function(btn, e, eOpts){
         var me = this;
+        var helpers = me.getController('Playground.controller.Helpers');
 
         var win = me.getFormContainer();
         var currentFormPanel = me.getSubjectPartialForm();
         var subjectsForm = currentFormPanel.down('form');
         var values = subjectsForm.getValues();
         var subjectsStore = Ext.create('Playground.store.Subjects');
+
         var subjectsSelected = [];
+        var subjectsSeparated = [];
+        var graph;
+        var paths;
 
         // win.remove(currentFormPanel, true);
 
         subjectsStore.load({
             scope: this,
-            callback: function(records, success){
-                subjectsSelected = me.getSelectableSubjects(values, records, values.preference);
-                me.identifyConflicts(subjectsSelected);
-                var possibleSchedules = me.suggestSchedules(subjectsSelected);
+            callback: function(records){
+                subjectsSelected = helpers.getSelectableSubjects(values, records, values.preference);
+                helpers.identifyConflicts(subjectsSelected);
+                graph = me.schedulesGraph(subjectsSelected, subjectsSeparated);
+                paths = me.findPaths(graph, subjectsSeparated);
+                me.evaluatePaths(paths, subjectsSeparated, values.subjects.length);
             }
         });
-    },
-
-
-    /**
-     * Returns the list of subjects selected filtered by the preference of schedules as well
-     * @param selectedIds       List of subject ids selected
-     * @param subjectsArray     Complete list of subjects
-     * @param preference        Schedule preference [Morning, Afternoon, Night]
-     *
-     * @returns {Array}         List of subject selected with schedules according to preference
-     */
-    getSelectableSubjects: function(selectedIds, subjectsArray, preference){
-        var me = this;
-        var min, max;
-        var selectableSub = [];
-
-        if(preference === Playground.Constants.MORNING){
-            min = Playground.Constants.MORNING_MIN;
-            max = Playground.Constants.MORNING_MAX;
-        }
-        else if (preference === Playground.Constants.AFTERNOON) {
-            min = Playground.Constants.AFTERNOON_MIN;
-            max = Playground.Constants.AFTERNOON_MAX;
-        }
-        else if (preference === Playground.Constants.NIGHT) {
-            min = Playground.Constants.NIGHT_MIN;
-            max = Playground.Constants.NIGHT_MAX;
-        }
-
-        for(var i = 0; i < subjectsArray.length; i++){
-            var subject = subjectsArray[i];
-        //Ext.Array.forEach(subjectsArray, function(subject) {
-            if(Ext.Array.indexOf(selectedIds.subjects, subject.getId()) >= 0){
-                var schedules = subject.get('schedules');
-                var selectableSch = [];
-                for(var j = 0; j < schedules.length; j++){
-                    if(schedules[j].start >= min && schedules[j].start <= max){
-                        selectableSch.push(schedules[j]);
-                    }
-                }
-                if(selectableSch.length > 0){
-                    delete subject.data.schedules;
-                    subject.set('schedules', selectableSch);
-                    selectableSub.push(subject);
-                }
-            }
-        }
-        //});
-        return selectableSub;
-    },
-
-
-    /**
-     * Marks the schedules in each subject that is repeated in another subject
-     * @param subjectsArray     List of selected subjects with preferred schedule
-     */
-    identifyConflicts: function(subjectsArray){
-        var me = this;
-        var j = 1;
-
-        for(var i = 0; i < subjectsArray.length - 1; i++){
-            while (i + j < subjectsArray.length) {
-                me.compareSchedules(subjectsArray[i].get('schedules'), subjectsArray[i+j].get('schedules'));
-                j++;
-            }
-        }
-    },
-
-    /**
-     * Adds an id in the schedules that are repeated between subjects
-     * @param currentSchedules  List of current schedules
-     * @param nextSchedules     List of next schedules
-     */
-    compareSchedules: function(currentSchedules, nextSchedules){
-        var conflictId = 1;
-        for(var i = 0; i < currentSchedules.length; i++){
-            for(var j = 0; j < nextSchedules.length; j++){
-                if(currentSchedules[i].day === nextSchedules[j].day
-                    && currentSchedules[i].hour === nextSchedules[j].hour){
-                    currentSchedules[i].conflict = conflictId;
-                    nextSchedules[j].conflict = conflictId;
-                    conflictId++;
-                    break;
-                }
-            }
-        }
     },
 
     /**
      * Assembles a graph of schedules
      * @param arraySubjects
+     * @param subjectsSeparated
      */
-    suggestSchedules: function(arraySubjects) {
-        var me = this;
-        var i, j;
-        var subjectSeparated = [];
-        var currentSubject;
-        var newSubject;
-        var currentNode;
-        var nextNode;
+    schedulesGraph: function(arraySubjects, subjectsSeparated) {
+        var adjMatrix = Ext.create('Playground.model.helpers.AdjacencyMatrix');
 
         var graph = Ext.create('Playground.model.helpers.Graph');
         graph._constructor();
 
-        var adjMatrix = Ext.create('Playground.model.helpers.AdjacencyMatrix');
+        graph.addVertices(arraySubjects, subjectsSeparated);
+        adjMatrix._constructor(subjectsSeparated.length);
 
-        /**
-         * Adds vertices to the graph
-         */
-        for(i = 0; i < arraySubjects.length; i++){
-            currentSubject = arraySubjects[i];
+        graph.addEdges(subjectsSeparated, adjMatrix);
 
-            for(j = 0; j < currentSubject.get('schedules').length; j++){
-                newSubject = me.separateSubjects(currentSubject, j);
-                newSubject.level = i;
-                subjectSeparated.push(newSubject);
-                graph.addVertex(subjectSeparated.length - 1);
-            }
-        }
-
-        adjMatrix._constructor(subjectSeparated.length);
-
-        /**
-         * Adds edges to the graph
-         */
-        for(i = 0; i < subjectSeparated.length - 1; i++){
-            currentNode = subjectSeparated[i];
-            j = 1;
-            while(i + j < subjectSeparated.length){
-                nextNode = subjectSeparated[i + j];
-
-                if(currentNode.data.id !== nextNode.data.id
-                    && (! currentNode.get('schedules').conflict
-                    || currentNode.get('schedules').conflict !== nextNode.get('schedules').conflict)
-                    && currentNode.level === nextNode.level - 1){
-
-                    graph.addEdge(i, i + j);
-                    adjMatrix.addEdge(i, i + j);
-                }
-                j++;
-            }
-        }
         graph.print();
         adjMatrix.print();
 
-        var startSubjects = me.getByLevel(0, subjectSeparated);
-        var endSubjects = me.getByLevel(subjectSeparated[subjectSeparated.length - 1].level, subjectSeparated);
+        return graph;
+    },
+
+    findPaths: function(graph, subjectsSeparated){
+        var me = this;
+        var helpers = me.getController('Playground.controller.Helpers');
+        var i, j;
+
+        var startSubjects = helpers.getByLevel(0, subjectsSeparated);
+        var endSubjects = helpers.getByLevel(subjectsSeparated[subjectsSeparated.length - 1].level, subjectsSeparated);
 
         var paths = [];
         for(i = 0; i < startSubjects.length; i++){
@@ -352,28 +243,68 @@ Ext.define('Playground.controller.RegularController', {
         return paths;
     },
 
-    separateSubjects: function(subject, index){
-        var schedule = subject.get('schedules')[index];
-        return Ext.create('Playground.model.Subject', {
-            id: subject.data.id,
-            name: subject.data.name,
-            description: subject.data.description,
-            credits: subject.data.credits,
-            classroom_id: subject.data.classroom_id,
-            career_id: subject.data.career_id,
+    evaluatePaths: function(paths, subjectsSeparated, selectedQty){
+        var me = this;
 
-            schedules: schedule
-        });
+        var path;
+        var scores = [];
+        var score;
+        var subjects = [];
+
+        var i, j;
+        for(i = 0; i < paths.length; i++){
+            score = 0;
+            path = paths[i];
+            score += Math.abs(selectedQty - path.length);
+            subjects = me.filterPathSubjects(path, subjectsSeparated);
+            score += me.scheduleDistance(subjects);
+        }
     },
 
-    getByLevel: function(level, arraySubjects){
-        var byLevel = [];
-
-        for(var i = 0; i < arraySubjects.length; i++){
-            if(arraySubjects[i].level === level){
-                byLevel.push(i)
-            }
+    filterPathSubjects: function(path, subjectsSeparated){
+        var me = this;
+        
+        var subjects = [];
+        for(var i = 0; i < path.length; i++){
+            subjects.push(subjectsSeparated[path.charAt(i)]);
         }
-        return byLevel;
-    }
+
+        subjects = me.order(subjects);
+        return subjects;
+    },
+    
+    order: function (subjects) {
+
+        var me = this;
+        var i, j;
+        var temp;
+
+        for(i = 0; i < subjects.length; i++) {
+            temp = subjects[i];
+            j = i - 1;
+            while (j >= 0 && me.dayToIndex(subjects[j].get('schedules').day) > me.dayToIndex(temp.get('schedules').day)) {
+                subjects[j + 1] = subjects[j];
+                j--;
+            }
+            subjects[j + 1] = temp;
+        }
+        return subjects;
+    },
+
+    dayToIndex: function(day){
+        switch (day){
+            case Playground.Constants.MONDAY:
+                return Playground.Constants.MONDAY_INDEX;
+            case Playground.Constants.TUESDAY:
+                return Playground.Constants.TUESDAY_INDEX;
+            case Playground.Constants.WEDNESDAY:
+                return Playground.Constants.WEDNESDAY_INDEX;
+            case Playground.Constants.THURSDAY:
+                return Playground.Constants.THURSDAY_INDEX;
+            case Playground.Constants.FRIDAY:
+                return Playground.Constants.FRIDAY_INDEX;
+        }
+    },
+
+    shc
 });
