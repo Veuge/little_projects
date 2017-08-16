@@ -192,7 +192,7 @@ Ext.define('Playground.controller.RegularController', {
             callback: function(records, success){
                 subjectsSelected = me.getSelectableSubjects(values, records, values.preference);
                 me.identifyConflicts(subjectsSelected);
-                me.suggestSchedules(subjectsSelected);
+                var possibleSchedules = me.suggestSchedules(subjectsSelected);
             }
         });
     },
@@ -315,7 +315,6 @@ Ext.define('Playground.controller.RegularController', {
             }
         }
 
-        console.log("HERE!", subjectSeparated);
         adjMatrix._constructor(subjectSeparated.length);
 
         /**
@@ -341,7 +340,16 @@ Ext.define('Playground.controller.RegularController', {
         graph.print();
         adjMatrix.print();
 
-        graph.
+        var startSubjects = me.getByLevel(0, subjectSeparated);
+        var endSubjects = me.getByLevel(subjectSeparated[subjectSeparated.length - 1].level, subjectSeparated);
+
+        var paths = [];
+        for(i = 0; i < startSubjects.length; i++){
+            for(j = 0; j < endSubjects.length; j++){
+                paths.push(graph.pathFromTo(startSubjects[i], endSubjects[j]));
+            }
+        }
+        return paths;
     },
 
     separateSubjects: function(subject, index){
@@ -356,5 +364,16 @@ Ext.define('Playground.controller.RegularController', {
 
             schedules: schedule
         });
+    },
+
+    getByLevel: function(level, arraySubjects){
+        var byLevel = [];
+
+        for(var i = 0; i < arraySubjects.length; i++){
+            if(arraySubjects[i].level === level){
+                byLevel.push(i)
+            }
+        }
+        return byLevel;
     }
 });

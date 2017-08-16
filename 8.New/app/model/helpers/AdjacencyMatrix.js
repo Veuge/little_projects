@@ -41,14 +41,5 @@ Ext.define('Playground.model.helpers.AdjacencyMatrix', {
         }
 
 
-    },
-
-    countOcurrences: function(array, element){
-        var columns = [];
-        for(var i = 0; i < array.length; i++){
-            if(array[i] === element)
-                columns.push(i);
-        }
-        return columns;
     }
 });
