@@ -47,26 +47,26 @@ class StudentsSeeder extends Seeder
             $student->save();
         }
 
-        $regStudents = RegularStudent::all();
-        $subjectsIds = Subject::pluck('id')->toArray();
+        // $regStudents = RegularStudent::all();
+        // $subjectsIds = Subject::pluck('id')->toArray();
 
-        foreach ($regStudents as $regStudent) {
-            for($i = 0; $i < $regStudent->subjects_allowed; $i++){
-                DB::table("regular_subject")->insert([
-                    'regular_id' => $regStudent->id,
-                    'subject_id' => $faker->randomElement($subjectsIds)
-                ]);
-            }
-        }
+        // foreach ($regStudents as $regStudent) {
+        //     for($i = 0; $i < $regStudent->subjects_allowed; $i++){
+        //         DB::table("regular_subject")->insert([
+        //             'regular_id' => $regStudent->id,
+        //             'subject_id' => $faker->randomElement($subjectsIds)
+        //         ]);
+        //     }
+        // }
 
-        $schStudents = ScholarshipStudent::all();
-        foreach ($schStudents as $schStudent) {
-            for($i = 0; $i < 4; $i++){
-                DB::table("scholarship_subject")->insert([
-                    'scholarship_id' => $schStudent->id,
-                    'subject_id' => $faker->randomElement($subjectsIds)
-                ]);
-            }
-        }
+        // $schStudents = ScholarshipStudent::all();
+        // foreach ($schStudents as $schStudent) {
+        //     for($i = 0; $i < 4; $i++){
+        //         DB::table("scholarship_subject")->insert([
+        //             'scholarship_id' => $schStudent->id,
+        //             'subject_id' => $faker->randomElement($subjectsIds)
+        //         ]);
+        //     }
+        // }
     }
 }

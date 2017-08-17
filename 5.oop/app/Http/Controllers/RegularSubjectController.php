@@ -40,9 +40,23 @@ class RegularSubjectController extends ApiController
      * @return \Illuminate\Http\Response
      */
     public function store(RegularStudent $regular, Request $request){
-        $subjectIds = $request->all();
+        /**
+        *   Expected request:
+        *   [
+        *       { subject_id: 1, schedule_id: 2 },
+        *       { subject_id: 2, schedule_id: 3 }
+        *   ]
+        */
+        
+        $request = $request->all();
+        $counter = count($request);
 
-        $regular->subjects()->attach($subjectIds);
+        for($i = 0; $i < $counter; $i++){
+            $current = $request[$i];
+            $regular->subjects()->attach([
+                $current["subject_id"] => ['schedule_id' => $current["schedule_id"]]
+            ]);
+        }
 
         return $this->responseCreated('Subject(s) added to the student');
     }

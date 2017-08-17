@@ -65,15 +65,6 @@ class CreateRegularStudentsTable extends Migration
             $table->foreign('career_id')->references('id')->on('careers');
         });
 
-        Schema::create('regular_subject', function(Blueprint $table){
-            $table->increments('id');
-            $table->integer('regular_id')->unsigned();
-            $table->integer('subject_id')->unsigned();
-
-            $table->foreign('regular_id')->references('id')->on('regular_students')->onDelete('cascade');
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
-        });
-
         Schema::create('scholarship_subject', function(Blueprint $table){
             $table->increments('id');
             $table->integer('scholarship_id')->unsigned();
@@ -97,6 +88,17 @@ class CreateRegularStudentsTable extends Migration
             $table->foreign('schedule_id')->references('id')->on('schedules');
             $table->foreign('subject_id')->references('id')->on('subjects');
         });
+
+        Schema::create('regular_subject', function(Blueprint $table){
+            $table->increments('id');
+            $table->integer('regular_id')->unsigned();
+            $table->integer('subject_id')->unsigned();
+            $table->integer('schedule_id')->unsigned();
+
+            $table->foreign('regular_id')->references('id')->on('regular_students')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+            $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');
+        });
     }
 
     /**
@@ -106,9 +108,9 @@ class CreateRegularStudentsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('regular_subject');
         Schema::dropIfExists('schedule_subject');
         Schema::dropIfExists('schedules');
-        Schema::dropIfExists('regular_subject');
         Schema::dropIfExists('scholarship_subject');
         Schema::dropIfExists('regular_students');
         Schema::dropIfExists('scholarship_students');

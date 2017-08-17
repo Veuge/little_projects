@@ -10,6 +10,17 @@ class Schedule extends Model
     protected $guarded = [];
 
     public function subjects(){
-        return $this->belongsToMany('App\Subjects', 'schedule_subject', 'schedule_id', 'subject_id');
+        return $this->belongsToMany('App\Subject', 'schedule_subject', 'schedule_id', 'subject_id');
+    }
+
+    /*
+    *   TERNARY RELATIONSHIP
+    */
+    public function regulars(){
+        return $this->belongsToMany('App\RegularStudent', 'regular_subject', 'schedule_id', 'regular_id');
+    }
+
+    public function subjectsR(){
+        return $this->belongsToMany('App\Subject', 'regular_subject', 'schedule_id', 'subject_id');
     }
 }
