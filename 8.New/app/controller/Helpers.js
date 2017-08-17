@@ -119,5 +119,140 @@ Ext.define('Playground.controller.Helpers', {
         return byLevel;
     },
 
+    /**
+     * Builds the Schedules selector form
+     * @param form      Form container
+     * @param store     Schedules store
+     */
+    setupNextForm: function(form, store){
+        var txt = "";
+        var current;
 
+        for(var i = 0; i < store.getCount(); i++){
+            current = store.getAt(i);
+            var option = i + 1;
+            txt += "Option " + option + ": ";
+            txt += "(score " + current.get('score') + ") ";
+
+            for(var j = 0; j < current.get('subjects').length; j++){
+                txt += current.get('subjects')[j].get('name') + " " + current.get('subjects')[j].get('schedules').day
+                    + " " + current.get('subjects')[j].get('schedules').start + " | ";
+            }
+            txt += '\n';
+        }
+
+        console.log(txt);
+
+        var items = [
+            {
+                xtype: 'form',
+                bodyPadding: 15,
+                items: [
+                    {
+                        xtype: 'text',
+                        text: txt
+                    },
+                    {
+                        xtype: 'text',
+                        text: 'The best schedule is the one with lowest score',
+                        style: 'font-weight: bold; color: #26A65B' /*{
+                            fontWeight: 'bold',
+                            fontColor: '#26A65B'
+                        }*/
+                    },
+                    {
+                        xtype: 'combo',
+                        alias: 'widget.cmb-schedules',
+                        itemId: 'cmbSchedules',
+                        store: store,
+                        fieldLabel: 'Schedule',
+                        displayField: 'name',
+                        valueField: 'name',
+                        queryMode: 'local',
+                        name: 'name'
+                    }
+
+                ],
+                buttons: [
+                    {
+                        xtype: 'button',
+                        text: 'Choose schedule',
+                        itemId: 'btnChoose'
+                    }
+                ]
+            }
+        ];
+
+        form.add(items);
+    },
+
+    /**
+     * Returns an index according the day
+     * @param day           Day from which get index
+     * @returns {number}    Index
+     */
+    dayToIndex: function(day){
+        switch (day){
+            case Playground.Constants.MONDAY:
+                return Playground.Constants.MONDAY_INDEX;
+            case Playground.Constants.TUESDAY:
+                return Playground.Constants.TUESDAY_INDEX;
+            case Playground.Constants.WEDNESDAY:
+                return Playground.Constants.WEDNESDAY_INDEX;
+            case Playground.Constants.THURSDAY:
+                return Playground.Constants.THURSDAY_INDEX;
+            case Playground.Constants.FRIDAY:
+                return Playground.Constants.FRIDAY_INDEX;
+        }
+    },
+
+    /**
+     * Adds the distance between subjects in an schedule
+     * @param subjects      Array of Subjects
+     * @returns {number}    Total distance between Subjects
+     */
+    scheduleDistance: function(subjects){
+        var me = this;
+
+        var total = 0;
+        var i;
+        var currentDay, nextDay;
+        var currentHour, nextHour;
+
+        for(i = 0; i < subjects.length - 1; i++){
+            currentDay = me.dayToIndex(subjects[i].get('schedules').day);
+            nextDay = me.dayToIndex(subjects[i + 1].get('schedules').day);
+
+            currentHour = subjects[i].get('schedules').start;
+            nextHour = subjects[i + 1].get('schedules').start;
+
+            total += Math.abs(currentDay - nextDay) * 10;
+            total += Math.abs(currentHour - nextHour);
+        }
+
+        return total;
+    },
+
+    /**
+     * Orders the array of subjects according their schedule day
+     * @param subjects      Array of Subjects
+     * @returns {*}         Asc ordered array of Subjects
+     */
+    order: function (subjects) {
+        var me = this;
+
+        var i, j;
+        var temp;
+
+        for(i = 0; i < subjects.length; i++) {
+            temp = subjects[i];
+            j = i - 1;
+            while (j >= 0 && me.dayToIndex(subjects[j].get('schedules').day) > me.dayToIndex(temp.get('schedules').day)) {
+                subjects[j + 1] = subjects[j];
+                j--;
+            }
+            subjects[j + 1] = temp;
+        }
+        return subjects;
+    },
 });

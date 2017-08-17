@@ -20,7 +20,8 @@ Ext.define('Playground.view.regulars.SubjectsPartialForm', {
                     name: 'subjects',
                     displayField: 'name',
                     valueField: 'id',
-                    multiSelect: true
+                    multiSelect: true,
+                    allowBlank: false
                 },
                 {
                     xtype: 'combo',
@@ -40,8 +41,14 @@ Ext.define('Playground.view.regulars.SubjectsPartialForm', {
                 }
             ],
             buttons: [
-                { xtype: 'button', text: 'Suggest schedules', itemId: 'btnSuggest' },
-                { xtype: 'button', text: 'Choose manually' }
+                {
+                    xtype: 'button',
+                    text: 'Suggest schedules',
+                    itemId: 'btnSuggest',
+                    formBind: true,
+                    disabled: true
+                }
+                // { xtype: 'button', text: 'Choose manually' }
             ]
         }
     ]

@@ -75,7 +75,9 @@ Ext.define('Playground.view.regulars.RegularsPartialForm', {
                 {
                     xtype: 'button',
                     text: 'Next',
-                    itemId: 'btnNext'
+                    itemId: 'btnNext',
+                    disabled: true,
+                    formBind: true          // To enable the button when the required fields are filled in
                 }
             ]
         }

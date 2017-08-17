@@ -39,13 +39,14 @@ Ext.define('Playground.view.regulars.RegularsGrid', {
             text: 'NEXT PAYMENT',
             flex: 2,
             dataIndex: 'next_payment',
-            renderer: Ext.util.Format.dateRenderer('Y-m-d')
+            renderer: Ext.util.Format.dateRenderer('Y-m-d'),
+            xtype: 'datecolumn'
         },
         {
             text: 'SUBJECTS ALLOWED',
             flex: 1,
-            dataIndex: 'subjects_allowed',
-        },
+            dataIndex: 'subjects_allowed'
+        }
        /* {
             text: 'SUBJECTS',
             flex: 3,

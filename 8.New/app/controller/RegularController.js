@@ -36,6 +36,7 @@ Ext.define('Playground.controller.RegularController', {
 
         { ref: 'formContainer', selector: 'frm-container' },
         { ref: 'regularPartialForm', selector: 'pnl-regulars-partial' },
+        { ref: 'regularForm', selector: '#frmRegulars' },
         { ref: 'schedulePartialForm', selector: 'pnl-schedules-partial' },
         { ref: 'subjectPartialForm', selector: 'pnl-subjects-partial' },
 
@@ -48,6 +49,10 @@ Ext.define('Playground.controller.RegularController', {
         me.control({
             'menutree': {
                 treeclick: me.callRegulars
+            },
+
+            '#grdRegulars':{
+                itemdblclick: me.regularDetails
             },
 
             '#btnNew': {
@@ -123,6 +128,11 @@ Ext.define('Playground.controller.RegularController', {
         });
     },
 
+    regularDetails: function (a, record, item, index, e, eOpts) {
+        console.log("Double click!");
+        console.log(record);
+    },
+
     /**
      * Function called once the New button is clicked, displays the form to create new regular students
      * @param btn       New button
@@ -130,10 +140,13 @@ Ext.define('Playground.controller.RegularController', {
      * @param eOpts
      */
     onNewClick: function (btn, e, eOpts) {
-        var me = this;
-
         var win = Ext.create('Playground.view.FormContainer');
-        var regularForm = Ext.create('Playground.view.regulars.RegularsPartialForm');
+        var regularFormPanel = Ext.create('Playground.view.regulars.RegularsPartialForm');
+        var regularForm = regularFormPanel.down('form');
+
+        var record = Ext.create('Playground.model.Regular');
+        record.deleteId();
+        regularForm.loadRecord(record);
 
         win.add(regularForm);
     },
@@ -149,34 +162,27 @@ Ext.define('Playground.controller.RegularController', {
         var me = this;
 
         var win = me.getFormContainer();
-        var currentFormPanel = me.getRegularPartialForm();
-        var currentForm = currentFormPanel.down('form');
+        var currentForm = me.getRegularForm();
         var nextFormPanel = Ext.create('Playground.view.regulars.SubjectsPartialForm');
 
-        var values = currentForm.getValues();
-
-        var newStudent = Ext.create('Playground.model.Regular', {
-            name:               values.name,
-            last_name:          values.last_name,
-            gender:             values.gender,
-            last_payment:       values.last_payment,
-            next_payment:       values.next_payment,
-            subjects_allowed:   values.subjects_allowed,
-            career_id:          values.career_id
-        });
-
-        newStudent.deleteId();
+        currentForm.updateRecord();
+        var newStudent = currentForm.getRecord();
 
         newStudent.save({
+            action: 'create',
+            proxy: {
+                url: Playground.Constants.BASE_URL + 'regulars'
+            },
             success: function(record, operation){
-                console.log("Student saved successfully");
+                console.log("Saved successfully");
             },
             failure: function(record, operation){
-                console.log("Something went wrong");
+                console.log("Saved successfully");
             }
         });
         console.log(newStudent);
-        win.remove(currentFormPanel, true);
+
+        win.removeAll(true);
         win.add(nextFormPanel);
     },
 
@@ -212,7 +218,7 @@ Ext.define('Playground.controller.RegularController', {
                 paths = me.findPaths(graph, subjectsSeparated);
                 // console.log(paths);
                 suggestionsStore = me.evaluatePaths(paths, subjectsSeparated, values.subjects.length);
-                me.setupNextForm(nextFormPanel, suggestionsStore);
+                helpers.setupNextForm(nextFormPanel, suggestionsStore);
 
                 console.log(suggestionsStore);
             }
@@ -241,18 +247,49 @@ Ext.define('Playground.controller.RegularController', {
 
         var optionSelected = currentFormPanel.getValues();
         var schedulesStore = cmbSchedules.getStore();
+        console.log(schedulesStore);
+
+        var jsonObject = [];
 
         studentsStore.loadPage(lastPage, {
             callback: function (records) {
                 var studentId = this.last().getId();
+                console.log(studentId);
 
                 for(var i = 0; i < schedulesStore.getCount(); i++){
                     var current = schedulesStore.getAt(i);
                     if(current.get('name') === optionSelected.name){
                         var selectedSubjects = current.get('subjects');
+
+                        for(var j = 0; j < selectedSubjects.length; j++){
+                            var subjectId = selectedSubjects[j].get('id');
+                            var scheduleId = selectedSubjects[j].get('schedules').id;
+                            jsonObject.push({
+                                "subject_id": subjectId,
+                                "schedule_id": scheduleId
+                            });
+                        }
+
+                        console.log(jsonObject);
+                        jsonObject = JSON.stringify(jsonObject);
+                        console.log(jsonObject);
+
+                        Ext.Ajax.request({
+                            url: Playground.Constants.BASE_URL + 'regulars/' + studentId + '/subjects',
+                            method: 'POST',
+                            jsonData: jsonObject,
+                            success: function(response){
+                                console.log('success' + response);
+                            }
+                        });
                         break;
                     }
                 }
+
+                Ext.Msg.alert('Success', 'The regular student information was successfully saved.', function(){
+                    win.close();
+                    this.close();
+                })
             }
         });
 
@@ -306,6 +343,7 @@ Ext.define('Playground.controller.RegularController', {
 
     evaluatePaths: function(paths, subjectsSeparated, selectedQty){
         var me = this;
+        var helpers = me.getController('Playground.controller.Helpers');
 
         var path;
         var evaluations = Ext.create('Playground.store.Suggestions');
@@ -320,7 +358,7 @@ Ext.define('Playground.controller.RegularController', {
             path = paths[i];
             score += Math.abs(selectedQty - path.length);
             subjects = me.filterPathSubjects(path, subjectsSeparated);
-            score += me.scheduleDistance(subjects);
+            score += helpers.scheduleDistance(subjects);
 
             evaluation = Ext.create('Playground.model.Suggestion', {
                 name: 'Option ' + j,
@@ -335,130 +373,14 @@ Ext.define('Playground.controller.RegularController', {
 
     filterPathSubjects: function(path, subjectsSeparated){
         var me = this;
+        var helpers = me.getController('Playground.controller.Helpers');
         
         var subjects = [];
         for(var i = 0; i < path.length; i++){
             subjects.push(subjectsSeparated[path.charAt(i)]);
         }
 
-        subjects = me.order(subjects);
+        subjects = helpers.order(subjects);
         return subjects;
     },
-    
-    order: function (subjects) {
-
-        var me = this;
-        var i, j;
-        var temp;
-
-        for(i = 0; i < subjects.length; i++) {
-            temp = subjects[i];
-            j = i - 1;
-            while (j >= 0 && me.dayToIndex(subjects[j].get('schedules').day) > me.dayToIndex(temp.get('schedules').day)) {
-                subjects[j + 1] = subjects[j];
-                j--;
-            }
-            subjects[j + 1] = temp;
-        }
-        return subjects;
-    },
-
-    dayToIndex: function(day){
-        switch (day){
-            case Playground.Constants.MONDAY:
-                return Playground.Constants.MONDAY_INDEX;
-            case Playground.Constants.TUESDAY:
-                return Playground.Constants.TUESDAY_INDEX;
-            case Playground.Constants.WEDNESDAY:
-                return Playground.Constants.WEDNESDAY_INDEX;
-            case Playground.Constants.THURSDAY:
-                return Playground.Constants.THURSDAY_INDEX;
-            case Playground.Constants.FRIDAY:
-                return Playground.Constants.FRIDAY_INDEX;
-        }
-    },
-
-    scheduleDistance: function(subjects){
-        var me = this;
-
-        var total = 0;
-        var i;
-        var currentDay, nextDay;
-        var currentHour, nextHour;
-
-        for(i = 0; i < subjects.length - 1; i++){
-            currentDay = me.dayToIndex(subjects[i].get('schedules').day);
-            nextDay = me.dayToIndex(subjects[i + 1].get('schedules').day);
-
-            currentHour = subjects[i].get('schedules').start;
-            nextHour = subjects[i + 1].get('schedules').start;
-
-            total += Math.abs(currentDay - nextDay) * 10;
-            total += Math.abs(currentHour - nextHour);
-        }
-
-        return total;
-    },
-
-    setupNextForm: function(form, store){
-        var txt = "";
-        var current;
-
-        for(var i = 0; i < store.getCount(); i++){
-            current = store.getAt(i);
-            var option = i + 1;
-            txt += "Option " + option + ": ";
-            txt += "(score " + current.get('score') + ") ";
-
-            for(var j = 0; j < current.get('subjects').length; j++){
-                txt += current.get('subjects')[j].get('name') + " " + current.get('subjects')[j].get('schedules').day
-                    + " " + current.get('subjects')[j].get('schedules').start + " | ";
-            }
-            txt += '\n';
-        }
-
-        console.log(txt);
-
-        var items = [
-            {
-                xtype: 'form',
-                bodyPadding: 15,
-                items: [
-                    {
-                        xtype: 'text',
-                        text: txt
-                    },
-                    {
-                        xtype: 'text',
-                        text: 'The best schedule is the one with lowest score',
-                        style: 'font-weight: bold; color: #26A65B' /*{
-                            fontWeight: 'bold',
-                            fontColor: '#26A65B'
-                        }*/
-                    },
-                    {
-                        xtype: 'combo',
-                        alias: 'widget.cmb-schedules',
-                        itemId: 'cmbSchedules',
-                        store: store,
-                        fieldLabel: 'Schedule',
-                        displayField: 'name',
-                        valueField: 'name',
-                        queryMode: 'local',
-                        name: 'name'
-                    }
-
-                ],
-                buttons: [
-                    {
-                        xtype: 'button',
-                        text: 'Choose schedule',
-                        itemId: 'btnChoose'
-                    }
-                ]
-            }
-        ];
-
-        form.add(items);
-    }
 });
