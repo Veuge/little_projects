@@ -30,11 +30,37 @@ class SubjectsSeeder extends Seeder
             $subject->save();
         }
 
-        for($i = 0; $i < 20; $i ++){
+        for($i = 0; $i < 10; $i ++){
             do{
                 $start = $faker->time($format = 'H');
             }
-            while($start < 7 || $start > 22);
+            while($start < 7 || $start > 12);
+
+            $schedule = new Schedule([
+                'day' => $faker->randomElement($array = array ('Monday','Tuesday','Wednesday','Thursday','Friday')),
+                'start' => $start
+            ]);
+            $schedule->save();
+        }
+
+        for($i = 0; $i < 10; $i ++){
+            do{
+                $start = $faker->time($format = 'H');
+            }
+            while($start < 13 || $start > 18);
+
+            $schedule = new Schedule([
+                'day' => $faker->randomElement($array = array ('Monday','Tuesday','Wednesday','Thursday','Friday')),
+                'start' => $start
+            ]);
+            $schedule->save();
+        }
+
+        for($i = 0; $i < 10; $i ++){
+            do{
+                $start = $faker->time($format = 'H');
+            }
+            while($start < 19 || $start > 23);
 
             $schedule = new Schedule([
                 'day' => $faker->randomElement($array = array ('Monday','Tuesday','Wednesday','Thursday','Friday')),
@@ -44,13 +70,15 @@ class SubjectsSeeder extends Seeder
         }
 
         $subjects = Subject::all();
-        $scheduleIds = Schedule::pluck('id')->toArray();
 
         foreach ($subjects as $subject) {
-            for($i = 0; $i < $faker->numberBetween($min = 1, $max = 3); $i++){
+            for ($i=0; $i < 3; $i++) { 
+                $min = $i * 10 + 1;
+                $max = ($i + 1) * 10;
+
                 DB::table("schedule_subject")->insert([
                     'subject_id' => $subject->id,
-                    'schedule_id' => $faker->randomElement($scheduleIds)
+                    'schedule_id' => $faker->numberBetween($min, $max)
                 ]);
             }
         }

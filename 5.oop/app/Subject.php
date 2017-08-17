@@ -14,14 +14,14 @@ class Subject extends Model
     }
 
     public function scholarships(){
-        return $this->belongsToMany('App\ScholarshipStudent', 'scholarship_subject', 'scholarship_id', 'subject_id');
+        return $this->belongsToMany('App\ScholarshipStudent', 'scholarship_subject', 'subject_id', 'scholarship_id');
     }
 
     public function regulars(){
-        return $this->belongsToMany('App\RegularStudent', 'regular_subject', 'regular_id', 'subject_id');
+        return $this->belongsToMany('App\RegularStudent', 'regular_subject', 'subject_id', 'regular_id');
     }
 
     public function schedules(){
-        return $this->belongsToMany('App\Schedule', 'schedule_subject', 'schedule_id', 'subject_id');
+        return $this->belongsToMany('App\Schedule', 'schedule_subject', 'subject_id', 'schedule_id');
     }
 }
