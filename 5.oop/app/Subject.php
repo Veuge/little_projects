@@ -25,10 +25,10 @@ class Subject extends Model
     *   TERNARY RELATIONSHIP
     */
     public function regulars(){
-        return $this->belongsToMany('App\RegularStudent', 'regular_subject', 'subject_id', 'regular_id');
+        return $this->belongsToMany('App\RegularStudent', 'regular_schedule_subject', 'subject_id', 'regular_id');
     }
 
-    public function schedulesR(){
-        return $this->belongsToMany('App\Schedules', 'regular_subject', 'subject_id', 'schedule_id');
+    public function selectedSchedule(){
+        return $this->belongsToMany('App\Schedule', 'regular_schedule_subject', 'subject_id', 'schedule_id');
     }
 }

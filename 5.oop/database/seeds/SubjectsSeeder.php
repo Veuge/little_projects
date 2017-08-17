@@ -72,14 +72,15 @@ class SubjectsSeeder extends Seeder
         $subjects = Subject::all();
 
         foreach ($subjects as $subject) {
-            for ($i=0; $i < 3; $i++) { 
+            for ($i = 0; $i < 3; $i++) {
                 $min = $i * 10 + 1;
                 $max = ($i + 1) * 10;
-
-                DB::table("schedule_subject")->insert([
-                    'subject_id' => $subject->id,
-                    'schedule_id' => $faker->numberBetween($min, $max)
-                ]);
+                for($j = 0; $j < $faker->numberBetween(1, 3); $j++){
+                    DB::table("schedule_subject")->insert([
+                        'subject_id' => $subject->id,
+                        'schedule_id' => $faker->numberBetween($min, $max)
+                    ]);
+                }
             }
         }
     }

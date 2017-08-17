@@ -43,7 +43,7 @@ class CreateRegularStudentsTable extends Migration
             $table->date('last_payment');
             $table->integer('discount');
             $table->float('min_gpa');
-            
+
             $table->foreign('career_id')->references('id')->on('careers');
         });
 
@@ -89,7 +89,7 @@ class CreateRegularStudentsTable extends Migration
             $table->foreign('subject_id')->references('id')->on('subjects');
         });
 
-        Schema::create('regular_subject', function(Blueprint $table){
+        Schema::create('regular_schedule_subject', function(Blueprint $table){
             $table->increments('id');
             $table->integer('regular_id')->unsigned();
             $table->integer('subject_id')->unsigned();
@@ -108,7 +108,7 @@ class CreateRegularStudentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('regular_subject');
+        Schema::dropIfExists('regular_schedule_subject');
         Schema::dropIfExists('schedule_subject');
         Schema::dropIfExists('schedules');
         Schema::dropIfExists('scholarship_subject');

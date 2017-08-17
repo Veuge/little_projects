@@ -17,10 +17,10 @@ class Schedule extends Model
     *   TERNARY RELATIONSHIP
     */
     public function regulars(){
-        return $this->belongsToMany('App\RegularStudent', 'regular_subject', 'schedule_id', 'regular_id');
+        return $this->belongsToMany('App\RegularStudent', 'regular_schedule_subject', 'schedule_id', 'regular_id');
     }
 
     public function subjectsR(){
-        return $this->belongsToMany('App\Subject', 'regular_subject', 'schedule_id', 'subject_id');
+        return $this->belongsToMany('App\Subject', 'regular_schedule_subject', 'schedule_id', 'subject_id');
     }
 }

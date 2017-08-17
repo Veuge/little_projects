@@ -39,9 +39,17 @@ class RegularController extends ApiController
 
                 for ($i = 0; $i < count($nested); $i++) {
                     $regular = $nested[$i];
-
                     $subjects = $regular->subjects()->get();
+
                     if($subjects){
+
+                        for($j = 0; $j < count($subjects); $j++){
+                            $currentSubject = $subjects[$j];
+                            $schedule = $currentSubject->selectedSchedule()->get();
+                            $currentSubject['selected_schedule'] = $schedule;
+                            $subjects[$j] = $currentSubject;
+                        }
+
                         $regular['subjects_enrolled'] = $subjects;
                         $nested[$i] = $regular;
                     }
@@ -49,12 +57,6 @@ class RegularController extends ApiController
                 return $this->responseWithPagination($nested, [
                     'data' => $this->regularTransformer->transformCollection($nested->all())
                 ]);
-            // }
-            // else{
-            //     return $this->responseWithPagination($regulars, [
-            //         'data' => $this->regularTransformer->transformCollection($regulars->all())
-            //     ]);
-            // }
 
         }
     }
@@ -136,13 +138,5 @@ class RegularController extends ApiController
             return $this->responseInternalError();
         }
     }
-
-    // public function subjects(RegularStudent $regular){
-    //     $subjects = $regular->subjects()->get();
-
-    //     return $this->response([
-    //         'data' => $this->subjectTransformer->transformCollection($subjects->all())
-    //     ]);
-    // }
-
 }
+// $reg->subjects()->attach([1 => ['schedule_id' => 3]]);

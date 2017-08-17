@@ -39,10 +39,11 @@ class SubjectController extends ApiController
             for($i = 0; $i < count($subjects); $i++){
                 $subject = $subjects[$i];
                 $schedules = $subject->schedules()->get();
+                // dd($schedules);
                 $subject['schedules'] = $schedules;
                 $subjects[$i] = $subject;
             }
-            
+
             return $this->responseWithPagination($subjects, [
                 'data' => $this->subjectTransformer->transformCollection($subjects->all())
             ]);
