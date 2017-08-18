@@ -88,22 +88,27 @@ class RegularController extends ApiController
     public function show($id)
     {
         $regular = RegularStudent::find($id);
+
         if(!$regular){
             return $this->responseNotFound("The student doesn't exist.");
         }
-
-        return response([
-
-            // 'data' => $this->regularTransformer->transform($regular)
-
-            // IDEA: This works to return an array of one item
-            // 'data' => [
-            //     $this->regularTransformer->transform($regular)
-            // ]
-            'data' => [
-                $this->regularTransformer->transform($regular)
-            ]
-        ]);
+        else{
+            $subjects = $regular->subjects()->get();
+            if($subjects){
+                for($i = 0; $i < count($subjects); $i++){
+                    $current = $subjects[$i];
+                    $schedule = $current->selectedSchedule()->get();
+                    $current['selected_schedule'] = $schedule;
+                    $subjects[$i] = $current;
+                }
+                $regular['subjects_enrolled'] = $subjects;
+            }
+            return response([
+                'data' => [
+                    $this->regularTransformer->transform($regular)
+                ]
+            ]);
+        }
     }
 
     /**
