@@ -226,7 +226,7 @@ Ext.define('Playground.controller.Helpers', {
             currentHour = subjects[i].get('schedules').start;
             nextHour = subjects[i + 1].get('schedules').start;
 
-            total += Math.abs(currentDay - nextDay) * 10;
+            total += Math.abs(currentDay - nextDay) + 10;
             total += Math.abs(currentHour - nextHour);
         }
 
@@ -247,12 +247,98 @@ Ext.define('Playground.controller.Helpers', {
         for(i = 0; i < subjects.length; i++) {
             temp = subjects[i];
             j = i - 1;
-            while (j >= 0 && me.dayToIndex(subjects[j].get('schedules').day) > me.dayToIndex(temp.get('schedules').day)) {
+            while (j >= 0
+                && me.dayToIndex(subjects[j].get('schedules').day) > me.dayToIndex(temp.get('schedules').day)) {
                 subjects[j + 1] = subjects[j];
                 j--;
             }
             subjects[j + 1] = temp;
         }
+        return subjects;
+    },
+
+    /**
+     * Assembles a graph of subjects and schedules
+     * @param arraySubjects
+     * @param subjectsSeparated
+     */
+    schedulesGraph: function(arraySubjects, subjectsSeparated) {
+        var adjMatrix = Ext.create('Playground.model.helpers.AdjacencyMatrix');
+
+        var graph = Ext.create('Playground.model.helpers.Graph');
+        graph._constructor();
+
+        graph.addVertices(arraySubjects, subjectsSeparated);
+        adjMatrix._constructor(subjectsSeparated.length);
+
+        graph.addEdges(subjectsSeparated, adjMatrix);
+
+        graph.print();
+        adjMatrix.print();
+
+        return graph;
+    },
+
+    findPaths: function(graph, subjectsSeparated){
+        var me = this;
+        var helpers = me.getController('Playground.controller.Helpers');
+        var i, j;
+        subjectsSeparated = helpers.order(subjectsSeparated);
+
+        var startSubjects = helpers.getByLevel(0, subjectsSeparated);
+        var endSubjects = helpers.getByLevel(subjectsSeparated[subjectsSeparated.length - 1].level, subjectsSeparated);
+
+        var paths = [];
+        for(i = 0; i < startSubjects.length; i++){
+            for(j = 0; j < endSubjects.length; j++){
+                if(graph.pathFromTo(startSubjects[i], endSubjects[j])){
+                    paths.push(graph.pathFromTo(startSubjects[i], endSubjects[j]));
+                }
+            }
+        }
+        return paths;
+    },
+
+    evaluatePaths: function(paths, subjectsSeparated, selectedQty){
+        var me = this;
+        var helpers = me.getController('Playground.controller.Helpers');
+
+        var path;
+        var evaluations = Ext.create('Playground.store.Suggestions');
+        var evaluation;
+        var score;
+        var subjects = [];
+
+        var i, j;
+        for(i = 0; i < paths.length; i++){
+            score = 0;
+            j = i + 1;
+            path = paths[i];
+            score += Math.abs(selectedQty - path.length) + 100;
+            subjects = me.filterPathSubjects(path, subjectsSeparated);
+            score += helpers.scheduleDistance(subjects);
+
+            evaluation = Ext.create('Playground.model.Suggestion', {
+                name: 'Option ' + j,
+                subjects: subjects,
+                score: score
+            });
+
+            evaluations.add(evaluation);
+        }
+        return evaluations;
+    },
+
+    filterPathSubjects: function(path, subjectsSeparated){
+        var me = this;
+        var helpers = me.getController('Playground.controller.Helpers');
+
+        var subjects = [];
+        for(var i = 0; i < path.length; i++){
+            subjects.push(subjectsSeparated[path.charAt(i)]);
+        }
+
+        subjects = helpers.order(subjects);
         return subjects;
     },
 });

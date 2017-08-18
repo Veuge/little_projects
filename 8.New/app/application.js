@@ -11,24 +11,26 @@ Ext.define('Playground.Application', {
     ],
 
     views: [
-        'Playground.view.ColumnPanel',
-        'Playground.view.FormContainer',
-        'Playground.view.GridPanel',
-        'Playground.view.MenuTree',
-
         'Playground.view.careers.CareersGrid',
 
+        // 'Playground.view.regulars.RegularDetails',
         'Playground.view.regulars.RegularsGrid',
         'Playground.view.regulars.RegularsPartialForm',
         'Playground.view.regulars.SchedulesPartialForm',
         'Playground.view.regulars.SubjectsPartialForm',
 
-        'Playground.view.subjects.SubjectsGrid'
+        'Playground.view.subjects.SubjectsGrid',
+
+        'Playground.view.ColumnPanel',
+        'Playground.view.FormContainer',
+        'Playground.view.GridPanel',
+        'Playground.view.MenuTree'
     ],
 
     controllers: [
         'Playground.controller.CareerController',
         'Playground.controller.RegularController',
+        'Playground.controller.StudentController',
         'Playground.controller.SubjectController',
 
         'Playground.controller.Helpers'
@@ -36,7 +38,10 @@ Ext.define('Playground.Application', {
 
     stores: [
         'Playground.store.Careers',
+        'Playground.store.Classrooms',
         'Playground.store.Regulars',
-        'Playground.store.Subjects'
+        'Playground.store.Scholarships',
+        'Playground.store.Subjects',
+        'Playground.store.Suggestions'
     ]
 });

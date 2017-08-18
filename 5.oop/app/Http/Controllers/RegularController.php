@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Response;
 use App\RegularStudent;
+use App\Schedule;
 use Api\Transformers\RegularStudentTransformer;
 use Api\Transformers\SubjectTransformer;
 use Illuminate\Http\Request;
@@ -45,6 +46,7 @@ class RegularController extends ApiController
 
                         for($j = 0; $j < count($subjects); $j++){
                             $currentSubject = $subjects[$j];
+
                             $schedule = $currentSubject->selectedSchedule()->get();
                             $currentSubject['selected_schedule'] = $schedule;
                             $subjects[$j] = $currentSubject;
@@ -97,7 +99,13 @@ class RegularController extends ApiController
             if($subjects){
                 for($i = 0; $i < count($subjects); $i++){
                     $current = $subjects[$i];
-                    $schedule = $current->selectedSchedule()->get();
+
+                    $scheduleID = \DB::table('regular_schedule_subject')
+                                    ->where('subject_id', $current->id)
+                                    ->where('regular_id', $id)
+                                    ->value('schedule_id');
+
+                    $schedule = Schedule::find($scheduleID);
                     $current['selected_schedule'] = $schedule;
                     $subjects[$i] = $current;
                 }
