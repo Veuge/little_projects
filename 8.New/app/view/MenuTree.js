@@ -36,7 +36,7 @@ Ext.define('Playground.view.MenuTree', {
                         {
                             text: 'Regular Students',
                             leaf: true,
-                            id: 'callRegulars'
+                            id: 'populateRegularsGrid'
                         },
                         {
                             text: 'Scholarship Students',

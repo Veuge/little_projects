@@ -7,7 +7,7 @@ Ext.define('Playground.Constants', {
     /**
      * Menutree strings to recognize the grid to show
      */
-    REGULARS_ACTION:        'callRegulars',
+    REGULARS_ACTION:        'populateRegularsGrid',
     SCHOLARSHIPS_ACTION:    'callScholarships',
     SUBJECTS_ACTION:        'callSubjects',
     CLASSROOMS_ACTION:      'callClassrooms',

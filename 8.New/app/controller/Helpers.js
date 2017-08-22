@@ -13,6 +13,10 @@ Ext.define('Playground.controller.Helpers', {
         var min, max;
         var selectableSub = [];
 
+        var schedules;
+        var selectableSch;
+        var j;
+
         if(preference === Playground.Constants.MORNING){
             min = Playground.Constants.MORNING_MIN;
             max = Playground.Constants.MORNING_MAX;
@@ -28,9 +32,9 @@ Ext.define('Playground.controller.Helpers', {
 
         Ext.Array.forEach(subjectsArray, function(subject) {
             if(Ext.Array.indexOf(selectedIds.subjects, subject.getId()) >= 0){
-                var schedules = subject.get('schedules');
-                var selectableSch = [];
-                for(var j = 0; j < schedules.length; j++){
+                schedules = subject.get('schedules');
+                selectableSch = [];
+                for(j = 0; j < schedules.length; j++){
                     if(schedules[j].start >= min && schedules[j].start <= max){
                         selectableSch.push(schedules[j]);
                     }
@@ -53,8 +57,9 @@ Ext.define('Playground.controller.Helpers', {
     identifyConflicts: function(subjectsArray){
         var me = this;
         var j = 1;
+        var i;
 
-        for(var i = 0; i < subjectsArray.length - 1; i++){
+        for(i = 0; i < subjectsArray.length - 1; i++){
             while (i + j < subjectsArray.length) {
                 me.compareSchedules(subjectsArray[i].get('schedules'), subjectsArray[i+j].get('schedules'));
                 j++;
@@ -69,7 +74,9 @@ Ext.define('Playground.controller.Helpers', {
      */
     compareSchedules: function(currentSchedules, nextSchedules){
         var conflictId = 1;
-        for(var i = 0; i < currentSchedules.length; i++){
+        var i;
+
+        for(i = 0; i < currentSchedules.length; i++){
             for(var j = 0; j < nextSchedules.length; j++){
                 if(currentSchedules[i].day === nextSchedules[j].day
                     && currentSchedules[i].start === nextSchedules[j].start){
@@ -110,8 +117,9 @@ Ext.define('Playground.controller.Helpers', {
      */
     getByLevel: function(level, arraySubjects){
         var byLevel = [];
+        var i;
 
-        for(var i = 0; i < arraySubjects.length; i++){
+        for(i = 0; i < arraySubjects.length; i++){
             if(arraySubjects[i].level === level){
                 byLevel.push(i)
             }
@@ -127,14 +135,16 @@ Ext.define('Playground.controller.Helpers', {
     setupNextForm: function(form, store){
         var txt = "";
         var current;
+        var i, j;
+        var items;
 
-        for(var i = 0; i < store.getCount(); i++){
+        for(i = 0; i < store.getCount(); i++){
             current = store.getAt(i);
             var option = i + 1;
             txt += "Option " + option + ": ";
             txt += "(score " + current.get('score') + ") ";
 
-            for(var j = 0; j < current.get('subjects').length; j++){
+            for(j = 0; j < current.get('subjects').length; j++){
                 txt += current.get('subjects')[j].get('name') + " " + current.get('subjects')[j].get('schedules').day
                     + " " + current.get('subjects')[j].get('schedules').start + " | ";
             }
@@ -143,7 +153,7 @@ Ext.define('Playground.controller.Helpers', {
 
         console.log(txt);
 
-        var items = [
+        items = [
             {
                 xtype: 'form',
                 bodyPadding: 15,
@@ -247,8 +257,7 @@ Ext.define('Playground.controller.Helpers', {
         for(i = 0; i < subjects.length; i++) {
             temp = subjects[i];
             j = i - 1;
-            while (j >= 0
-                && me.dayToIndex(subjects[j].get('schedules').day) > me.dayToIndex(temp.get('schedules').day)) {
+            while (j >= 0 && me.dayToIndex(subjects[j].get('schedules').day) > me.dayToIndex(temp.get('schedules').day)) {
                 subjects[j + 1] = subjects[j];
                 j--;
             }

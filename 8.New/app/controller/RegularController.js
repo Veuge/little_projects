@@ -28,7 +28,7 @@ Ext.define('Playground.controller.RegularController', {
         { ref: 'gridContainer', selector: '#grdContainer' },
         { ref: 'regularsGrid', selector: '#grdRegulars'},
         { ref: 'formContainer', selector: 'frm-container' },
-        { ref: 'regularForm', selector: '#frmRegulars' },
+        { ref: 'regularForm', selector: '#frmRegulars' }
     ],
 
     init: function(application){
@@ -36,15 +36,15 @@ Ext.define('Playground.controller.RegularController', {
 
         me.control({
             'menutree': {
-                treeclick: me.callRegulars
+                treeclick: me.populateRegularsGrid
             },
 
             '#grdRegulars':{
-                itemdblclick: me.regularDetails
+                itemdblclick: me.getRegularDetails
             },
 
             '#btnNew': {
-                click: me.onNewClick
+                click: me.createNewRegular
             },
 
             '#btnDelete': {
@@ -61,7 +61,7 @@ Ext.define('Playground.controller.RegularController', {
      * Function called once the Regular Student tab from the tree is clicked
      * @param itemClicked   Node from the menu tree
      */
-    callRegulars: function(itemClicked){
+    populateRegularsGrid: function(itemClicked){
         var me = this;
         var grid;
         var welcome;
@@ -109,20 +109,22 @@ Ext.define('Playground.controller.RegularController', {
     },
 
     /**
-     *
-     * @param a
-     * @param record
+     * On row double click requests to the student details to display
+     * @param row       Row double clicked
+     * @param record    RegularStudent
      * @param item
      * @param index
-     * @param e
+     * @param e         Double click event
      * @param eOpts
      */
-    regularDetails: function (a, record, item, index, e, eOpts) {
+    getRegularDetails: function (row, record, item, index, e, eOpts) {
         var win = Ext.create('Playground.view.FormContainer');
         var regularDetailsPanel = Ext.create('Playground.view.regulars.RegularDetails');
 
         var jsonStudent;
         var string = "";
+
+        var i, items;
 
         Ext.Ajax.request({
             url: Playground.Constants.BASE_URL + 'regulars/' + record.getId(),
@@ -139,13 +141,13 @@ Ext.define('Playground.controller.RegularController', {
                 if(jsonStudent.data[0].subjects.length > 0){
                     string += "=====SUBJECTS\n";
 
-                    for(var i = 0; i < jsonStudent.data[0].subjects.length; i++){
+                    for(i = 0; i < jsonStudent.data[0].subjects.length; i++){
                         string += "- " + jsonStudent.data[0].subjects[i].name + " " ;
                         string += jsonStudent.data[0].subjects[i].selected_schedule.day + " ";
                         string += jsonStudent.data[0].subjects[i].selected_schedule.start + ":00\n";
                     }
                 }
-                var items = [
+                items = [
                     {
                         xtype: 'text',
                         text: string
@@ -163,7 +165,7 @@ Ext.define('Playground.controller.RegularController', {
      * @param e         Click event
      * @param eOpts
      */
-    onNewClick: function (btn, e, eOpts) {
+    createNewRegular: function (btn, e, eOpts) {
         var win = Ext.create('Playground.view.FormContainer');
         var regularFormPanel = Ext.create('Playground.view.regulars.RegularsPartialForm');
         var regularForm = regularFormPanel.down('form');
@@ -189,8 +191,8 @@ Ext.define('Playground.controller.RegularController', {
         var currentForm = me.getRegularForm();
         var nextFormPanel = Ext.create('Playground.view.regulars.SubjectsPartialForm');
 
-        currentForm.updateRecord();
         var newStudent = currentForm.getRecord();
+        currentForm.updateRecord();
 
         newStudent.save({
             action: 'create',

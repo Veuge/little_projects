@@ -1,4 +1,8 @@
 Ext.define('Playground.model.helpers.Graph', {
+    mixins: [
+        'Playground.controller.Helpers'
+    ],
+
     vertices: [],
     edges: [],
     numberOfEdges: 0,
@@ -15,8 +19,9 @@ Ext.define('Playground.model.helpers.Graph', {
     },
 
     addVertices: function(array, subjectsSeparated){
+        var me = this;
+
         var app = Playground.getApplication();
-        var helpers = app.getController('Playground.controller.Helpers');
         var currentSubject;
         var newSubject;
 
@@ -24,7 +29,7 @@ Ext.define('Playground.model.helpers.Graph', {
             currentSubject = array[i];
 
             for(j = 0; j < currentSubject.get('schedules').length; j++){
-                newSubject = helpers.separateSubjects(currentSubject, j);
+                newSubject = me.separateSubjects(currentSubject, j);
                 newSubject.level = i;
                 subjectsSeparated.push(newSubject);
                 this.addVertex(subjectsSeparated.length - 1);

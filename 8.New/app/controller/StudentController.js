@@ -30,6 +30,10 @@ Ext.define('Playground.controller.StudentController', {
         { ref: 'cmbSchedules', selector: '#cmbSchedules' }
     ],
 
+    mixins: [
+        'Playground.controller.Helpers'
+    ],
+
     init: function(application){
         var me = this;
 
@@ -52,7 +56,6 @@ Ext.define('Playground.controller.StudentController', {
      */
     suggestSchedulesClick: function(btn, e, eOpts){
         var me = this;
-        var helpers = me.getController('Playground.controller.Helpers');
 
         var win = me.getFormContainer();
         var currentFormPanel = me.getSubjectPartialForm();
@@ -70,12 +73,12 @@ Ext.define('Playground.controller.StudentController', {
         subjectsStore.load({
             scope: this,
             callback: function(records){
-                subjectsSelected = helpers.getSelectableSubjects(values, records, values.preference);
-                helpers.identifyConflicts(subjectsSelected);
-                graph = helpers.schedulesGraph(subjectsSelected, subjectsSeparated);
-                paths = helpers.findPaths(graph, subjectsSeparated);
-                suggestionsStore = helpers.evaluatePaths(paths, subjectsSeparated, values.subjects.length);
-                helpers.setupNextForm(nextFormPanel, suggestionsStore);
+                subjectsSelected = me.getSelectableSubjects(values, records, values.preference);
+                me.identifyConflicts(subjectsSelected);
+                graph = me.schedulesGraph(subjectsSelected, subjectsSeparated);
+                paths = me.findPaths(graph, subjectsSeparated);
+                suggestionsStore = me.evaluatePaths(paths, subjectsSeparated, values.subjects.length);
+                me.setupNextForm(nextFormPanel, suggestionsStore);
 
                 console.log(suggestionsStore);
             }
@@ -146,5 +149,5 @@ Ext.define('Playground.controller.StudentController', {
                 })
             }
         });
-    },
+    }
 });
